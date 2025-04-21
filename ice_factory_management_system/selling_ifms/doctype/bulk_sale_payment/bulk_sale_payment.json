@@ -1,0 +1,233 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2025-04-21 09:37:03.347444",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_forf",
+  "naming_series",
+  "posting_date",
+  "customer",
+  "customer_name",
+  "column_break_pllh",
+  "payment_type",
+  "currency",
+  "exchange_rate",
+  "amended_from",
+  "section_break_mwiq",
+  "outlet",
+  "payment_amount",
+  "column_break_lbix",
+  "start_date",
+  "end_date",
+  "section_break_ovyt",
+  "get_sales",
+  "section_break_skkm",
+  "sales",
+  "section_break_kbqk",
+  "total_invoices",
+  "total_amount",
+  "total_write_off_amount",
+  "total_payment_amount",
+  "total_balance",
+  "column_break_hghc",
+  "note"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_forf",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Bulk Sale Payment",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Naming Series",
+   "options": "BSP.YYYY.-.####"
+  },
+  {
+   "default": "Today",
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Posting Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "options": "Customer"
+  },
+  {
+   "fieldname": "column_break_pllh",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "payment_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Payment Type",
+   "options": "Payment Type",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "payment_type.currency",
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "exchange_rate",
+   "fieldtype": "Float",
+   "label": "Exchange Rate",
+   "precision": "8",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_skkm",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "sales",
+   "fieldtype": "Table",
+   "label": "Sales",
+   "options": "Bulk Sale",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_mwiq",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "payment_amount",
+   "fieldtype": "Float",
+   "label": "Payment Amount"
+  },
+  {
+   "fieldname": "section_break_kbqk",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "total_amount",
+   "fieldtype": "Currency",
+   "label": "Total Amount",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "total_payment_amount",
+   "fieldtype": "Currency",
+   "label": "Total Payment Amount",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "total_balance",
+   "fieldtype": "Currency",
+   "label": "Total Balance",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_hghc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "note",
+   "fieldtype": "Long Text",
+   "label": "Note"
+  },
+  {
+   "fieldname": "outlet",
+   "fieldtype": "Link",
+   "label": "Outlet",
+   "options": "Outlet"
+  },
+  {
+   "fieldname": "column_break_lbix",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start Date"
+  },
+  {
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "label": "End Date"
+  },
+  {
+   "fieldname": "get_sales",
+   "fieldtype": "Button",
+   "label": "Get Sales"
+  },
+  {
+   "fetch_from": "customer.customer_name",
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "total_invoices",
+   "fieldtype": "Float",
+   "label": "Total Invoices",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_ovyt",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "total_write_off_amount",
+   "fieldtype": "Currency",
+   "label": "Total Write Off Amount",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2025-04-21 17:31:45.782936",
+ "modified_by": "Administrator",
+ "module": "Selling IFMS",
+ "name": "Bulk Sale Payment",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -1,0 +1,92 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:business_name_en",
+ "creation": "2025-04-12 15:14:05.596066",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "photo",
+  "business_name_en",
+  "business_name_kh",
+  "phone_number_1",
+  "phone_number_2",
+  "currency",
+  "column_break_fnqd",
+  "property_code",
+  "address"
+ ],
+ "fields": [
+  {
+   "fieldname": "property_code",
+   "fieldtype": "Data",
+   "label": "Property Code"
+  },
+  {
+   "fieldname": "address",
+   "fieldtype": "Long Text",
+   "label": "Address"
+  },
+  {
+   "fieldname": "photo",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "Photo"
+  },
+  {
+   "fieldname": "business_name_en",
+   "fieldtype": "Data",
+   "label": "Business Name EN"
+  },
+  {
+   "fieldname": "business_name_kh",
+   "fieldtype": "Data",
+   "label": "Business Name KH"
+  },
+  {
+   "fieldname": "phone_number_1",
+   "fieldtype": "Data",
+   "label": "Phone Number 1"
+  },
+  {
+   "fieldname": "phone_number_2",
+   "fieldtype": "Data",
+   "label": "Phone Number 2"
+  },
+  {
+   "fieldname": "column_break_fnqd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Default Currency",
+   "options": "Currency"
+  }
+ ],
+ "image_field": "photo",
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2025-04-19 10:55:30.261160",
+ "modified_by": "Administrator",
+ "module": "System Setting",
+ "name": "Business Information",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

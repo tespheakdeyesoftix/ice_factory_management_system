@@ -1,1 +1,6 @@
 Ice Factory Management System
+System Setting
+HR
+Inventory Management
+Customer Relation
+Selling IFMS

@@ -1,0 +1,229 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2025-04-13 14:31:43.401796",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "customer_name",
+  "customer_name_kh",
+  "customer_group",
+  "phone_number_1",
+  "phone_number_2",
+  "gender",
+  "keyword",
+  "column_break_opbc",
+  "photo",
+  "is_customer",
+  "is_driver",
+  "is_company",
+  "can_split_bill",
+  "can_edit_bill",
+  "can_show_price",
+  "enabled",
+  "address",
+  "information_detail_section",
+  "company_name",
+  "plate_number",
+  "column_break_gfmf",
+  "auto_free_tub_ice",
+  "customer_product_price_section",
+  "product_prices"
+ ],
+ "fields": [
+  {
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Customer Name EN",
+   "reqd": 1
+  },
+  {
+   "fieldname": "gender",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Gender",
+   "options": "Male\nFemale"
+  },
+  {
+   "fieldname": "keyword",
+   "fieldtype": "Data",
+   "label": "Keyword",
+   "reqd": 1
+  },
+  {
+   "fieldname": "photo",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "Photo"
+  },
+  {
+   "fieldname": "phone_number_2",
+   "fieldtype": "Data",
+   "label": "Phone Number 2"
+  },
+  {
+   "fieldname": "column_break_opbc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "can_split_bill",
+   "fieldtype": "Check",
+   "label": "Can Split Bill"
+  },
+  {
+   "default": "0",
+   "fieldname": "can_edit_bill",
+   "fieldtype": "Check",
+   "label": "Can Edit Bill"
+  },
+  {
+   "default": "1",
+   "fieldname": "is_customer",
+   "fieldtype": "Check",
+   "label": "Is Customer"
+  },
+  {
+   "fieldname": "address",
+   "fieldtype": "Small Text",
+   "label": "Address"
+  },
+  {
+   "fieldname": "information_detail_section",
+   "fieldtype": "Section Break",
+   "label": "Information Detail"
+  },
+  {
+   "fieldname": "company_name",
+   "fieldtype": "Data",
+   "label": "Company Name"
+  },
+  {
+   "fieldname": "plate_number",
+   "fieldtype": "Data",
+   "label": "Plate Number"
+  },
+  {
+   "fieldname": "auto_free_tub_ice",
+   "fieldtype": "Float",
+   "label": "Auto Free Tub Ice"
+  },
+  {
+   "fieldname": "column_break_gfmf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "customer_product_price_section",
+   "fieldtype": "Section Break",
+   "label": "Customer Product Price"
+  },
+  {
+   "fieldname": "product_prices",
+   "fieldtype": "Table",
+   "label": "Product Prices",
+   "options": "Customer Product Price"
+  },
+  {
+   "default": "0",
+   "fieldname": "can_show_price",
+   "fieldtype": "Check",
+   "label": "Can Show Price"
+  },
+  {
+   "fieldname": "customer_group",
+   "fieldtype": "Link",
+   "label": "Customer Group",
+   "options": "Customer Group",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "is_driver",
+   "fieldtype": "Check",
+   "label": "Is Driver"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Naming Series",
+   "options": "CU.####"
+  },
+  {
+   "fieldname": "phone_number_1",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Phone Number 1"
+  },
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled"
+  },
+  {
+   "fieldname": "customer_name_kh",
+   "fieldtype": "Data",
+   "label": "Customer Name KH"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_company",
+   "fieldtype": "Check",
+   "label": "Is Company"
+  }
+ ],
+ "image_field": "photo",
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-04-18 10:54:44.894727",
+ "modified_by": "Administrator",
+ "module": "Customer Relation",
+ "name": "Customer",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales User",
+   "share": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales Master Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "search_fields": "customer_name_kh,phone_number_1",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "customer_name",
+ "track_changes": 1
+}

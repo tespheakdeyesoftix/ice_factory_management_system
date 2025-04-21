@@ -1,0 +1,165 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:product_code",
+ "creation": "2025-04-13 10:13:41.685373",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "product_category",
+  "naming_series",
+  "product_code",
+  "product_name",
+  "product_name_kh",
+  "revenue_group",
+  "enabled",
+  "column_break_xcqe",
+  "photo",
+  "unit",
+  "price",
+  "allow_sum_qty",
+  "for_rental",
+  "rental_price",
+  "outlets_section",
+  "product_outlet"
+ ],
+ "fields": [
+  {
+   "fieldname": "product_code",
+   "fieldtype": "Data",
+   "label": "Product Code",
+   "unique": 1
+  },
+  {
+   "fieldname": "product_category",
+   "fieldtype": "Link",
+   "label": "Product Category",
+   "link_filters": "[[{\"fieldname\":\"product_category\",\"field_option\":\"Product Category\"},\"enabled\",\"=\",1]]",
+   "options": "Product Category",
+   "reqd": 1
+  },
+  {
+   "fieldname": "product_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Product Name En",
+   "reqd": 1
+  },
+  {
+   "fieldname": "price",
+   "fieldtype": "Currency",
+   "label": "Price"
+  },
+  {
+   "fetch_from": "product_category.revenue_group",
+   "fieldname": "revenue_group",
+   "fieldtype": "Link",
+   "label": "Revenue Group",
+   "options": "Revenue Group"
+  },
+  {
+   "fieldname": "unit",
+   "fieldtype": "Link",
+   "label": "Unit",
+   "link_filters": "[[{\"fieldname\":\"unit\",\"field_option\":\"Unit\"},\"enabled\",\"=\",1]]",
+   "options": "Unit",
+   "reqd": 1
+  },
+  {
+   "fieldname": "photo",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "Photo"
+  },
+  {
+   "fieldname": "outlets_section",
+   "fieldtype": "Section Break",
+   "label": "Outlets"
+  },
+  {
+   "fieldname": "column_break_xcqe",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled"
+  },
+  {
+   "default": "0",
+   "fieldname": "for_rental",
+   "fieldtype": "Check",
+   "label": "For Rental"
+  },
+  {
+   "depends_on": "eval:doc.for_rental == 1",
+   "fieldname": "rental_price",
+   "fieldtype": "Currency",
+   "label": "Rental Price"
+  },
+  {
+   "depends_on": "eval:doc.naming_series",
+   "fetch_from": "product_category.product_prefix",
+   "fieldname": "naming_series",
+   "fieldtype": "Data",
+   "label": "Naming Series",
+   "read_only": 1,
+   "read_only_depends_on": "eval:doc.naming_series == \"\""
+  },
+  {
+   "fieldname": "product_outlet",
+   "fieldtype": "Table",
+   "options": "Product Outlet"
+  },
+  {
+   "fieldname": "product_name_kh",
+   "fieldtype": "Data",
+   "label": "Product Name KH"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_sum_qty",
+   "fieldtype": "Check",
+   "label": "Allow Sum QTY"
+  }
+ ],
+ "image_field": "photo",
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-04-21 17:35:22.285886",
+ "modified_by": "Administrator",
+ "module": "Inventory Management",
+ "name": "Product",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales User",
+   "share": 1
+  }
+ ],
+ "show_title_field_in_link": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "product_name",
+ "track_changes": 1
+}

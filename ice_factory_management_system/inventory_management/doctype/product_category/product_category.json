@@ -1,0 +1,125 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:category_name_en",
+ "creation": "2025-04-13 10:05:57.624919",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_ozxw",
+  "parent_product_category",
+  "category_name_en",
+  "category_name_kh",
+  "revenue_group",
+  "product_prefix",
+  "is_group",
+  "enabled",
+  "column_break_hlwm",
+  "lft",
+  "rgt",
+  "old_parent"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_ozxw",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "lft",
+   "fieldtype": "Int",
+   "hidden": 1,
+   "label": "Left",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "rgt",
+   "fieldtype": "Int",
+   "hidden": 1,
+   "label": "Right",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "is_group",
+   "fieldtype": "Check",
+   "label": "Is Group"
+  },
+  {
+   "fieldname": "old_parent",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Old Parent",
+   "options": "Product Category"
+  },
+  {
+   "fieldname": "parent_product_category",
+   "fieldtype": "Link",
+   "ignore_user_permissions": 1,
+   "label": "Parent Product Category",
+   "options": "Product Category"
+  },
+  {
+   "fieldname": "category_name_en",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Category Name EN",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "category_name_kh",
+   "fieldtype": "Data",
+   "label": "Category Name KH"
+  },
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled"
+  },
+  {
+   "fieldname": "column_break_hlwm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "revenue_group",
+   "fieldtype": "Link",
+   "label": "Revenue Group",
+   "options": "Revenue Group"
+  },
+  {
+   "fieldname": "product_prefix",
+   "fieldtype": "Data",
+   "label": "Product Prefix"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_tree": 1,
+ "links": [],
+ "modified": "2025-04-18 10:11:02.925986",
+ "modified_by": "Administrator",
+ "module": "Inventory Management",
+ "name": "Product Category",
+ "naming_rule": "By fieldname",
+ "nsm_parent_field": "parent_product_category",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

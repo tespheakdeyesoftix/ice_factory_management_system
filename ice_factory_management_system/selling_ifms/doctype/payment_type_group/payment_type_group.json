@@ -1,0 +1,64 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:payment_type_group_en",
+ "creation": "2025-04-18 08:36:25.821092",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "payment_type_group_en",
+  "payment_type_group_kh",
+  "is_bank",
+  "enabled"
+ ],
+ "fields": [
+  {
+   "fieldname": "payment_type_group_en",
+   "fieldtype": "Data",
+   "label": "Payment Type Group EN",
+   "unique": 1
+  },
+  {
+   "fieldname": "payment_type_group_kh",
+   "fieldtype": "Data",
+   "label": "Payment Type Group KH"
+  },
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_bank",
+   "fieldtype": "Check",
+   "label": "Is Bank"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-04-18 10:47:09.460280",
+ "modified_by": "Administrator",
+ "module": "Selling IFMS",
+ "name": "Payment Type Group",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
