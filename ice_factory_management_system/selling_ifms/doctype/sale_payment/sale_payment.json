@@ -10,7 +10,7 @@
   "naming_series",
   "posting_date",
   "payment_type",
-  "amended_from",
+  "bulk_sale_payment",
   "column_break_tavu",
   "payment_type_group",
   "currency",
@@ -35,7 +35,11 @@
   "payment_amount",
   "payment_balance",
   "section_break_vexk",
-  "note"
+  "note",
+  "section_break_sihz",
+  "amended_from",
+  "column_break_tomr",
+  "cancelled_from"
  ],
  "fields": [
   {
@@ -226,12 +230,34 @@
    "fieldtype": "Currency",
    "label": "Payment Balance",
    "read_only": 1
+  },
+  {
+   "fieldname": "bulk_sale_payment",
+   "fieldtype": "Data",
+   "label": "Bulk Sale Payment",
+   "read_only": 1
+  },
+  {
+   "default": "Sale Payment",
+   "fieldname": "cancelled_from",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Cancelled From",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_sihz",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_tomr",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-04-21 17:25:52.601740",
+ "modified": "2025-04-22 10:51:09.453300",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Sale Payment",
@@ -254,5 +280,6 @@
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "track_changes": 1
 }

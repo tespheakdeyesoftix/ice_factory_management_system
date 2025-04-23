@@ -12,16 +12,15 @@
   "product_name",
   "product_name_kh",
   "revenue_group",
-  "enabled",
   "column_break_xcqe",
   "photo",
   "unit",
   "price",
+  "enabled",
   "allow_sum_qty",
-  "for_rental",
-  "rental_price",
   "outlets_section",
-  "product_outlet"
+  "product_outlet",
+  "product_outlets"
  ],
  "fields": [
   {
@@ -87,18 +86,6 @@
    "label": "Enabled"
   },
   {
-   "default": "0",
-   "fieldname": "for_rental",
-   "fieldtype": "Check",
-   "label": "For Rental"
-  },
-  {
-   "depends_on": "eval:doc.for_rental == 1",
-   "fieldname": "rental_price",
-   "fieldtype": "Currency",
-   "label": "Rental Price"
-  },
-  {
    "depends_on": "eval:doc.naming_series",
    "fetch_from": "product_category.product_prefix",
    "fieldname": "naming_series",
@@ -122,12 +109,19 @@
    "fieldname": "allow_sum_qty",
    "fieldtype": "Check",
    "label": "Allow Sum QTY"
+  },
+  {
+   "fieldname": "product_outlets",
+   "fieldtype": "Long Text",
+   "hidden": 1,
+   "label": "Product Outlets",
+   "read_only": 1
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-04-21 17:35:22.285886",
+ "modified": "2025-04-22 10:36:56.605690",
  "modified_by": "Administrator",
  "module": "Inventory Management",
  "name": "Product",

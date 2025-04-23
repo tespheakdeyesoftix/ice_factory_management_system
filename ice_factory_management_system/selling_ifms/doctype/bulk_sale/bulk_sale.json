@@ -105,7 +105,7 @@
   },
   {
    "fieldname": "sale_payment",
-   "fieldtype": "Link",
+   "fieldtype": "Data",
    "label": "Sale Payment",
    "options": "Sale Payment",
    "read_only": 1
@@ -135,7 +135,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-04-21 17:17:29.016171",
+ "modified": "2025-04-22 08:55:13.020260",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Bulk Sale",

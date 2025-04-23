@@ -22,6 +22,7 @@ class BulkSalePayment(Document):
 			a.payment_amount = (a.input_amount/self.exchange_rate) + (a.write_off_amount/self.exchange_rate)
 			a.balance = a.amount - a.payment_amount
 			a.exchange_rate = self.exchange_rate
+
 		payment_amount = (sum((d.input_amount or 0) + (d.write_off_amount) for d in self.sales) or 0) 
 		self.total_amount = (sum((d.amount or 0) for d in self.sales) or 0)
 		self.total_payment_amount = (sum((d.payment_amount or 0) for d in self.sales) or 0)
@@ -38,7 +39,6 @@ class BulkSalePayment(Document):
 			pass
 		if self.total_amount == 0:
 			frappe.throw("Please select one or more sale")
-
 	
 	def before_submit(self):
 		keep = []
@@ -60,10 +60,18 @@ class BulkSalePayment(Document):
 				sale_payment.write_off_amount = a.write_off_amount
 				sale_payment.payment_amount = a.payment_amount
 				sale_payment.exchange_rate = self.exchange_rate
+				sale_payment.bulk_sale_payment = self.name
 				sale_payment.submit()
-				self.sale_payment = sale_payment.name
+				a.sale_payment = sale_payment.name
 		if remove != "":
 			frappe.msgprint("Sale " + remove + " has been removed from this payment")
+	
+	def before_cancel(self):
+		for a in self.sales:
+			sale_payment = frappe.get_doc("Sale Payment", a.sale_payment)
+			if sale_payment.docstatus == 1:
+				sale_payment.cancelled_from = "Bulk Sale Payment"
+				sale_payment.cancel()
 
 def update_allocated_amount(self):
 	paid_amount = self.payment_amount/self.exchange_rate

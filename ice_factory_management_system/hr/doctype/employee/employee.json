@@ -11,6 +11,7 @@
   "position",
   "phone_number",
   "address",
+  "photo",
   "login_information_section",
   "user_id"
  ],
@@ -51,11 +52,17 @@
    "fieldname": "phone_number",
    "fieldtype": "Data",
    "label": "Phone Number"
+  },
+  {
+   "fieldname": "photo",
+   "fieldtype": "Attach Image",
+   "label": "Photo"
   }
  ],
+ "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-04-12 17:15:28.007477",
+ "modified": "2025-04-23 16:50:38.188579",
  "modified_by": "Administrator",
  "module": "HR",
  "name": "Employee",

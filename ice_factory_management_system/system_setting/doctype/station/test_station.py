@@ -5,5 +5,5 @@
 from frappe.tests.utils import FrappeTestCase
 
 
-class TestUserAuditTrail(FrappeTestCase):
+class TestStation(FrappeTestCase):
 	pass

@@ -4,7 +4,8 @@
 # import frappe
 from frappe.model.document import Document
 from frappe.utils.data import strip
-
+import json
+import frappe
 class Product(Document):
 	def validate(self):
 		if (self.product_name_kh or "") == "":
@@ -17,3 +18,9 @@ class Product(Document):
 			self.product_code = self.name		
 		self.product_code = strip(self.product_code)
 		self.name = self.product_code
+	
+	def on_update(self):
+		product_outlets = []
+		for a in self.product_outlet:
+			product_outlets.append({"outlet":a.outlet})
+		self.product_outlets = json.dumps(product_outlets)

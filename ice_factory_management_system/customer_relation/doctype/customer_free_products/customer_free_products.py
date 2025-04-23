@@ -5,5 +5,5 @@
 from frappe.model.document import Document
 
 
-class UserAuditTrail(Document):
+class CustomerFreeProducts(Document):
 	pass

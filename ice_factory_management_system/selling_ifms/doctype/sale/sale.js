@@ -3,7 +3,7 @@
 
 frappe.ui.form.on("Sale", {
 	refresh(frm) {
-
+        updateSummary(frm);
 	},
     customer(frm) {
         frappe.call({
@@ -13,9 +13,22 @@ frappe.ui.form.on("Sale", {
                products: frm.doc.sale_products
             },
             callback: (r) => {
-                frm.doc.sale_products = []
-                frm.refresh_field("sale_products");
-                frm.doc.sale_products = r.message;
+                frm.clear_table("sale_products");
+                r.message.forEach((r => {
+                    p = frm.add_child("sale_products");
+                    p.product_code = r.product_code;
+                    p.product_name = r.product_name;
+                    p.product_category = r.product_category;
+                    p.revenue_group = r.revenue_group;
+                    p.free_quantity = r.free_quantity;
+                    p.total_sale_quantity = r.quantity - r.free_quantity;
+                    p.quantity = r.quantity;
+                    p.price = r.price;
+                    p.sub_total = r.sub_total;
+                    p.total_amount = r.total_amount;
+                    p.allow_sum_qty = r.allow_sum_qty;
+                    p.note = r.note;
+                }))
                 frm.refresh_field("sale_products");
                 update_sale_total(frm)
             }
@@ -45,22 +58,41 @@ frappe.ui.form.on("Sale Products", {
                 product_code: row.product_code
             },
             callback: (r) => {
-                frappe.model.set_value(cdt, cdn, "price", r.message);
+                frappe.model.set_value(cdt, cdn, "price", r.message.price);
+                frappe.model.set_value(cdt, cdn, "free_quantity", r.message.free_quantity);
                 update_sale_total(frm)
             }
         })
     }
 });
 
-function cal_total_product(frm,cdt,cdn,skip_update_total=0) {
+function updateSummary(frm) {
+    frappe.call({
+        method: 'ice_factory_management_system.selling_ifms.doctype.sale.sale.generate_product_qty ',
+        args: {
+            sale_products: frm.doc.sale_products
+        },
+        callback: (r) => {
+            if((frm.doc.sale_products??[]).length > 0){ 
+                const html = frappe.render_template("sale_summary", {product_qty: JSON.parse(r.message),sale: frm.doc});		
+                $(frm.fields_dict['sale_summary'].wrapper).html(html);
+                
+            }else{
+                $(frm.fields_dict['sale_summary'].wrapper).empty();
+            }
+            frm.refresh_field('sale_summary');
+        }
+    })
+}
+
+function cal_total_product(frm,cdt,cdn) {
     let row = locals[cdt][cdn];
     sale_quantity = row.quantity - row.free_quantity;
     let total_amount = sale_quantity * row.price;
     frappe.model.set_value(cdt, cdn, "total_sale_quantity", sale_quantity);
+    frappe.model.set_value(cdt, cdn, "sub_total", row.quantity * row.price);
     frappe.model.set_value(cdt, cdn, "total_amount", total_amount);
-    if (skip_update_total == 0) {
-        update_sale_total(frm);
-    }
+    update_sale_total(frm);
 }
 
 function update_sale_total(frm) {
@@ -81,4 +113,5 @@ function update_sale_total(frm) {
     frm.set_value("total_sale_quantity", total_total_sale_quantity);
     frm.set_value("total_amount", total_sale_amount);
     frm.set_value("balance", total_sale_amount);
+    updateSummary(frm);
 }

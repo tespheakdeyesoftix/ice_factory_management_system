@@ -12,7 +12,6 @@ frappe.ui.form.on("Bulk Sale Payment", {
         });
     },
     get_sales(frm) {
-        frm.clear_table("sales");
         frappe.call({
             method: 'ice_factory_management_system.selling_ifms.doctype.sale.sale.get_sales',
             args: {
@@ -22,19 +21,26 @@ frappe.ui.form.on("Bulk Sale Payment", {
                 end_date: frm.doc.end_date
             },
             callback: (r) => {
-                r.message.forEach((r => {
-                    doc = frm.add_child("sales");
-                    doc.posting_date = frm.doc.posting_date;
-                    doc.sale = r.sale;
-                    doc.sale_amount = r.total_amount;
-                    doc.amount = r.balance;
-                    doc.balance = r.balance;
-                    doc.payment_type = frm.doc.payment_type;
-                    doc.currency = frm.doc.currency;
-                    doc.exchange_rate = frm.doc.exchange_rate;
-                }))
-                frm.refresh_field('sales');
-                update_totals(frm)
+                if(r.message.length == 0){
+                    frappe.msgprint(__("No Sale Found"));
+                    return;
+                }
+                else{
+                    frm.clear_table("sales");
+                    r.message.forEach((r => {
+                        doc = frm.add_child("sales");
+                        doc.posting_date = frm.doc.posting_date;
+                        doc.sale = r.sale;
+                        doc.sale_amount = r.total_amount;
+                        doc.amount = r.balance;
+                        doc.balance = r.balance;
+                        doc.payment_type = frm.doc.payment_type;
+                        doc.currency = frm.doc.currency;
+                        doc.exchange_rate = frm.doc.exchange_rate;
+                    }))
+                    frm.refresh_field('sales');
+                    update_totals(frm)
+                }
             }
         })
     },

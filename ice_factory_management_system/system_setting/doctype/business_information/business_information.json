@@ -12,6 +12,9 @@
   "phone_number_1",
   "phone_number_2",
   "currency",
+  "currency_symbol",
+  "currency_format",
+  "receipt_logo",
   "column_break_fnqd",
   "property_code",
   "address"
@@ -62,13 +65,28 @@
    "fieldtype": "Link",
    "label": "Default Currency",
    "options": "Currency"
+  },
+  {
+   "fieldname": "receipt_logo",
+   "fieldtype": "Attach Image",
+   "label": "Receipt Logo"
+  },
+  {
+   "fieldname": "currency_format",
+   "fieldtype": "Data",
+   "label": "Currency Format"
+  },
+  {
+   "fieldname": "currency_symbol",
+   "fieldtype": "Data",
+   "label": "Currency Symbol"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-04-19 10:55:30.261160",
+ "modified": "2025-04-23 12:51:12.533257",
  "modified_by": "Administrator",
  "module": "System Setting",
  "name": "Business Information",

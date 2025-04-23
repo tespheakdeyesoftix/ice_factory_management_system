@@ -2,16 +2,49 @@ from builtins import str
 import frappe
 import base64
 from frappe import _
+import json
+@frappe.whitelist()
+def get_meta(doctype=None):
+    data =  frappe.get_meta(doctype)
+    return data
+
 @frappe.whitelist(allow_guest=True)
-def check_api_url(property_code):
+def get_setting(station_name=""):
+    data  = frappe.get_cached_doc("Business Information",None)
+    data =json.loads( frappe.as_json(data))
+    
+    
+    if station_name:
+         if frappe.db.exists("Station", station_name):
+            data["can_login_multi_site"]  = frappe.get_cached_value("Station",station_name,"can_login_multi_site")
+              
+    return data
+    
+
+@frappe.whitelist(allow_guest=True)
+def check_api_url(property_code,station_name,old_station_name):
+    if not station_name:
+        frappe.throw(_("Please enter your device name"))
         
     doc = frappe.get_cached_doc("Business Information",None)
     if doc.property_code ==  property_code:
         
+        # check station
+        if station_name != station_name:
+            if frappe.db.exists("Station", station_name):
+                if frappe.get_cached_value("Station",station_name,"is_used") ==1:
+                    frappe.throw(_("This station name is already in used"))
+            else:
+                frappe.throw(_("This station name is not exist"))
+                
+            
+        
         return {
             "property_code":property_code,
             "property_name":doc.business_name_en, 
-            "photo":doc.photo
+            "photo":doc.photo,
+            "station_name":station_name,
+            "can_login_multi_site":frappe.get_cached_value("Station",station_name,"can_login_multi_site")
     }
        
     frappe.throw(_("Property {property_code} does not exist").format(property_code=property_code))
@@ -29,6 +62,7 @@ def login(property,usr, pwd):
         frappe.throw(_("Usename and password incorrect."))
         
     frappe.response["message"] = get_response_user_information(property)
+    frappe.response["setting"] = get_setting()
 
      
 
@@ -65,16 +99,18 @@ def get_response_user_information(property):
     address =""
     employee_id=""
     position=""
+    photo=""
     user = frappe.get_doc("User", frappe.session.user)
     
 
-    sql = "select position,name,phone_number,address from `tabEmployee` where user_id = '{}' limit 1".format(frappe.session.user)
+    sql = "select position,name,phone_number,address,photo from `tabEmployee` where user_id = '{}' limit 1".format(frappe.session.user)
     data = frappe.db.sql(sql, as_dict=1)
     if data:
         position = data[0].get("position")
         employee_id = data[0].get("name")
         phone_number = data[0].get("phone_number")
         address = data[0].get("address")
+        photo = data[0].get("photo")
     api_generate = generate_keys(frappe.session.user)
     # get home_page 
     
@@ -88,47 +124,19 @@ def get_response_user_information(property):
         if role_data:
             home_page = role_data[0].get("home_page")
 
-
+ 
     return {
             "username":user.username,
             "full_name":user.full_name,
             "role_profile":user.role_profile_name,
-            "photo":user.user_image,
+            "photo":photo,
             "phone_number":phone_number,
             "address":address,
             "name":frappe.session.user,
             "position":position,
             "token": base64.b64encode(str("{}:{}".format(user.api_key,api_generate)).encode("utf-8")).decode('utf-8'),
             "employee_id":employee_id,
-            "home_page":home_page
+            "home_page":home_page,
+           
 
     }
-
-@frappe.whitelist()
-def audit_trail(transaction_date,transaction_type,doc_type,doc_name,username,description):
-    doc = frappe.new_doc("User Audit Trail")
-    doc.transaction_date = transaction_date
-    doc.transaction_type = transaction_type
-    doc.doc_type = doc_type
-    doc.doc_name = doc_name
-    doc.username = username
-    doc.description = description
-    doc.insert(ignore_permissions=True)
-    frappe.db.commit()
-
-@frappe.whitelist()
-def inventory_transaction(transaction_date,transaction_type,transaction_number,product,product_name,stock_unit,unit,stock_location,quantity,note):
-    doc = frappe.new_doc("Inventory Transaction")
-    doc.transaction_date = transaction_date
-    doc.transaction_type = transaction_type
-    doc.transaction_number = transaction_number
-    doc.product = product
-    doc.product_name = product_name
-    doc.stock_unit = stock_unit
-    doc.unit = unit
-    doc.stock_location = stock_location
-    doc.quantity = quantity
-    doc.note = note
-    doc.insert(ignore_permissions=True)
-    frappe.db.commit()
-

@@ -12,6 +12,7 @@
   "account_number",
   "currency",
   "sort_order",
+  "is_default",
   "enabled"
  ],
  "fields": [
@@ -58,11 +59,17 @@
    "fieldname": "account_number",
    "fieldtype": "Data",
    "label": "Account Number"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_default",
+   "fieldtype": "Check",
+   "label": "Is Default"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-04-18 11:55:13.131925",
+ "modified": "2025-04-22 11:01:54.273304",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Payment Type",

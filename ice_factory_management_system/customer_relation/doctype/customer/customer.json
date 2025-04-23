@@ -27,11 +27,12 @@
   "address",
   "information_detail_section",
   "company_name",
-  "plate_number",
   "column_break_gfmf",
-  "auto_free_tub_ice",
+  "plate_number",
   "customer_product_price_section",
-  "product_prices"
+  "product_prices",
+  "section_break_mgfg",
+  "customer_free_products"
  ],
  "fields": [
   {
@@ -108,11 +109,6 @@
    "label": "Plate Number"
   },
   {
-   "fieldname": "auto_free_tub_ice",
-   "fieldtype": "Float",
-   "label": "Auto Free Tub Ice"
-  },
-  {
    "fieldname": "column_break_gfmf",
    "fieldtype": "Column Break"
   },
@@ -174,12 +170,22 @@
    "fieldname": "is_company",
    "fieldtype": "Check",
    "label": "Is Company"
+  },
+  {
+   "fieldname": "section_break_mgfg",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "customer_free_products",
+   "fieldtype": "Table",
+   "label": "Free Products",
+   "options": "Customer Free Products"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-04-18 10:54:44.894727",
+ "modified": "2025-04-23 11:28:34.836673",
  "modified_by": "Administrator",
  "module": "Customer Relation",
  "name": "Customer",

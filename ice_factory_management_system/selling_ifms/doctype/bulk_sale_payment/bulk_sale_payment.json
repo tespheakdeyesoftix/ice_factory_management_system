@@ -206,7 +206,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-04-21 17:31:45.782936",
+ "modified": "2025-04-22 10:51:18.142955",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Bulk Sale Payment",
@@ -229,5 +229,6 @@
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "track_changes": 1
 }

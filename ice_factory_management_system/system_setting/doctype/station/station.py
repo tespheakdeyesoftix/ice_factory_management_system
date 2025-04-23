@@ -5,5 +5,5 @@
 from frappe.model.document import Document
 
 
-class InventoryTransaction(Document):
+class Station(Document):
 	pass
