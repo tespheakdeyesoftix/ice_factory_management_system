@@ -10,6 +10,7 @@
   "is_bank",
   "payment_type",
   "account_number",
+  "account",
   "currency",
   "sort_order",
   "is_default",
@@ -65,11 +66,18 @@
    "fieldname": "is_default",
    "fieldtype": "Check",
    "label": "Is Default"
+  },
+  {
+   "fieldname": "account",
+   "fieldtype": "Link",
+   "label": "Account",
+   "link_filters": "[[{\"fieldname\":\"account\",\"field_option\":\"Account Code\"},\"is_group\",\"=\",0]]",
+   "options": "Account Code"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-04-22 11:01:54.273304",
+ "modified": "2025-04-24 11:02:18.198108",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Payment Type",

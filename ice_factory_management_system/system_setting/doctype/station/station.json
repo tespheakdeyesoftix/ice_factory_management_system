@@ -6,6 +6,7 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "outlet",
   "station_name",
   "can_login_multi_site",
   "is_used"
@@ -30,11 +31,17 @@
    "fieldname": "is_used",
    "fieldtype": "Check",
    "label": "Is Used"
+  },
+  {
+   "fieldname": "outlet",
+   "fieldtype": "Link",
+   "label": "Outlet",
+   "options": "Outlet"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-04-23 14:45:42.961555",
+ "modified": "2025-04-25 11:03:38.534847",
  "modified_by": "Administrator",
  "module": "System Setting",
  "name": "Station",

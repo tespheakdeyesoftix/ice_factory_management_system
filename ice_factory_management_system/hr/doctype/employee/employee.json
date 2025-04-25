@@ -12,6 +12,8 @@
   "phone_number",
   "address",
   "photo",
+  "column_break_pukv",
+  "default_outlet",
   "login_information_section",
   "user_id"
  ],
@@ -57,12 +59,22 @@
    "fieldname": "photo",
    "fieldtype": "Attach Image",
    "label": "Photo"
+  },
+  {
+   "fieldname": "column_break_pukv",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "default_outlet",
+   "fieldtype": "Link",
+   "label": "Default Outlet",
+   "options": "Outlet"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-04-23 16:50:38.188579",
+ "modified": "2025-04-25 11:02:08.298056",
  "modified_by": "Administrator",
  "module": "HR",
  "name": "Employee",

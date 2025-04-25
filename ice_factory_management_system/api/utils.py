@@ -3,6 +3,75 @@ import frappe
 import base64
 from frappe import _
 import json
+from frappe.model.document import bulk_insert
+from frappe.model.naming import make_autoname
+
+def submit_general_ledger_entry(docs):
+    bulk_insert("GL Entry", get_general_ledger_entry_record(docs=docs) , chunk_size=10000)
+    frappe.db.commit()
+
+def get_general_ledger_entry_record(docs):
+    for d in docs:
+        doc = frappe.get_doc(d)
+        if doc.amount and not (doc.credit_amount or doc.debit_amount ):
+            root_type = frappe.get_cached_value("Account Code",doc.account,"root_type")
+            if root_type in ["Asset","Expenses"]:
+                if doc.amount>0:
+                    doc.debit_amount = abs(doc.amount)
+                else:
+                    doc.credit_amount = abs(doc.amount)
+            else:
+                if doc.amount>0:
+                    doc.credit_amount = abs(doc.amount)
+                else:
+                    doc.debit_amount =abs(doc.amount)
+        doc.name  = make_autoname("GLE.YYYY.-.#####")
+        doc.docstatus = 1
+        yield doc
+        
+def cancel_general_ledger_entery(doctype,docname):
+    frappe.db.sql("update `tabGL Entry` set is_cancelled=1 where voucher_type='{}' and voucher_no='{}'".format(doctype,docname))
+    frappe.db.commit()
+    
+    sql = "select * from `tabGL Entry` where voucher_type='{}' and voucher_no= '{}'".format( doctype,docname)
+    data = frappe.db.sql(sql,as_dict=1)
+    docs = []
+    for r in data:
+        doc = {
+                "doctype":"GL Entry",
+                "posting_date":r["posting_date"],
+                "account":r["account"],
+                "credit_amount":r["debit_amount"],
+                "debit_amount":r["credit_amount"],
+                "against":r["against"],
+                "against_voucher_type":"Sale",
+                "against_voucher_no": r["against_voucher_no"],
+                "voucher_type":doctype,
+                "voucher_no":docname,
+                "remark": r["remark"],
+                "party_type": r["party_type"],
+                "party": r["party"]
+            }
+        docs.append(doc)
+    submit_general_ledger_entry(docs)
+
+@frappe.whitelist()
+def get_currency_symbol(currency):
+    symbol = frappe.get_cached_value("Currency", currency, "symbol")
+    return symbol
+
+@frappe.whitelist()
+def get_default_account():
+    data = frappe.get_doc("Business Information")
+    return {
+        "cash_account":data.cash_account,
+        "bank_account":data.bank_account,
+        "receivable_account":data.receivable_account,
+        "income_account":data.income_account,
+        "credit_account":data.credit_account,
+        "write_off_account":data.write_off_account,
+        "free_account":data.free_account,
+    }
 @frappe.whitelist()
 def get_meta(doctype=None):
     data =  frappe.get_meta(doctype)
@@ -17,6 +86,9 @@ def get_setting(station_name=""):
     if station_name:
          if frappe.db.exists("Station", station_name):
             data["can_login_multi_site"]  = frappe.get_cached_value("Station",station_name,"can_login_multi_site")
+            data["outlet"]  = frappe.get_cached_value("Station",station_name,"outlet")
+            data["default_unit"]  = frappe.get_cached_value("Outlet",data.get("outlet"),"default_unit")
+            
               
     return data
     
@@ -44,6 +116,7 @@ def check_api_url(property_code,station_name,old_station_name):
             "property_name":doc.business_name_en, 
             "photo":doc.photo,
             "station_name":station_name,
+            "outlet":frappe.get_cached_value("Station",station_name,"outlet"),
             "can_login_multi_site":frappe.get_cached_value("Station",station_name,"can_login_multi_site")
     }
        

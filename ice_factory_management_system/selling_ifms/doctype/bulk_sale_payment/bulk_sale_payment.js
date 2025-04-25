@@ -52,7 +52,7 @@ frappe.ui.form.on("Bulk Sale Payment", {
                currency: frm.doc.currency
             },
             callback: (r) => {
-                frm.set_value("exchange_rate", r.message);
+                frm.set_value("exchange_rate", r.message.exchange_rate);
             }
         })
     },

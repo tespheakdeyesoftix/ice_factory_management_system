@@ -17,7 +17,16 @@
   "receipt_logo",
   "column_break_fnqd",
   "property_code",
-  "address"
+  "address",
+  "account_tab",
+  "cash_account",
+  "bank_account",
+  "income_account",
+  "free_account",
+  "column_break_bnzd",
+  "receivable_account",
+  "credit_account",
+  "write_off_account"
  ],
  "fields": [
   {
@@ -80,13 +89,64 @@
    "fieldname": "currency_symbol",
    "fieldtype": "Data",
    "label": "Currency Symbol"
+  },
+  {
+   "fieldname": "account_tab",
+   "fieldtype": "Tab Break",
+   "label": "Account"
+  },
+  {
+   "fieldname": "cash_account",
+   "fieldtype": "Link",
+   "label": "Cash Account",
+   "options": "Account Code"
+  },
+  {
+   "fieldname": "bank_account",
+   "fieldtype": "Link",
+   "label": "Bank Account",
+   "options": "Account Code"
+  },
+  {
+   "fieldname": "income_account",
+   "fieldtype": "Link",
+   "label": "Income Account",
+   "options": "Account Code"
+  },
+  {
+   "fieldname": "receivable_account",
+   "fieldtype": "Link",
+   "label": "Receivable Account",
+   "options": "Account Code"
+  },
+  {
+   "fieldname": "credit_account",
+   "fieldtype": "Link",
+   "label": "Credit Account",
+   "options": "Account Code"
+  },
+  {
+   "fieldname": "column_break_bnzd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "free_account",
+   "fieldtype": "Link",
+   "label": "Free Account",
+   "options": "Account Code"
+  },
+  {
+   "fieldname": "write_off_account",
+   "fieldtype": "Link",
+   "label": "Write Off Account",
+   "options": "Account Code"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-04-23 12:51:12.533257",
+ "modified": "2025-04-24 17:23:32.840952",
  "modified_by": "Administrator",
  "module": "System Setting",
  "name": "Business Information",

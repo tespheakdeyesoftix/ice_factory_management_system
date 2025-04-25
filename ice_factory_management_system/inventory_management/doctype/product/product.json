@@ -20,7 +20,10 @@
   "allow_sum_qty",
   "outlets_section",
   "product_outlet",
-  "product_outlets"
+  "product_outlets",
+  "account_tab",
+  "default_income_account",
+  "default_free_account"
  ],
  "fields": [
   {
@@ -116,12 +119,29 @@
    "hidden": 1,
    "label": "Product Outlets",
    "read_only": 1
+  },
+  {
+   "fieldname": "account_tab",
+   "fieldtype": "Tab Break",
+   "label": "Account"
+  },
+  {
+   "fieldname": "default_income_account",
+   "fieldtype": "Link",
+   "label": "Default Income Account",
+   "options": "Account Code"
+  },
+  {
+   "fieldname": "default_free_account",
+   "fieldtype": "Link",
+   "label": "Default Free Account",
+   "options": "Account Code"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-04-22 10:36:56.605690",
+ "modified": "2025-04-24 14:02:51.307561",
  "modified_by": "Administrator",
  "module": "Inventory Management",
  "name": "Product",

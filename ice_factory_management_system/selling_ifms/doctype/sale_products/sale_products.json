@@ -19,10 +19,16 @@
   "price",
   "quantity",
   "free_quantity",
+  "return_quantity",
   "column_break_adxn",
   "total_sale_quantity",
   "sub_total",
   "total_amount",
+  "section_break_xxgr",
+  "default_income_account",
+  "default_free_account",
+  "column_break_pmwo",
+  "default_receivable_account",
   "section_break_nclv",
   "note"
  ],
@@ -146,12 +152,43 @@
    "label": "Revenue Group",
    "options": "Revenue Group",
    "read_only": 1
+  },
+  {
+   "fieldname": "return_quantity",
+   "fieldtype": "Float",
+   "label": "Return Quantity"
+  },
+  {
+   "fieldname": "section_break_xxgr",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "default_income_account",
+   "fieldtype": "Link",
+   "label": "Default Income Account",
+   "options": "Account Code"
+  },
+  {
+   "fieldname": "column_break_pmwo",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "default_receivable_account",
+   "fieldtype": "Link",
+   "label": "Default Receivable Account",
+   "options": "Account Code"
+  },
+  {
+   "fieldname": "default_free_account",
+   "fieldtype": "Link",
+   "label": "Default Free Account",
+   "options": "Account Code"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-04-22 16:16:15.133553",
+ "modified": "2025-04-24 16:57:34.942976",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Sale Products",

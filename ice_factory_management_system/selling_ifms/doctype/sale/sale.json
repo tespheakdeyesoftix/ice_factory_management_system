@@ -18,8 +18,14 @@
   "driver",
   "driver_name",
   "plate_number",
+  "sale_status",
   "products_section",
   "sale_products",
+  "section_break_qnru",
+  "default_income_account",
+  "default_free_account",
+  "column_break_kmmy",
+  "default_receivable_account",
   "section_break_webp",
   "column_break_wybp",
   "status",
@@ -31,6 +37,8 @@
   "balance",
   "total_write_off",
   "update_from",
+  "total_split_bill",
+  "note",
   "column_break_vioy",
   "sale_summary",
   "product_qty"
@@ -211,6 +219,49 @@
   {
    "fieldname": "column_break_wrwm",
    "fieldtype": "Column Break"
+  },
+  {
+   "default": "Draft",
+   "fieldname": "sale_status",
+   "fieldtype": "Select",
+   "label": "Sale Status",
+   "options": "Draft\nClosed\nDeleted"
+  },
+  {
+   "fieldname": "total_split_bill",
+   "fieldtype": "Int",
+   "label": "Total Split Bill"
+  },
+  {
+   "fieldname": "section_break_qnru",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "default_income_account",
+   "fieldtype": "Link",
+   "label": "Default Income Account",
+   "options": "Account Code"
+  },
+  {
+   "fieldname": "column_break_kmmy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "default_receivable_account",
+   "fieldtype": "Link",
+   "label": "Default Receivable Account",
+   "options": "Account Code"
+  },
+  {
+   "fieldname": "note",
+   "fieldtype": "Small Text",
+   "label": "Note"
+  },
+  {
+   "fieldname": "default_free_account",
+   "fieldtype": "Link",
+   "label": "Default Free Account",
+   "options": "Account Code"
   }
  ],
  "index_web_pages_for_search": 1,
@@ -220,7 +271,7 @@
    "link_fieldname": "sale"
   }
  ],
- "modified": "2025-04-23 16:25:01.472921",
+ "modified": "2025-04-25 16:09:28.345087",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Sale",

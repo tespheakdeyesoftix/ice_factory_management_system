@@ -28,6 +28,11 @@
   "total_paid",
   "column_break_govp",
   "balance",
+  "section_break_lviv",
+  "account_paid_from",
+  "write_off_account",
+  "column_break_hddn",
+  "account_paid_to",
   "section_break_ofjk",
   "input_amount",
   "write_off_amount",
@@ -39,7 +44,8 @@
   "section_break_sihz",
   "amended_from",
   "column_break_tomr",
-  "cancelled_from"
+  "cancelled_from",
+  "currency_symbol"
  ],
  "fields": [
   {
@@ -87,6 +93,7 @@
    "fetch_from": "payment_type.payment_type_group",
    "fieldname": "payment_type_group",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Payment Type Group",
    "options": "Payment Type Group",
    "read_only": 1
@@ -213,13 +220,6 @@
    "label": "Note"
   },
   {
-   "depends_on": "eval:doc.account_number",
-   "fetch_from": "payment_type.account_number",
-   "fieldname": "account_number",
-   "fieldtype": "Data",
-   "label": "Account Number"
-  },
-  {
    "default": "0",
    "fieldname": "write_off_amount",
    "fieldtype": "Float",
@@ -227,7 +227,7 @@
   },
   {
    "fieldname": "payment_balance",
-   "fieldtype": "Currency",
+   "fieldtype": "Data",
    "label": "Payment Balance",
    "read_only": 1
   },
@@ -252,12 +252,56 @@
   {
    "fieldname": "column_break_tomr",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_lviv",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fetch_from": ".",
+   "fieldname": "account_paid_from",
+   "fieldtype": "Link",
+   "label": "Account Paid From",
+   "options": "Account Code"
+  },
+  {
+   "fieldname": "column_break_hddn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "payment_type.account",
+   "fetch_if_empty": 1,
+   "fieldname": "account_paid_to",
+   "fieldtype": "Link",
+   "label": "Account Paid To",
+   "options": "Account Code"
+  },
+  {
+   "depends_on": "eval:doc.account_number != \"\"",
+   "fetch_from": "payment_type.account_number",
+   "fieldname": "account_number",
+   "fieldtype": "Data",
+   "label": "Account Number",
+   "read_only": 1
+  },
+  {
+   "fieldname": "currency_symbol",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Currency Symbol",
+   "read_only": 1
+  },
+  {
+   "fieldname": "write_off_account",
+   "fieldtype": "Link",
+   "label": "Write Off Account",
+   "options": "Account Code"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-04-22 10:51:09.453300",
+ "modified": "2025-04-25 08:58:12.094852",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Sale Payment",
@@ -275,6 +319,17 @@
    "role": "System Manager",
    "share": 1,
    "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales User",
+   "share": 1,
    "write": 1
   }
  ],

@@ -8,7 +8,8 @@
  "field_order": [
   "outlet_name_en",
   "outlet_name_kh",
-  "enabled"
+  "enabled",
+  "default_unit"
  ],
  "fields": [
   {
@@ -27,11 +28,17 @@
    "fieldname": "enabled",
    "fieldtype": "Check",
    "label": "Enabled"
+  },
+  {
+   "fieldname": "default_unit",
+   "fieldtype": "Link",
+   "label": "Default Unit",
+   "options": "Unit"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-04-18 09:55:54.005754",
+ "modified": "2025-04-25 16:45:48.947086",
  "modified_by": "Administrator",
  "module": "System Setting",
  "name": "Outlet",

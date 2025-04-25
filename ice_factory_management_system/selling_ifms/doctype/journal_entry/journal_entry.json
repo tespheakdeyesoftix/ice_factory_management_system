@@ -1,0 +1,197 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2025-04-25 11:57:45.885340",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_xlax",
+  "naming_series",
+  "outlet",
+  "posting_date",
+  "column_break_mgqm",
+  "entry_by",
+  "entry_by_name",
+  "section_break_vuow",
+  "payment_type",
+  "currency",
+  "column_break_avqi",
+  "exchange_rate",
+  "section_break_dnrk",
+  "input_amount",
+  "column_break_nqai",
+  "transfer_amount",
+  "section_break_ctnw",
+  "account_transfer_from",
+  "column_break_gsqw",
+  "account_transfer_to",
+  "section_break_oxwa",
+  "note",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_xlax",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Journal Entry",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "entry_by.default_outlet",
+   "fetch_if_empty": 1,
+   "fieldname": "outlet",
+   "fieldtype": "Link",
+   "label": "Outlet",
+   "options": "Outlet"
+  },
+  {
+   "default": "Today",
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Posting Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "payment_type",
+   "fieldtype": "Link",
+   "label": "Payment Type",
+   "options": "Payment Type"
+  },
+  {
+   "fieldname": "input_amount",
+   "fieldtype": "Float",
+   "label": "Input Amount"
+  },
+  {
+   "fieldname": "transfer_amount",
+   "fieldtype": "Currency",
+   "label": "Transfer Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "note",
+   "fieldtype": "Long Text",
+   "label": "Note"
+  },
+  {
+   "fieldname": "column_break_mgqm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_vuow",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_avqi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_oxwa",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fetch_from": "payment_type.currency",
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "exchange_rate",
+   "fieldtype": "Float",
+   "label": "Exchange Rate",
+   "precision": "8",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_ctnw",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fetch_from": "payment_type.account",
+   "fieldname": "account_transfer_from",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Account Transfer From",
+   "options": "Account Code",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_gsqw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "account_transfer_to",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Account Transfer To",
+   "options": "Account Code",
+   "reqd": 1
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Naming Series",
+   "options": "JE.YYYY.-.####"
+  },
+  {
+   "fieldname": "section_break_dnrk",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_nqai",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "entry_by",
+   "fieldtype": "Link",
+   "label": "Entry By",
+   "options": "Employee"
+  },
+  {
+   "fetch_from": "entry_by.employee_name",
+   "fieldname": "entry_by_name",
+   "fieldtype": "Data",
+   "label": "Entry By Name",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2025-04-25 16:56:29.417284",
+ "modified_by": "Administrator",
+ "module": "Selling IFMS",
+ "name": "Journal Entry",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
