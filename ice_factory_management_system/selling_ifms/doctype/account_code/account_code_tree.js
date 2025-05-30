@@ -1,6 +1,16 @@
 frappe.treeview_settings['Account Code'] = {
     breadcrumb: 'Account Code',
     title: 'Account Code',
+    get_tree_root: false,
+    get_tree_nodes: 'ice_factory_management_system.selling_ifms.doctype.account_code.account_code.get_children',
+    filters: [
+		{
+			fieldname: "outlet",
+			fieldtype:"Link",
+			options: "Outlet",
+			label: __("Outlet"),
+		}
+	],
     fields: [
         {
             fieldtype:'Check', 
@@ -8,6 +18,12 @@ frappe.treeview_settings['Account Code'] = {
             label:__('Is Group'),
             reqd:true
         },
+        {
+			fieldname: "outlet",
+			fieldtype:"Link",
+			options: "Outlet",
+			label: __("Outlet"),
+		},
         {
             fieldtype:'Data', 
             fieldname:'account_code', 
@@ -31,5 +47,5 @@ frappe.treeview_settings['Account Code'] = {
             options:"\nReceivable\nPayable\nCash\nBank\nIncome\nExpense\nTemporary"
         }
     ],
-    extend_toolbar: true
+    extend_toolbar: true,
 }

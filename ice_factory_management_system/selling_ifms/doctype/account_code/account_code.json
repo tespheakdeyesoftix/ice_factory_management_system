@@ -10,6 +10,7 @@
   "account_code",
   "account_name",
   "column_break_xwlu",
+  "outlet",
   "root_type",
   "account_type",
   "is_group",
@@ -98,12 +99,18 @@
   {
    "fieldname": "column_break_afck",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "outlet",
+   "fieldtype": "Link",
+   "label": "Outlet",
+   "options": "Outlet"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2025-05-01 10:14:39.232262",
+ "modified": "2025-05-30 16:23:06.049095",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Account Code",
