@@ -8,8 +8,20 @@
  "field_order": [
   "outlet_name_en",
   "outlet_name_kh",
+  "column_break_vptn",
+  "default_unit",
   "enabled",
-  "default_unit"
+  "tab_2_tab",
+  "cash_account",
+  "bank_account",
+  "income_account",
+  "free_account",
+  "cash_transfer_account",
+  "column_break_nrpa",
+  "receivable_account",
+  "credit_account",
+  "write_off_account",
+  "inventory_account"
  ],
  "fields": [
   {
@@ -34,11 +46,78 @@
    "fieldtype": "Link",
    "label": "Default Unit",
    "options": "Unit"
+  },
+  {
+   "fieldname": "column_break_vptn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "tab_2_tab",
+   "fieldtype": "Tab Break",
+   "label": "Accounts"
+  },
+  {
+   "fieldname": "cash_account",
+   "fieldtype": "Link",
+   "label": "Cash Account",
+   "options": "Account Code"
+  },
+  {
+   "fieldname": "bank_account",
+   "fieldtype": "Link",
+   "label": "Bank Account",
+   "options": "Account Code"
+  },
+  {
+   "fieldname": "income_account",
+   "fieldtype": "Link",
+   "label": "Income Account",
+   "options": "Account Code"
+  },
+  {
+   "fieldname": "free_account",
+   "fieldtype": "Link",
+   "label": "Free Account",
+   "options": "Account Code"
+  },
+  {
+   "fieldname": "cash_transfer_account",
+   "fieldtype": "Link",
+   "label": "Cash Transfer Account",
+   "options": "Account Code"
+  },
+  {
+   "fieldname": "column_break_nrpa",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "receivable_account",
+   "fieldtype": "Link",
+   "label": "Receivable Account",
+   "options": "Account Code"
+  },
+  {
+   "fieldname": "credit_account",
+   "fieldtype": "Link",
+   "label": "Credit Account",
+   "options": "Account Code"
+  },
+  {
+   "fieldname": "write_off_account",
+   "fieldtype": "Link",
+   "label": "Write Off Account",
+   "options": "Account Code"
+  },
+  {
+   "fieldname": "inventory_account",
+   "fieldtype": "Link",
+   "label": "Inventory Account",
+   "options": "Account Code"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-04-25 16:45:48.947086",
+ "modified": "2025-05-30 14:43:34.411487",
  "modified_by": "Administrator",
  "module": "System Setting",
  "name": "Outlet",

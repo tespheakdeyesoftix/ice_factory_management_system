@@ -8,6 +8,8 @@
  "field_order": [
   "product_code",
   "product_name",
+  "unit",
+  "multiplier",
   "quantity"
  ],
  "fields": [
@@ -29,12 +31,26 @@
    "fieldname": "quantity",
    "fieldtype": "Float",
    "label": "Quantity"
+  },
+  {
+   "fieldname": "unit",
+   "fieldtype": "Link",
+   "label": "Unit",
+   "options": "Unit"
+  },
+  {
+   "default": "1",
+   "fetch_from": "unit.multiplier",
+   "fieldname": "multiplier",
+   "fieldtype": "Float",
+   "label": "Multiplier",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-04-23 11:58:16.816880",
+ "modified": "2025-04-29 17:22:23.371504",
  "modified_by": "Administrator",
  "module": "Customer Relation",
  "name": "Customer Free Products",

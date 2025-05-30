@@ -2,6 +2,10 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on("Sale", {
+    outlet(frm) {
+        get_default_accounts(frm);
+        get_products_default_account(frm)
+    },
 	refresh(frm) {
         updateSummary(frm);
 	},
@@ -28,6 +32,8 @@ frappe.ui.form.on("Sale", {
                     p.total_amount = r.total_amount;
                     p.allow_sum_qty = r.allow_sum_qty;
                     p.note = r.note;
+                    p.unit = r.unit,
+                    p.multiplier = r.multiplier
                 }))
                 frm.refresh_field("sale_products");
                 update_sale_total(frm)
@@ -50,21 +56,70 @@ frappe.ui.form.on("Sale Products", {
         cal_total_product(frm,cdt,cdn);
     },
     product_code(frm,cdt,cdn) {
-        row = locals[cdt][cdn];
-        frappe.call({
-            method: 'ice_factory_management_system.customer_relation.doctype.customer.customer.get_customer_product_price',
-            args: {
-                customer: frm.doc.customer,
-                product_code: row.product_code
-            },
-            callback: (r) => {
-                frappe.model.set_value(cdt, cdn, "price", r.message.price);
-                frappe.model.set_value(cdt, cdn, "free_quantity", r.message.free_quantity);
-                update_sale_total(frm)
-            }
-        })
+        get_customer_price(frm,cdt,cdn)
+        get_products_default_account(frm)
+    },
+    unit(frm,cdt,cdn) {
+        get_customer_price(frm,cdt,cdn)
     }
 });
+
+function get_default_accounts(frm) {
+    frm.call({
+            method: 'ice_factory_management_system.system_setting.doctype.outlet.outlet.get_default_accounts',
+            args: {
+              outlet: frm.doc.outlet
+            },
+            callback: (r) => {
+                if(r.message) {
+                    frm.set_value("default_income_account", r.message.income_account);
+                    frm.set_value("default_receivable_account", r.message.receivable_account);
+                    frm.set_value("default_free_account", r.message.free_account);
+                }
+            }
+        });
+}
+
+function get_products_default_account(frm) {
+    frm.doc.sale_products.forEach((row) => {
+        if((row.product_code || "") == "") return;
+        frm.call({
+            method: 'ice_factory_management_system.inventory_management.doctype.product.product.get_product_accounts',
+            args: {
+              product_code: row.product_code,
+              outlet: frm.doc.outlet
+            },
+            callback: (r) => {
+                if(r.message) {
+                    row.default_income_account = r.message.income_account;
+                    row.default_receivable_account = r.message.receivable_account;
+                    row.default_free_account = r.message.free_account;
+                }
+                frm.refresh_field("sale_products");
+            }
+        });
+    })
+};
+
+function get_customer_price(frm,cdt,cdn){
+    row = locals[cdt][cdn];
+    frappe.call({
+        method: 'ice_factory_management_system.customer_relation.doctype.customer.customer.get_customer_product_price',
+        args: {
+            customer: frm.doc.customer,
+            product_code: row.product_code,
+            unit: row.unit
+        },
+        callback: (r) => {
+            if(r.message){
+                frappe.model.set_value(cdt, cdn, "price", r.message.price);
+                frappe.model.set_value(cdt, cdn, "free_quantity", r.message.free_quantity);
+                frappe.model.set_value(cdt, cdn, "multiplier", r.message.multiplier);
+                cal_total_product(frm,cdt,cdn);
+            }
+        }
+    })
+}
 
 function updateSummary(frm) {
     frappe.call({
@@ -88,9 +143,9 @@ function updateSummary(frm) {
 function cal_total_product(frm,cdt,cdn) {
     let row = locals[cdt][cdn];
     sale_quantity = row.quantity - row.free_quantity;
-    let total_amount = sale_quantity * row.price;
+    let total_amount = sale_quantity * row.price * row.multiplier;
     frappe.model.set_value(cdt, cdn, "total_sale_quantity", sale_quantity);
-    frappe.model.set_value(cdt, cdn, "sub_total", row.quantity * row.price);
+    frappe.model.set_value(cdt, cdn, "sub_total", row.quantity * row.price * row.multiplier);
     frappe.model.set_value(cdt, cdn, "total_amount", total_amount);
     update_sale_total(frm);
 }

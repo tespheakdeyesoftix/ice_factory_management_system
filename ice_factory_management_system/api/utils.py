@@ -5,35 +5,111 @@ from frappe import _
 import json
 from frappe.model.document import bulk_insert
 from frappe.model.naming import make_autoname
+from frappe.translate import print_language
+import os
+import frappe
+from frappe.utils import get_files_path
+from frappe.utils.file_manager import save_file
+from frappe.utils.print_format import download_pdf
+
+@frappe.whitelist()
+def save_pdf(doctype="Sale", docname="SINV2025-0096", print_format="Print A4"): 
+    # Generate PDF
+    pdf_content = download_pdf(
+        doctype,
+        docname,
+        format=print_format
+        
+    )
+    return pdf_content
+    # Prepare file details
+    file_name = f"{frappe.scrub(docname)}.pdf"
+    folder_path = os.path.join(get_files_path(is_private=False), "pdf")
+    frappe.create_folder(folder_path)
+    file_path = os.path.join(folder_path, file_name)
+
+    # Save to filesystem
+
+    with open(file_path, "wb") as f:
+        f.write(pdf_content)
+
+    # Return relative path for web access
+    return f"/files/pdf/{file_name}"
+
+
+def replace_format(string):    
+    from datetime import datetime
+    short_year = datetime.now().strftime("%y")
+    year = datetime.now().strftime("%Y")
+    month = datetime.now().strftime("%m")
+    return string.replace('.', '').replace('YYYY', year).replace('yyyy', year).replace('YY', short_year).replace('yy', short_year).replace('MM', month).replace('#', '')
+
+@frappe.whitelist()
+def reset_sale_transaction(password):
+    if password == "eposadmin@855855" and frappe.session.user == "Administrator":
+        frappe.db.sql("delete from `tabGL Entry`")
+        frappe.db.sql("delete from `tabSale`")
+        frappe.db.sql("delete from `tabSale Products`")
+        frappe.db.sql("delete from `tabSale Payment`")
+        frappe.db.sql("delete from `tabBulk Sale Payment`")
+        frappe.db.sql("delete from `tabBulk Sale`")
+        frappe.db.sql("delete from `tabClosed Selling Date`")
+        frappe.db.sql("delete from `tabClosed Selling Date Data`")
+        frappe.db.sql("delete from `tabClosed Selling Date Items`")
+        frappe.db.sql("delete from `tabStock In`")
+        frappe.db.sql("delete from `tabStock In Products`")
+        frappe.db.sql("delete from `tabJournal Entry`")
+
+        doctypes = ["GL Entry","Sale","Sale Payment","Bulk Sale Payment","Closed Selling Date","Closed Selling Date Data","Stock In","Journal Entry"]
+        for d in doctypes:   
+            formats = ""        
+            if d == "GL Entry":
+                formats = "GLE.YYYY.-.#####"
+            elif d == "Closed Selling Date Data":
+                formats = "CSDD.YYYY.-.#####"
+            else:
+                formats =  frappe.get_meta(d).get_field("naming_series").options
+            if formats:
+                if "#" in formats:
+                    format_text = replace_format(formats)
+                    sql = "update `tabSeries` set current = 0 where name='{}'".format(format_text)
+                    frappe.db.sql(sql)
+        return "reset"
+    else:
+        return "wrong password"
 
 def submit_general_ledger_entry(docs):
-    bulk_insert("GL Entry", get_general_ledger_entry_record(docs=docs) , chunk_size=10000)
+    def get_general_ledger_entry_record(docs):
+        for d in docs:
+            doc = frappe.get_doc(d)
+            if doc.amount and not (doc.credit_amount or doc.debit_amount ):
+                root_type = frappe.get_cached_value("Account Code",doc.account,"root_type")
+                if root_type in ["Asset","Expenses"]:
+                    if doc.amount>0:
+                        doc.debit_amount = abs(doc.amount)
+                    else:
+                        doc.credit_amount = abs(doc.amount)
+                else:
+                    if doc.amount>0:
+                        doc.credit_amount = abs(doc.amount)
+                    else:
+                        doc.debit_amount = abs(doc.amount)
+            doc.name  = make_autoname("GLE.YYYY.-.#####")
+            doc.docstatus = 1
+            yield doc
     frappe.db.commit()
-
-def get_general_ledger_entry_record(docs):
-    for d in docs:
-        doc = frappe.get_doc(d)
-        if doc.amount and not (doc.credit_amount or doc.debit_amount ):
-            root_type = frappe.get_cached_value("Account Code",doc.account,"root_type")
-            if root_type in ["Asset","Expenses"]:
-                if doc.amount>0:
-                    doc.debit_amount = abs(doc.amount)
-                else:
-                    doc.credit_amount = abs(doc.amount)
-            else:
-                if doc.amount>0:
-                    doc.credit_amount = abs(doc.amount)
-                else:
-                    doc.debit_amount =abs(doc.amount)
-        doc.name  = make_autoname("GLE.YYYY.-.#####")
-        doc.docstatus = 1
-        yield doc
+    bulk_insert("GL Entry", get_general_ledger_entry_record(docs=docs) , chunk_size=10000)
         
 def cancel_general_ledger_entery(doctype,docname):
-    frappe.db.sql("update `tabGL Entry` set is_cancelled=1 where voucher_type='{}' and voucher_no='{}'".format(doctype,docname))
+    filters = "where voucher_type='{}' and voucher_no='{}'".format(doctype,docname)
+    if doctype == "Sale":
+        sale_id = frappe.db.get_value(doctype, docname, 'id')
+        filters = "where sale_id='{}'".format(sale_id)
+
+    frappe.db.sql("update `tabGL Entry` set is_cancelled=1 {0}".format(filters))
     frappe.db.commit()
     
-    sql = "select * from `tabGL Entry` where voucher_type='{}' and voucher_no= '{}'".format( doctype,docname)
+    sql = "select * from `tabGL Entry` {0}".format(filters)
     data = frappe.db.sql(sql,as_dict=1)
     docs = []
     for r in data:
@@ -50,10 +126,34 @@ def cancel_general_ledger_entery(doctype,docname):
                 "voucher_no":docname,
                 "remark": r["remark"],
                 "party_type": r["party_type"],
-                "party": r["party"]
+                "party": r["party"],
+                "is_cancelled":1,
             }
         docs.append(doc)
     submit_general_ledger_entry(docs)
+
+def ensure_date(posting_date,creation):
+    from datetime import datetime,date,time
+    a = datetime.strptime(creation, "%Y-%m-%d %H:%M:%S.%f")
+    now = time(a.hour, a.minute, a.second)
+    if isinstance(posting_date, str):
+        return  datetime.combine(datetime.strptime(posting_date, "%Y-%m-%d").date(), now)
+    elif isinstance(posting_date, datetime):
+        return posting_date
+    elif isinstance(posting_date, date):
+        return  datetime.combine(posting_date, now)
+    else:
+        return datetime.now()
+
+@frappe.whitelist() 
+def get_previous_closed_date(posting_date,creation,outlet):
+    b = frappe.db.sql("select posting_date,creation from `tabClosed Selling Date` where docstatus=1 and outlet = '{0}' order by CONCAT(posting_date,' ',DATE_FORMAT(modified, '%H:%i:%s')) desc limit 1".format(outlet),as_dict=1)
+    if len(b or []) > 0:
+        posting_date = ensure_date(str(posting_date),str(creation))
+        previous_closed_date = ensure_date(str(b[0]["posting_date"]),str(b[0]["creation"]))
+        if previous_closed_date >= posting_date:
+            frappe.throw("Can create or edit bill with date smaller or same as previous closed date")
+    
 
 @frappe.whitelist()
 def get_currency_symbol(currency):
@@ -82,13 +182,16 @@ def get_setting(station_name=""):
     data  = frappe.get_cached_doc("Business Information",None)
     data =json.loads( frappe.as_json(data))
     
-    
+ 
     if station_name:
-         if frappe.db.exists("Station", station_name):
+        
+        if frappe.db.exists("Station", station_name):
             data["can_login_multi_site"]  = frappe.get_cached_value("Station",station_name,"can_login_multi_site")
+
             data["outlet"]  = frappe.get_cached_value("Station",station_name,"outlet")
-            data["default_unit"]  = frappe.get_cached_value("Outlet",data.get("outlet"),"default_unit")
             
+            data["default_unit"]  = frappe.get_cached_value("Outlet",data.get("outlet"),"default_unit")
+
               
     return data
     
@@ -102,7 +205,7 @@ def check_api_url(property_code,station_name,old_station_name):
     if doc.property_code ==  property_code:
         
         # check station
-        if station_name != station_name:
+        if station_name != old_station_name:
             if frappe.db.exists("Station", station_name):
                 if frappe.get_cached_value("Station",station_name,"is_used") ==1:
                     frappe.throw(_("This station name is already in used"))
@@ -176,14 +279,26 @@ def get_response_user_information(property):
     user = frappe.get_doc("User", frappe.session.user)
     
 
-    sql = "select position,name,phone_number,address,photo from `tabEmployee` where user_id = '{}' limit 1".format(frappe.session.user)
+    sql = """
+        select 
+           *
+        from `tabEmployee` 
+        where 
+            user_id = '{}' 
+        limit 1
+    """.format(frappe.session.user)
+
     data = frappe.db.sql(sql, as_dict=1)
+    user_info={}
     if data:
         position = data[0].get("position")
         employee_id = data[0].get("name")
         phone_number = data[0].get("phone_number")
         address = data[0].get("address")
         photo = data[0].get("photo")
+        user_info=data[0]
+        
+
     api_generate = generate_keys(frappe.session.user)
     # get home_page 
     
@@ -197,7 +312,7 @@ def get_response_user_information(property):
         if role_data:
             home_page = role_data[0].get("home_page")
 
- 
+
     return {
             "username":user.username,
             "full_name":user.full_name,
@@ -210,6 +325,11 @@ def get_response_user_information(property):
             "token": base64.b64encode(str("{}:{}".format(user.api_key,api_generate)).encode("utf-8")).decode('utf-8'),
             "employee_id":employee_id,
             "home_page":home_page,
+            "user_info":user_info
            
 
     }
+
+@frappe.whitelist()
+def getCurrentUser():
+    return   frappe.get_cached_doc("User", frappe.session.user)   

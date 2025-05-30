@@ -1,0 +1,245 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2025-04-28 10:51:28.346799",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_s3ol",
+  "naming_series",
+  "outlet",
+  "posting_date",
+  "stock_in_type",
+  "column_break_clrw",
+  "vendor",
+  "vendor_name",
+  "phone_number",
+  "section_break_vhwk",
+  "product_code",
+  "product_name",
+  "base_unit",
+  "unit",
+  "column_break_jirc",
+  "qty",
+  "price",
+  "total_amount",
+  "section_break_qzrr",
+  "stock_in_products",
+  "amended_from",
+  "section_break_tbgq",
+  "default_credit_account",
+  "column_break_uzcb",
+  "default_inventory_account",
+  "section_break_qgbm",
+  "total_qty",
+  "column_break_zljg",
+  "total_product_amount"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_s3ol",
+   "fieldtype": "Section Break",
+   "label": "Info"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Stock In",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "label": "Posting Date"
+  },
+  {
+   "fieldname": "outlet",
+   "fieldtype": "Link",
+   "label": "Outlet",
+   "options": "Outlet"
+  },
+  {
+   "fieldname": "column_break_clrw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "vendor",
+   "fieldtype": "Link",
+   "label": "Vendor",
+   "options": "Vendor"
+  },
+  {
+   "fetch_from": "vendor.vendor_name",
+   "fieldname": "vendor_name",
+   "fieldtype": "Data",
+   "label": "Vendor Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "vendor.phone_number_1",
+   "fieldname": "phone_number",
+   "fieldtype": "Data",
+   "label": "Phone Number",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.stock_in_type == \"Multiple Product\"",
+   "fieldname": "section_break_qzrr",
+   "fieldtype": "Section Break",
+   "label": "Products"
+  },
+  {
+   "depends_on": "eval:doc.stock_in_type == \"Single Product\"",
+   "fieldname": "section_break_vhwk",
+   "fieldtype": "Section Break",
+   "label": "Product"
+  },
+  {
+   "fieldname": "stock_in_type",
+   "fieldtype": "Select",
+   "label": "Stock In Type",
+   "options": "Single Product\nMultiple Product"
+  },
+  {
+   "fieldname": "product_code",
+   "fieldtype": "Link",
+   "label": "Product Code",
+   "options": "Product"
+  },
+  {
+   "fetch_from": "product_code.product_name",
+   "fieldname": "product_name",
+   "fieldtype": "Data",
+   "label": "Product Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "product_code.unit",
+   "fieldname": "base_unit",
+   "fieldtype": "Link",
+   "label": "Base Unit",
+   "options": "Unit",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "product_code.unit",
+   "fieldname": "unit",
+   "fieldtype": "Link",
+   "label": "Unit",
+   "options": "Unit"
+  },
+  {
+   "fieldname": "column_break_jirc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "qty",
+   "fieldtype": "Float",
+   "label": "QTY"
+  },
+  {
+   "default": "0",
+   "fieldname": "price",
+   "fieldtype": "Float",
+   "label": "Price"
+  },
+  {
+   "default": "0",
+   "fieldname": "total_amount",
+   "fieldtype": "Currency",
+   "label": "Total Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Naming Series",
+   "options": "STI.YYYY.-.####"
+  },
+  {
+   "fieldname": "stock_in_products",
+   "fieldtype": "Table",
+   "options": "Stock In Products"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_tbgq",
+   "fieldtype": "Section Break",
+   "label": "Accounts"
+  },
+  {
+   "fieldname": "default_credit_account",
+   "fieldtype": "Link",
+   "label": "Default Credit Account",
+   "options": "Account Code"
+  },
+  {
+   "fieldname": "column_break_uzcb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "default_inventory_account",
+   "fieldtype": "Link",
+   "label": "Default Inventory Account",
+   "options": "Account Code"
+  },
+  {
+   "depends_on": "eval:doc.stock_in_type == \"Multiple Product\"",
+   "fieldname": "section_break_qgbm",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "total_qty",
+   "fieldtype": "Float",
+   "label": "Total QTY",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_zljg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "total_product_amount",
+   "fieldtype": "Currency",
+   "label": "Total Product Amount",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2025-05-01 10:04:29.318645",
+ "modified_by": "Administrator",
+ "module": "System Setting",
+ "name": "Stock In",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

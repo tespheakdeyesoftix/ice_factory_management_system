@@ -12,7 +12,7 @@ class ExchangeRate(Document):
 def get_exchange_rate(currency):
 	main_currency = frappe.get_single("Business Information").currency
 	"""Get the exchange rate from the Exchange Rate doctype."""
-	sql = "select currency_exchange_rate from `tabExchange Rate` where from_currency = '{0}' and to_currency = '{1}'".format(main_currency, currency)
+	sql = "select currency_exchange_rate from `tabExchange Rate` where from_currency = '{0}' and to_currency = '{1}' order by CONCAT(posting_date,' ',DATE_FORMAT(modified, '%H:%i:%s')) desc limit 1".format(main_currency, currency)
 	data = frappe.db.sql(sql, as_dict=True)
 	if data:
 		return {"exchange_rate":data[0].currency_exchange_rate, "symbol": get_currency_symbol(currency)}

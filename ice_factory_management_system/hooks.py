@@ -219,3 +219,5 @@ app_license = "mit"
 # auth_hooks = [
 #	"ice_factory_management_system.auth.validate"
 # ]
+
+website_route_rules = [{'from_route': '/embed/<path:app_path>', 'to_route': 'embed'}]

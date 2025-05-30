@@ -23,10 +23,19 @@
   "bank_account",
   "income_account",
   "free_account",
+  "cash_transfer_account",
   "column_break_bnzd",
   "receivable_account",
   "credit_account",
-  "write_off_account"
+  "write_off_account",
+  "inventory_account",
+  "closed_selling_date_doctype_tab",
+  "closed_doctypes",
+  "server_report_setting_tab",
+  "server_report_url",
+  "report_service_url",
+  "column_break_iosq",
+  "report_server_token"
  ],
  "fields": [
   {
@@ -140,13 +149,59 @@
    "fieldtype": "Link",
    "label": "Write Off Account",
    "options": "Account Code"
+  },
+  {
+   "fieldname": "inventory_account",
+   "fieldtype": "Link",
+   "label": "Inventory Account",
+   "options": "Account Code"
+  },
+  {
+   "fieldname": "closed_selling_date_doctype_tab",
+   "fieldtype": "Tab Break",
+   "label": "Closed Selling Date Doctype"
+  },
+  {
+   "fieldname": "closed_doctypes",
+   "fieldtype": "Table",
+   "options": "Closed Selling Date Doctype"
+  },
+  {
+   "fieldname": "cash_transfer_account",
+   "fieldtype": "Link",
+   "label": "Cash Transfer Account",
+   "options": "Account Code"
+  },
+  {
+   "fieldname": "server_report_setting_tab",
+   "fieldtype": "Tab Break",
+   "label": "Server Report Setting"
+  },
+  {
+   "fieldname": "server_report_url",
+   "fieldtype": "Data",
+   "label": "Server Report URL"
+  },
+  {
+   "fieldname": "report_service_url",
+   "fieldtype": "Data",
+   "label": "Report Service URL"
+  },
+  {
+   "fieldname": "column_break_iosq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "report_server_token",
+   "fieldtype": "Small Text",
+   "label": "Report Server Token"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-04-24 17:23:32.840952",
+ "modified": "2025-05-28 08:22:08.545363",
  "modified_by": "Administrator",
  "module": "System Setting",
  "name": "Business Information",

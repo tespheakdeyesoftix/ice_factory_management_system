@@ -24,3 +24,46 @@ class Product(Document):
 		for a in self.product_outlet:
 			product_outlets.append({"outlet":a.outlet})
 		self.product_outlets = json.dumps(product_outlets)
+		update_product_unit(self)
+	
+def update_product_unit(self):
+	if len(self.product_units or [])>0:
+		if self.has_value_changed("price") or self.has_value_changed("unit"):
+			for a in self.product_units:
+				if a.base_product_unit == 1:
+					a.price = self.price
+					a.unit = self.unit
+					a.multiplier = 1
+			self.save()
+	else:
+		self.append("product_units", {
+                "unit":self.unit,
+                "multiplier": self.multiplier,
+                "price": self.price,
+				"base_product_unit": 1
+            })
+		self.save()
+
+@frappe.whitelist()
+def get_product_accounts(product_code="",outlet=""):
+	income_account = ""
+	free_account = ""
+	receivable_account = ""
+	product_defaults = frappe.get_doc("Product", product_code)
+	product_default = [a for a in product_defaults.product_accounts if a.outlet == outlet]
+	if len(product_default) > 0:
+		income_account = product_default[0].income_account
+		free_account = product_default[0].free_account
+
+	if outlet:
+		outlet_default = frappe.get_doc("Outlet", outlet)
+		income_account = outlet_default.income_account if (income_account or "") == "" else income_account
+		free_account = outlet_default.free_account if (free_account or "") == "" else free_account
+
+	business_default = frappe.get_doc("Business Information")
+	income_account = business_default.income_account if (income_account or "") == "" else income_account
+	free_account = business_default.free_account if (free_account or "") == "" else free_account
+
+	receivable_account = business_default.receivable_account if (receivable_account or "") == "" else receivable_account
+
+	return {"income_account":income_account,"free_account":free_account,"receivable_account":receivable_account}

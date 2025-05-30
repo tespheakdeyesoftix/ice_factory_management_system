@@ -7,6 +7,7 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "info_section",
   "naming_series",
   "customer_name",
   "customer_name_kh",
@@ -173,19 +174,25 @@
   },
   {
    "fieldname": "section_break_mgfg",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "label": "Free Products"
   },
   {
    "fieldname": "customer_free_products",
    "fieldtype": "Table",
    "label": "Free Products",
    "options": "Customer Free Products"
+  },
+  {
+   "fieldname": "info_section",
+   "fieldtype": "Section Break",
+   "label": "Info"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-04-23 11:28:34.836673",
+ "modified": "2025-05-28 11:25:22.564480",
  "modified_by": "Administrator",
  "module": "Customer Relation",
  "name": "Customer",
@@ -224,9 +231,18 @@
    "role": "Sales Master Manager",
    "share": 1,
    "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "share": 1
   }
  ],
- "search_fields": "customer_name_kh,phone_number_1",
+ "search_fields": "keyword,phone_number_1",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],

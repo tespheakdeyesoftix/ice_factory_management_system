@@ -15,7 +15,12 @@
   "column_break_pukv",
   "default_outlet",
   "login_information_section",
-  "user_id"
+  "user_id",
+  "permission_tab",
+  "edit_bill",
+  "remove_product_from_sale_product",
+  "remove_product_from_sale_product_after_save",
+  "change_product_price"
  ],
  "fields": [
   {
@@ -69,12 +74,41 @@
    "fieldtype": "Link",
    "label": "Default Outlet",
    "options": "Outlet"
+  },
+  {
+   "fieldname": "permission_tab",
+   "fieldtype": "Tab Break",
+   "label": "Permission"
+  },
+  {
+   "default": "0",
+   "fieldname": "edit_bill",
+   "fieldtype": "Check",
+   "label": "Edit Bill"
+  },
+  {
+   "default": "0",
+   "fieldname": "remove_product_from_sale_product",
+   "fieldtype": "Check",
+   "label": "Remove Product from Sale Product before Save"
+  },
+  {
+   "default": "0",
+   "fieldname": "remove_product_from_sale_product_after_save",
+   "fieldtype": "Check",
+   "label": "Remove Product from Sale Product after Save"
+  },
+  {
+   "default": "0",
+   "fieldname": "change_product_price",
+   "fieldtype": "Check",
+   "label": "Change Product Price"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-04-25 11:02:08.298056",
+ "modified": "2025-05-30 15:58:56.254230",
  "modified_by": "Administrator",
  "module": "HR",
  "name": "Employee",
@@ -94,6 +128,7 @@
    "write": 1
   }
  ],
+ "search_fields": "employee_name",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []

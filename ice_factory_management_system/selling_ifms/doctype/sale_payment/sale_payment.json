@@ -15,10 +15,11 @@
   "payment_type_group",
   "currency",
   "exchange_rate",
-  "account_number",
+  "outlet",
   "section_break_kbbn",
   "sale",
   "sale_date",
+  "sale_outlet",
   "column_break_qnqt",
   "customer",
   "customer_name",
@@ -37,7 +38,7 @@
   "input_amount",
   "write_off_amount",
   "column_break_ecxw",
-  "payment_amount",
+  "total_amount",
   "payment_balance",
   "section_break_vexk",
   "note",
@@ -50,7 +51,8 @@
  "fields": [
   {
    "fieldname": "section_break_cj4e",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "label": "Info"
   },
   {
    "fieldname": "amended_from",
@@ -108,7 +110,8 @@
   },
   {
    "fieldname": "section_break_kbbn",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "label": "Sale"
   },
   {
    "fieldname": "sale",
@@ -120,7 +123,7 @@
    "reqd": 1
   },
   {
-   "fetch_from": "sale.sale_date",
+   "fetch_from": "sale.posting_date",
    "fieldname": "sale_date",
    "fieldtype": "Date",
    "label": "Sale Date",
@@ -147,7 +150,8 @@
   },
   {
    "fieldname": "section_break_qtup",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "label": "Sale Totals"
   },
   {
    "default": "0",
@@ -183,7 +187,8 @@
   },
   {
    "fieldname": "section_break_ofjk",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "label": "Payment"
   },
   {
    "default": "0",
@@ -201,13 +206,6 @@
    "fieldtype": "Float",
    "label": "Exchange Rate",
    "precision": "8",
-   "read_only": 1
-  },
-  {
-   "default": "0",
-   "fieldname": "payment_amount",
-   "fieldtype": "Float",
-   "label": "Payment Amount",
    "read_only": 1
   },
   {
@@ -255,7 +253,8 @@
   },
   {
    "fieldname": "section_break_lviv",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "label": "Accounts"
   },
   {
    "fetch_from": ".",
@@ -269,20 +268,12 @@
    "fieldtype": "Column Break"
   },
   {
-   "fetch_from": "payment_type.account",
+   "fetch_from": ".account",
    "fetch_if_empty": 1,
    "fieldname": "account_paid_to",
    "fieldtype": "Link",
    "label": "Account Paid To",
    "options": "Account Code"
-  },
-  {
-   "depends_on": "eval:doc.account_number != \"\"",
-   "fetch_from": "payment_type.account_number",
-   "fieldname": "account_number",
-   "fieldtype": "Data",
-   "label": "Account Number",
-   "read_only": 1
   },
   {
    "fieldname": "currency_symbol",
@@ -296,12 +287,33 @@
    "fieldtype": "Link",
    "label": "Write Off Account",
    "options": "Account Code"
+  },
+  {
+   "fieldname": "outlet",
+   "fieldtype": "Link",
+   "label": "Outlet",
+   "options": "Outlet"
+  },
+  {
+   "default": "0",
+   "fieldname": "total_amount",
+   "fieldtype": "Float",
+   "label": "Total Amount",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "sale.outlet",
+   "fieldname": "sale_outlet",
+   "fieldtype": "Link",
+   "label": "Outlet",
+   "options": "Outlet",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-04-25 08:58:12.094852",
+ "modified": "2025-05-30 15:52:00.216420",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Sale Payment",

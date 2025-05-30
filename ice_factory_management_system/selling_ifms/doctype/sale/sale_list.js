@@ -10,7 +10,12 @@ frappe.listview_settings['Sale'] = {
         }else if(doc.status=="Partially Paid"){
             return [__("Partially Paid"), "orange"];
         }else{
-            return [__("Unpaid"), "red"];
+            if(doc.status=="Deleted"){
+                return [__("Deleted"), "red"];
+            }
+            else{
+                return [__("Unpaid"), "red"];
+            }
         }
     },
 }

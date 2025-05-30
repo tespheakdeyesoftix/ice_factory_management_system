@@ -9,7 +9,7 @@ def get_dashboard_data(outlet, date):
         from `tabSale` 
     where 
     sale_status = 'Closed' and 
-    sale_date = %(date)s and 
+    posting_date = %(date)s and 
     outlet = %(outlet)s 
     """
     data = frappe.db.sql(sql,{"outlet":outlet, "date":date},as_dict = 1)
@@ -27,6 +27,8 @@ def get_dashboard_data(outlet, date):
 def get_total_daily_sale_product_summary(outlet, date):
     # outlet, date
     sql = """select 
+            coalesce(sp.photo,'') as photo,
+            sp.unit,
             sp.product_code,
             sp.product_name,
             sum(sp.quantity) as quantity, 
@@ -39,14 +41,25 @@ def get_total_daily_sale_product_summary(outlet, date):
 
     where 
         s.sale_status = 'Closed' and 
-        s.sale_date = %(date)s and 
+        s.posting_date = %(date)s and 
         s.outlet = %(outlet)s 
     group by
+         coalesce(sp.photo,'') ,
         sp.product_code,
-        sp.product_name
+        sp.product_name,
+        sp.unit
         
     """
     data = frappe.db.sql(sql,{"outlet":outlet, "date":date},as_dict = 1)
     return data
+
+@frappe.whitelist()
+def add_audit_trails(sale,data):
+    for d in data:
+        doc =  frappe.get_doc(d)
+        doc.ref_doc_name = sale,
+        doc.username = frappe.session.user.split("@")[0]
+        doc.insert(ignore_permissions=True)
+    frappe.db.commit()
 
 

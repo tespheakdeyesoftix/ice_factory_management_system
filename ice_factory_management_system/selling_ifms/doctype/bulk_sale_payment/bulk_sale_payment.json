@@ -38,7 +38,8 @@
  "fields": [
   {
    "fieldname": "section_break_forf",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "label": "Info"
   },
   {
    "fieldname": "amended_from",
@@ -100,7 +101,8 @@
   },
   {
    "fieldname": "section_break_skkm",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "label": "Sale"
   },
   {
    "fieldname": "sales",
@@ -111,7 +113,8 @@
   },
   {
    "fieldname": "section_break_mwiq",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "label": "Payment"
   },
   {
    "fieldname": "payment_amount",
@@ -120,7 +123,8 @@
   },
   {
    "fieldname": "section_break_kbqk",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "label": "Totals"
   },
   {
    "default": "0",
@@ -157,7 +161,8 @@
    "fieldname": "outlet",
    "fieldtype": "Link",
    "label": "Outlet",
-   "options": "Outlet"
+   "options": "Outlet",
+   "reqd": 1
   },
   {
    "fieldname": "column_break_lbix",
@@ -206,7 +211,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-04-22 10:51:18.142955",
+ "modified": "2025-05-30 16:16:57.086328",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Bulk Sale Payment",

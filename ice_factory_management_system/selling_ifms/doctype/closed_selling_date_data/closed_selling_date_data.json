@@ -1,0 +1,83 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-04-30 14:08:16.800632",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_hadm",
+  "closed_selling_date",
+  "closed_date",
+  "closed_doctype",
+  "closed_docname",
+  "total_amount",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_hadm",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Closed Selling Date Data",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "closed_doctype",
+   "fieldtype": "Select",
+   "label": "Closed Doctype"
+  },
+  {
+   "fieldname": "closed_docname",
+   "fieldtype": "Dynamic Link",
+   "label": "Closed Docname",
+   "options": "closed_doctype"
+  },
+  {
+   "fieldname": "total_amount",
+   "fieldtype": "Currency",
+   "label": "Total Amount"
+  },
+  {
+   "fieldname": "closed_selling_date",
+   "fieldtype": "Link",
+   "label": "Closed Selling Date",
+   "options": "Closed Selling Date"
+  },
+  {
+   "fieldname": "closed_date",
+   "fieldtype": "Datetime",
+   "label": "Closed Date"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-05-01 11:41:31.626048",
+ "modified_by": "Administrator",
+ "module": "Selling IFMS",
+ "name": "Closed Selling Date Data",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

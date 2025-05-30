@@ -6,6 +6,7 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "info_section",
   "product_category",
   "naming_series",
   "product_code",
@@ -15,15 +16,18 @@
   "column_break_xcqe",
   "photo",
   "unit",
+  "multiplier",
   "price",
   "enabled",
   "allow_sum_qty",
+  "show_in_sale_report",
   "outlets_section",
   "product_outlet",
   "product_outlets",
   "account_tab",
-  "default_income_account",
-  "default_free_account"
+  "product_accounts",
+  "product_unit_tab",
+  "product_units"
  ],
  "fields": [
   {
@@ -123,25 +127,46 @@
   {
    "fieldname": "account_tab",
    "fieldtype": "Tab Break",
-   "label": "Account"
+   "label": "Accounts"
   },
   {
-   "fieldname": "default_income_account",
-   "fieldtype": "Link",
-   "label": "Default Income Account",
-   "options": "Account Code"
+   "fieldname": "product_unit_tab",
+   "fieldtype": "Tab Break",
+   "label": "Product Units"
   },
   {
-   "fieldname": "default_free_account",
-   "fieldtype": "Link",
-   "label": "Default Free Account",
-   "options": "Account Code"
+   "fieldname": "product_units",
+   "fieldtype": "Table",
+   "options": "Product Units"
+  },
+  {
+   "fetch_from": "unit.multiplier",
+   "fieldname": "multiplier",
+   "fieldtype": "Float",
+   "label": "Multiplier",
+   "read_only": 1
+  },
+  {
+   "fieldname": "info_section",
+   "fieldtype": "Section Break",
+   "label": "Info"
+  },
+  {
+   "default": "0",
+   "fieldname": "show_in_sale_report",
+   "fieldtype": "Check",
+   "label": "Show In Sale Report"
+  },
+  {
+   "fieldname": "product_accounts",
+   "fieldtype": "Table",
+   "options": "Product Accounts"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-04-24 14:02:51.307561",
+ "modified": "2025-05-30 15:02:10.910123",
  "modified_by": "Administrator",
  "module": "Inventory Management",
  "name": "Product",

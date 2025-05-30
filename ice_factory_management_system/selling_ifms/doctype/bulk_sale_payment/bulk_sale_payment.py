@@ -4,7 +4,7 @@
 import frappe
 from frappe.model.document import Document
 from ice_factory_management_system.selling_ifms.doctype.sale.sale import get_sales
-from ice_factory_management_system.system_setting.doctype.exchange_rate.exchange_rate import get_exchange_rate
+from ice_factory_management_system.api.utils import get_previous_closed_date
 
 class BulkSalePayment(Document):
 	def validate(self):
@@ -54,11 +54,12 @@ class BulkSalePayment(Document):
 		for a in self.sales:
 			if a.payment_amount > 0:
 				sale_payment = frappe.new_doc("Sale Payment")
+				sale_payment.outlet = self.outlet
 				sale_payment.payment_type = self.payment_type
 				sale_payment.sale = a.sale
 				sale_payment.input_amount = a.input_amount
 				sale_payment.write_off_amount = a.write_off_amount
-				sale_payment.payment_amount = a.payment_amount
+				sale_payment.total_amount = a.payment_amount
 				sale_payment.exchange_rate = self.exchange_rate
 				sale_payment.bulk_sale_payment = self.name
 				sale_payment.submit()
@@ -67,6 +68,8 @@ class BulkSalePayment(Document):
 			frappe.msgprint("Sale " + remove + " has been removed from this payment")
 	
 	def before_cancel(self):
+		from datetime import datetime,date
+		get_previous_closed_date(self.posting_date,self.creation,self.outlet)
 		for a in self.sales:
 			sale_payment = frappe.get_doc("Sale Payment", a.sale_payment)
 			if sale_payment.docstatus == 1:

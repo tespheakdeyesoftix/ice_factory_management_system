@@ -9,11 +9,14 @@
   "parent_account_code",
   "account_code",
   "account_name",
+  "column_break_xwlu",
   "root_type",
   "account_type",
   "is_group",
+  "section_break_ppcm",
   "lft",
   "rgt",
+  "column_break_afck",
   "old_parent"
  ],
  "fields": [
@@ -83,12 +86,24 @@
    "fieldtype": "Select",
    "label": "Account Type",
    "options": "\nReceivable\nPayable\nCash\nBank\nIncome\nExpense\nTemporary"
+  },
+  {
+   "fieldname": "column_break_xwlu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_ppcm",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_afck",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2025-04-24 17:26:15.275393",
+ "modified": "2025-05-01 10:14:39.232262",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Account Code",

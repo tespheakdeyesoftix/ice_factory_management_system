@@ -1,0 +1,42 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-04-30 10:27:09.425128",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "total_name",
+  "column_break_ivht",
+  "total_amount"
+ ],
+ "fields": [
+  {
+   "fieldname": "total_name",
+   "fieldtype": "Data",
+   "label": "Total Name"
+  },
+  {
+   "fieldname": "total_amount",
+   "fieldtype": "Currency",
+   "label": "Total Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_ivht",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-04-30 11:26:39.108099",
+ "modified_by": "Administrator",
+ "module": "Selling IFMS",
+ "name": "Closed Selling Date Items",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

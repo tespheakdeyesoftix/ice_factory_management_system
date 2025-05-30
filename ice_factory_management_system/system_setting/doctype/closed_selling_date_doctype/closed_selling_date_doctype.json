@@ -1,0 +1,37 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-04-30 11:06:33.131418",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "closed_doctype",
+  "note"
+ ],
+ "fields": [
+  {
+   "fieldname": "closed_doctype",
+   "fieldtype": "Link",
+   "label": "Closed Doctype",
+   "options": "DocType"
+  },
+  {
+   "fieldname": "note",
+   "fieldtype": "Data",
+   "label": "Note"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-05-05 09:24:02.826809",
+ "modified_by": "Administrator",
+ "module": "System Setting",
+ "name": "Closed Selling Date Doctype",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

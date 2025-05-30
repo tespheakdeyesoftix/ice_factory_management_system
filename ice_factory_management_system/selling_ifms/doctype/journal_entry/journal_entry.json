@@ -10,24 +10,19 @@
   "naming_series",
   "outlet",
   "posting_date",
+  "reference",
   "column_break_mgqm",
-  "entry_by",
-  "entry_by_name",
-  "section_break_vuow",
-  "payment_type",
-  "currency",
-  "column_break_avqi",
-  "exchange_rate",
-  "section_break_dnrk",
-  "input_amount",
-  "column_break_nqai",
-  "transfer_amount",
-  "section_break_ctnw",
-  "account_transfer_from",
-  "column_break_gsqw",
-  "account_transfer_to",
+  "party_type",
+  "party",
+  "party_name",
+  "section_break_oesn",
+  "account_entries",
   "section_break_oxwa",
   "note",
+  "column_break_vdpb",
+  "total_debit",
+  "total_credit",
+  "balance",
   "amended_from"
  ],
  "fields": [
@@ -50,8 +45,12 @@
    "fetch_if_empty": 1,
    "fieldname": "outlet",
    "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Outlet",
-   "options": "Outlet"
+   "options": "Outlet",
+   "reqd": 1,
+   "search_index": 1
   },
   {
    "default": "Today",
@@ -62,25 +61,8 @@
    "reqd": 1
   },
   {
-   "fieldname": "payment_type",
-   "fieldtype": "Link",
-   "label": "Payment Type",
-   "options": "Payment Type"
-  },
-  {
-   "fieldname": "input_amount",
-   "fieldtype": "Float",
-   "label": "Input Amount"
-  },
-  {
-   "fieldname": "transfer_amount",
-   "fieldtype": "Currency",
-   "label": "Transfer Amount",
-   "read_only": 1
-  },
-  {
    "fieldname": "note",
-   "fieldtype": "Long Text",
+   "fieldtype": "Small Text",
    "label": "Note"
   },
   {
@@ -88,89 +70,89 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "section_break_vuow",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "column_break_avqi",
-   "fieldtype": "Column Break"
-  },
-  {
    "fieldname": "section_break_oxwa",
    "fieldtype": "Section Break"
   },
   {
-   "fetch_from": "payment_type.currency",
-   "fieldname": "currency",
-   "fieldtype": "Link",
-   "label": "Currency",
-   "options": "Currency",
-   "read_only": 1
-  },
-  {
-   "fieldname": "exchange_rate",
-   "fieldtype": "Float",
-   "label": "Exchange Rate",
-   "precision": "8",
-   "read_only": 1
-  },
-  {
-   "fieldname": "section_break_ctnw",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fetch_from": "payment_type.account",
-   "fieldname": "account_transfer_from",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Account Transfer From",
-   "options": "Account Code",
-   "reqd": 1
-  },
-  {
-   "fieldname": "column_break_gsqw",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "account_transfer_to",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Account Transfer To",
-   "options": "Account Code",
-   "reqd": 1
-  },
-  {
    "fieldname": "naming_series",
    "fieldtype": "Select",
+   "hidden": 1,
    "label": "Naming Series",
-   "options": "JE.YYYY.-.####"
+   "options": "JE.YYYY.-.####",
+   "print_hide": 1,
+   "report_hide": 1
   },
   {
-   "fieldname": "section_break_dnrk",
+   "fieldname": "party_type",
+   "fieldtype": "Link",
+   "label": "Party Type",
+   "link_filters": "[]",
+   "options": "DocType",
+   "search_index": 1
+  },
+  {
+   "fieldname": "party",
+   "fieldtype": "Dynamic Link",
+   "label": "Party",
+   "options": "party_type",
+   "search_index": 1
+  },
+  {
+   "fieldname": "party_name",
+   "fieldtype": "Data",
+   "label": "Party Name",
+   "print_hide": 1,
+   "report_hide": 1
+  },
+  {
+   "fieldname": "section_break_oesn",
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "column_break_nqai",
+   "fieldname": "account_entries",
+   "fieldtype": "Table",
+   "label": "Account Entries",
+   "options": "Journal Entry Account",
+   "reqd": 1
+  },
+  {
+   "fieldname": "reference",
+   "fieldtype": "Data",
+   "label": "Reference"
+  },
+  {
+   "fieldname": "column_break_vdpb",
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "entry_by",
-   "fieldtype": "Link",
-   "label": "Entry By",
-   "options": "Employee"
+   "default": "0",
+   "fieldname": "total_credit",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Total Credit",
+   "read_only": 1
   },
   {
-   "fetch_from": "entry_by.employee_name",
-   "fieldname": "entry_by_name",
-   "fieldtype": "Data",
-   "label": "Entry By Name",
+   "default": "0",
+   "fieldname": "total_debit",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Total Debit",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "balance",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Balance",
    "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-04-25 16:56:29.417284",
+ "modified": "2025-05-28 11:17:23.263103",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Journal Entry",

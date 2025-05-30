@@ -6,19 +6,23 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "info_section",
   "naming_series",
-  "sale_date",
+  "posting_date",
   "outlet",
+  "outlet_unit",
   "station",
   "column_break_wrwm",
   "customer",
   "customer_name",
   "phone_number",
+  "customer_photo",
   "column_break_zdac",
   "driver",
   "driver_name",
   "plate_number",
   "sale_status",
+  "parent_bill_number",
   "products_section",
   "sale_products",
   "section_break_qnru",
@@ -40,6 +44,7 @@
   "total_split_bill",
   "note",
   "column_break_vioy",
+  "id",
   "sale_summary",
   "product_qty"
  ],
@@ -49,12 +54,6 @@
    "fieldtype": "Select",
    "label": "Naming Series",
    "options": "SINV.YYYY.-.####"
-  },
-  {
-   "default": "Today",
-   "fieldname": "sale_date",
-   "fieldtype": "Date",
-   "label": "Sale Date"
   },
   {
    "fieldname": "outlet",
@@ -70,8 +69,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Customer",
-   "options": "Customer",
-   "reqd": 1
+   "options": "Customer"
   },
   {
    "fieldname": "driver",
@@ -185,7 +183,7 @@
    "fieldname": "status",
    "fieldtype": "Select",
    "label": "Status",
-   "options": "Unpaid\nPaid\nPartially Paid"
+   "options": "Unpaid\nPaid\nPartially Paid\nDeleted"
   },
   {
    "fieldname": "product_qty",
@@ -233,8 +231,10 @@
    "label": "Total Split Bill"
   },
   {
+   "collapsible": 1,
    "fieldname": "section_break_qnru",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "label": "Accounts"
   },
   {
    "fieldname": "default_income_account",
@@ -262,6 +262,41 @@
    "fieldtype": "Link",
    "label": "Default Free Account",
    "options": "Account Code"
+  },
+  {
+   "fieldname": "id",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "ID",
+   "read_only": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "label": "Posting Date"
+  },
+  {
+   "fieldname": "info_section",
+   "fieldtype": "Section Break",
+   "label": "Info"
+  },
+  {
+   "fetch_from": "customer.photo",
+   "fieldname": "customer_photo",
+   "fieldtype": "Attach Image",
+   "label": "Customer Photo"
+  },
+  {
+   "fetch_from": "outlet.default_unit",
+   "fieldname": "outlet_unit",
+   "fieldtype": "Data",
+   "label": "Outlet Unit"
+  },
+  {
+   "fieldname": "parent_bill_number",
+   "fieldtype": "Data",
+   "label": "Parent Bill Number"
   }
  ],
  "index_web_pages_for_search": 1,
@@ -271,7 +306,7 @@
    "link_fieldname": "sale"
   }
  ],
- "modified": "2025-04-25 16:09:28.345087",
+ "modified": "2025-05-28 18:35:03.329225",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Sale",
@@ -315,7 +350,7 @@
    "write": 1
   }
  ],
- "search_fields": "customer,customer_name,sale_date",
+ "search_fields": "customer,customer_name,posting_date",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],

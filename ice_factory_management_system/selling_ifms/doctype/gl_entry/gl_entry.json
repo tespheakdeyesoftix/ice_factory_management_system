@@ -6,6 +6,7 @@
  "engine": "InnoDB",
  "field_order": [
   "section_break_mrdd",
+  "outlet",
   "posting_date",
   "voucher_type",
   "voucher_no",
@@ -14,6 +15,7 @@
   "against",
   "is_cancelled",
   "column_break_rafx",
+  "sale_id",
   "account",
   "credit_amount",
   "debit_amount",
@@ -113,11 +115,24 @@
   {
    "fieldname": "section_break_uiea",
    "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "outlet",
+   "fieldtype": "Link",
+   "label": "Outlet",
+   "options": "Outlet"
+  },
+  {
+   "fieldname": "sale_id",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Sale ID",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-04-25 15:59:53.779646",
+ "modified": "2025-04-29 10:27:41.111553",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "GL Entry",
