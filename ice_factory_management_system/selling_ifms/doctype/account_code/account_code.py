@@ -16,7 +16,7 @@ class AccountCode(NestedSet):
 			self.root_tye = frappe.db.get_value("Account Code",self.parent_account_code,"root_type")
 
 @frappe.whitelist()
-def get_children(doctype, parent, outlet, is_root=False):
+def get_children(doctype=None, parent=None, outlet=None, is_root=False):
 	parent_fieldname = "parent_" + doctype.lower().replace(" ", "_")
 	fields = ["name as value", "is_group as expandable"]
 	filters = [["docstatus", "<", 2]]
@@ -24,24 +24,15 @@ def get_children(doctype, parent, outlet, is_root=False):
 	filters.append(['ifnull(`{0}`,"")'.format(parent_fieldname), "=", "" if is_root else parent])
 
 	if is_root:
-		fields += ["root_type", "report_type", "account_currency"] if doctype == "Account" else []
 		filters.append(["outlet", "=", outlet])
-
 	else:
-		fields += ["root_type", "account_currency"] if doctype == "Account" else []
 		fields += [parent_fieldname + " as parent"]
-
 	acc = frappe.get_list(doctype, fields=fields, filters=filters)
-
-	if doctype == "Account Code":
-		sort_accounts(acc, is_root, key="value")
-
+	sort_accounts(acc, is_root, key="value")
 	return acc
 
 
 def sort_accounts(accounts, is_root=False, key="name"):
-	"""Sort root types as Asset, Liability, Equity, Income, Expense"""
-
 	def compare_accounts(a, b):
 		if re.split(r"\W+", a[key])[0].isdigit():
 			# if chart of accounts is numbered, then sort by number

@@ -6,9 +6,9 @@ frappe.treeview_settings['Account Code'] = {
     filters: [
 		{
 			fieldname: "outlet",
-			fieldtype:"Link",
-			options: "Outlet",
-			label: __("Outlet"),
+			fieldtype:"Select",
+			options: [],
+			label: __("Outlet")
 		}
 	],
     fields: [
@@ -48,4 +48,16 @@ frappe.treeview_settings['Account Code'] = {
         }
     ],
     extend_toolbar: true,
+    onload(treeview) {
+        frappe.db.get_list("Outlet", {
+            fields: ["name"]
+        }).then(outlets => {
+            const outlet_filter = treeview.page.fields_dict.outlet;
+            outlet_filter.df.options = outlets.map(o => o.name);
+            outlet_filter.value = outlets.length > 0 ? outlets[0].name : "";
+            outlet_filter.refresh();
+            outlet_filter.$input.trigger("change");
+            treeview.make_tree();
+        });
+    }
 }
