@@ -9,7 +9,7 @@ import re
 class AccountCode(NestedSet):
 	def validate(self):
 		if self.is_new():
-			self.name = self.account_code + " - " + self.account_name
+			self.name = self.account_code + " - " + self.account_name + " - "+ ''.join(word[0].upper() for word in self.outlet.split() if word)
 
 		# update root type
 		if not self.root_type and self.parent_account_code:
