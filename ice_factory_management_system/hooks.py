@@ -6,11 +6,23 @@ app_email = "pheakdey.micronet@gmail.com"
 app_license = "mit"
 # required_apps = []
 
+add_to_apps_screen = [
+	{
+		"name": "ice_factory_management_system",
+		# "logo": "/assets/estc_hospital_management/logo.png",
+		"title": "ICE Factory Management",
+		"route": "/app",
+		# "has_permission": "estc_hospital_management.api.permission.has_app_permission"
+	}
+]
+
+
+
 # Includes in <head>
 # ------------------
 
 # include js, css files in header of desk.html
-# app_include_css = "/assets/ice_factory_management_system/css/ice_factory_management_system.css"
+app_include_css = "/assets/ice_factory_management_system/css/ice_factory_management_system.css"
 # app_include_js = "/assets/ice_factory_management_system/js/ice_factory_management_system.js"
 
 # include js, css files in header of web template
