@@ -21,6 +21,7 @@
   "enabled",
   "allow_sum_qty",
   "show_in_sale_report",
+  "allow_split_bill",
   "outlets_section",
   "product_outlet",
   "product_outlets",
@@ -161,12 +162,19 @@
    "fieldname": "product_accounts",
    "fieldtype": "Table",
    "options": "Product Accounts"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_split_bill",
+   "fieldtype": "Check",
+   "label": "Allow Split Bill",
+   "search_index": 1
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-05-30 15:02:10.910123",
+ "modified": "2025-05-31 16:38:36.276120",
  "modified_by": "Administrator",
  "module": "Inventory Management",
  "name": "Product",

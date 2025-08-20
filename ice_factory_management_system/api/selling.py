@@ -63,3 +63,40 @@ def add_audit_trails(sale,data):
     frappe.db.commit()
 
 
+@frappe.whitelist()
+def get_split_bill_list(name):
+    sql="""
+        select 
+            name,customer,customer_name,
+            reference_number,
+            customer_photo,
+            phone_number
+        from `tabSale` 
+        where
+            parent_bill_number = %(name)s
+        order by 
+            name
+    """
+
+    data = frappe.db.sql(sql,{"name":name},as_dict = 1)
+
+    sql = """
+        select 
+            parent,
+            product_code,
+            product_name,
+            total_sale_quantity
+        from `tabSale Products` 
+        where 
+            parent in %(names)s
+    """
+    data_product = []
+    if data:
+        data_product = frappe.db.sql(sql,{"names":[d.get("name") for d in data]},as_dict = 1)
+
+    for d in data:
+        d["sale_products"] = [sp for sp in data_product if sp.get("parent")==d.get("name")]
+
+    return data
+
+

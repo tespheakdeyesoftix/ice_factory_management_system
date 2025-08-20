@@ -9,6 +9,7 @@
   "info_section",
   "naming_series",
   "posting_date",
+  "reference_number",
   "outlet",
   "outlet_unit",
   "station",
@@ -17,6 +18,7 @@
   "customer_name",
   "phone_number",
   "customer_photo",
+  "can_show_price",
   "column_break_zdac",
   "driver",
   "driver_name",
@@ -291,12 +293,27 @@
    "fetch_from": "outlet.default_unit",
    "fieldname": "outlet_unit",
    "fieldtype": "Data",
+   "hidden": 1,
    "label": "Outlet Unit"
   },
   {
    "fieldname": "parent_bill_number",
    "fieldtype": "Data",
-   "label": "Parent Bill Number"
+   "label": "Parent Bill Number",
+   "search_index": 1
+  },
+  {
+   "fieldname": "reference_number",
+   "fieldtype": "Data",
+   "label": "Reference Number"
+  },
+  {
+   "default": "0",
+   "fetch_from": "customer.can_show_price",
+   "fieldname": "can_show_price",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Can Show Price"
   }
  ],
  "index_web_pages_for_search": 1,
@@ -306,7 +323,7 @@
    "link_fieldname": "sale"
   }
  ],
- "modified": "2025-05-28 18:35:03.329225",
+ "modified": "2025-06-03 11:53:06.318419",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Sale",

@@ -20,7 +20,10 @@
   "edit_bill",
   "remove_product_from_sale_product",
   "remove_product_from_sale_product_after_save",
-  "change_product_price"
+  "change_product_price",
+  "change_sale_date",
+  "change_customer_after_close_sale",
+  "split_bill"
  ],
  "fields": [
   {
@@ -103,12 +106,30 @@
    "fieldname": "change_product_price",
    "fieldtype": "Check",
    "label": "Change Product Price"
+  },
+  {
+   "default": "0",
+   "fieldname": "change_sale_date",
+   "fieldtype": "Check",
+   "label": "Change Sale Date"
+  },
+  {
+   "default": "0",
+   "fieldname": "change_customer_after_close_sale",
+   "fieldtype": "Check",
+   "label": "Change Customer after Close Sale"
+  },
+  {
+   "default": "0",
+   "fieldname": "split_bill",
+   "fieldtype": "Check",
+   "label": "Split Bill"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-05-30 15:58:56.254230",
+ "modified": "2025-05-31 13:56:26.820029",
  "modified_by": "Administrator",
  "module": "HR",
  "name": "Employee",
