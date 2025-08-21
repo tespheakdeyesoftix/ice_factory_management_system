@@ -16,6 +16,7 @@
   {
    "fieldname": "unit",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Unit",
    "options": "Unit"
   },
@@ -23,6 +24,7 @@
    "default": "1",
    "fieldname": "multiplier",
    "fieldtype": "Float",
+   "in_list_view": 1,
    "label": "Multiplier"
   },
   {
@@ -32,12 +34,14 @@
   {
    "fieldname": "price",
    "fieldtype": "Float",
+   "in_list_view": 1,
    "label": "Price"
   },
   {
    "default": "0",
    "fieldname": "base_product_unit",
    "fieldtype": "Check",
+   "in_list_view": 1,
    "label": "Base Product Unit",
    "read_only": 1
   }
@@ -45,12 +49,13 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-05-01 09:23:23.047441",
+ "modified": "2025-08-21 14:53:00.360507",
  "modified_by": "Administrator",
  "module": "Inventory Management",
  "name": "Product Units",
  "owner": "Administrator",
  "permissions": [],
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []

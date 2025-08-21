@@ -11,9 +11,10 @@ class Outlet(Document):
 			self.outlet_name_kh = self.outlet_name_en
 	
 	def before_insert(self):
-		outlets = frappe.get_all("Outlet", fields=["name"])
-		accounts = frappe.db.get_list("Account Code", fields=["*"],filters={"outlet": outlets[0].name})
-		insert_accounts(self,accounts)
+		pass
+		# outlets = frappe.get_all("Outlet", fields=["name"])
+		# accounts = frappe.db.get_list("Account Code", fields=["*"],filters={"outlet": outlets[0].name})
+		# insert_accounts(self,accounts)
 
 def insert_accounts(self,accounts):
 	for a in accounts:
@@ -77,7 +78,7 @@ def get_default_accounts(outlet=""):
 	write_off_account = business_default.write_off_account if (write_off_account or "") == "" else write_off_account
 	inventory_account = business_default.inventory_account if (inventory_account or "") == "" else inventory_account
 	return {
-		"cash_account":cash_account,""
+		"cash_account":cash_account,
 		"bank_account":bank_account,
 		"income_account":income_account,
 		"free_account":free_account,

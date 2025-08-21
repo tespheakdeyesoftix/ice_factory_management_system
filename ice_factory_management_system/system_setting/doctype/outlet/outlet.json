@@ -27,6 +27,7 @@
   {
    "fieldname": "outlet_name_kh",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Outlet Name KH"
   },
   {
@@ -44,6 +45,7 @@
   {
    "fieldname": "default_unit",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Default Unit",
    "options": "Unit"
   },
@@ -60,31 +62,36 @@
    "fieldname": "cash_account",
    "fieldtype": "Link",
    "label": "Cash Account",
-   "options": "Account Code"
+   "link_filters": "[[\"Chart of Account\",\"account_type\",\"=\",\"Cash\"],[\"Chart of Account\",\"is_group\",\"=\",0]]",
+   "options": "Chart of Account"
   },
   {
    "fieldname": "bank_account",
    "fieldtype": "Link",
    "label": "Bank Account",
-   "options": "Account Code"
+   "link_filters": "[[\"Chart of Account\",\"account_type\",\"=\",\"Bank\"],[\"Chart of Account\",\"is_group\",\"=\",0]]",
+   "options": "Chart of Account"
   },
   {
    "fieldname": "income_account",
    "fieldtype": "Link",
    "label": "Income Account",
-   "options": "Account Code"
+   "link_filters": "[[\"Chart of Account\",\"account_type\",\"=\",\"Income\"],[\"Chart of Account\",\"is_group\",\"=\",0]]",
+   "options": "Chart of Account"
   },
   {
    "fieldname": "free_account",
    "fieldtype": "Link",
    "label": "Free Account",
-   "options": "Account Code"
+   "link_filters": "[[\"Chart of Account\",\"account_type\",\"=\",\"Expense\"],[\"Chart of Account\",\"is_group\",\"=\",0]]",
+   "options": "Chart of Account"
   },
   {
    "fieldname": "cash_transfer_account",
    "fieldtype": "Link",
    "label": "Cash Transfer Account",
-   "options": "Account Code"
+   "link_filters": "[[\"Chart of Account\",\"is_group\",\"=\",0]]",
+   "options": "Chart of Account"
   },
   {
    "fieldname": "column_break_nrpa",
@@ -94,30 +101,34 @@
    "fieldname": "receivable_account",
    "fieldtype": "Link",
    "label": "Receivable Account",
-   "options": "Account Code"
+   "link_filters": "[[\"Chart of Account\",\"account_type\",\"=\",\"Receivable\"]]",
+   "options": "Chart of Account"
   },
   {
    "fieldname": "credit_account",
    "fieldtype": "Link",
    "label": "Credit Account",
-   "options": "Account Code"
+   "link_filters": "[[\"Chart of Account\",\"account_type\",\"=\",\"Payable\"]]",
+   "options": "Chart of Account"
   },
   {
    "fieldname": "write_off_account",
    "fieldtype": "Link",
    "label": "Write Off Account",
-   "options": "Account Code"
+   "link_filters": "[[\"Chart of Account\",\"account_type\",\"=\",\"Expense\"],[\"Chart of Account\",\"is_group\",\"=\",0]]",
+   "options": "Chart of Account"
   },
   {
    "fieldname": "inventory_account",
    "fieldtype": "Link",
    "label": "Inventory Account",
-   "options": "Account Code"
+   "link_filters": "[[\"Chart of Account\",\"account_type\",\"=\",\"Stock Asset\"],[\"Chart of Account\",\"is_group\",\"=\",0]]",
+   "options": "Chart of Account"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-05-30 14:43:34.411487",
+ "modified": "2025-08-21 14:46:45.698466",
  "modified_by": "Administrator",
  "module": "System Setting",
  "name": "Outlet",
@@ -137,7 +148,10 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "outlet_name_kh"
 }

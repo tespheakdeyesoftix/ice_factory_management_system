@@ -102,11 +102,14 @@
   {
    "fieldname": "company_name",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Company Name"
   },
   {
    "fieldname": "plate_number",
    "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Plate Number"
   },
   {
@@ -133,6 +136,8 @@
   {
    "fieldname": "customer_group",
    "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Customer Group",
    "options": "Customer Group",
    "reqd": 1
@@ -192,7 +197,7 @@
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-05-28 11:25:22.564480",
+ "modified": "2025-08-21 11:04:10.705240",
  "modified_by": "Administrator",
  "module": "Customer Relation",
  "name": "Customer",
@@ -242,6 +247,8 @@
    "share": 1
   }
  ],
+ "quick_entry": 1,
+ "row_format": "Dynamic",
  "search_fields": "keyword,phone_number_1",
  "sort_field": "modified",
  "sort_order": "DESC",
