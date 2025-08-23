@@ -318,22 +318,7 @@ def check_api_url(property_code,station_name,old_station_name):
        
     frappe.throw(_("Property {property_code} does not exist").format(property_code=property_code))
 
-
-@frappe.whitelist( allow_guest=True,methods="POST" )
-def login(property,usr, pwd):
  
-    try:
-        login_manager = frappe.auth.LoginManager()
-        login_manager.authenticate(user=usr, pwd=pwd)
-        login_manager.post_login()
-    except frappe.exceptions.AuthenticationError:
-        frappe.clear_messages()
-        frappe.throw(_("Usename and password incorrect."))
-        
-    frappe.response["message"] = get_response_user_information(property)
-    frappe.response["setting"] = get_setting()
-
-     
 
 def generate_keys(user):
 	"""
@@ -369,6 +354,7 @@ def get_response_user_information(property):
     employee_id=""
     position=""
     photo=""
+    home_page = ""
     user = frappe.get_doc("User", frappe.session.user)
     
 
@@ -389,22 +375,14 @@ def get_response_user_information(property):
         phone_number = data[0].get("phone_number")
         address = data[0].get("address")
         photo = data[0].get("photo")
+        home_page = data[0].get("default_frontend_home_page")
         user_info=data[0]
+
         
 
     api_generate = generate_keys(frappe.session.user)
     # get home_page 
     
-    home_page = ""
-    
-    if frappe.session.user!="Administrator": 
-        roles = frappe.get_roles( frappe.session.user)
-        sql = "select home_page from `tabRole` where name in %(roles)s and coalesce(home_page,'')!='' limit 1"
-        role_data = frappe.db.sql(sql, {"roles":roles},as_dict=1)
-
-        if role_data:
-            home_page = role_data[0].get("home_page")
-
 
     return {
             "username":user.username,

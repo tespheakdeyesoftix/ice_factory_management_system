@@ -9,7 +9,7 @@ const routes = [
 	component: Home,
   },
   {
-	path: "/embed/server-report",
+	path: "/server-report",
 	name: "ServerReport",
   component: () => import('@/views/server-report/ServerReport.vue'), 
   },
@@ -17,8 +17,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  base: "/embed/",
-  history: createWebHistory(),
+  history: createWebHistory("/embed/"),
   routes,
 });
 

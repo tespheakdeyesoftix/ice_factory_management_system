@@ -16,7 +16,7 @@
  "link_to": "Customer",
  "link_type": "DocType",
  "links": [],
- "modified": "2025-08-21 10:14:32.272992",
+ "modified": "2025-08-23 15:03:05.978460",
  "modified_by": "Administrator",
  "module": "Customer Relation",
  "name": "Customers",
@@ -25,7 +25,11 @@
  "parent_page": "",
  "public": 1,
  "quick_lists": [],
- "roles": [],
+ "roles": [
+  {
+   "role": "Customer Relationship"
+  }
+ ],
  "sequence_id": 27.0,
  "shortcuts": [],
  "title": "Customers",

@@ -5,3 +5,4 @@ Inventory Management
 Customer Relation
 Selling IFMS
 Account IFMF
+Report IFMS

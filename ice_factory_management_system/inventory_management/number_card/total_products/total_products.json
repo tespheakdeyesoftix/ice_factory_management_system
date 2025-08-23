@@ -1,7 +1,7 @@
 {
  "aggregate_function_based_on": "",
- "background_color": "#4F9DD9",
- "color": "#ffffff",
+ "background_color": "#e8f4fc",
+ "color": "#333232",
  "creation": "2025-08-21 16:04:19.143086",
  "currency": "KHR",
  "docstatus": 0,
@@ -14,7 +14,7 @@
  "is_public": 1,
  "is_standard": 1,
  "label": "Total Products",
- "modified": "2025-08-21 16:04:19.143086",
+ "modified": "2025-08-21 16:06:21.146969",
  "modified_by": "Administrator",
  "module": "Inventory Management",
  "name": "Total Products",

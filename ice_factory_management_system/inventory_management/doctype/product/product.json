@@ -18,10 +18,12 @@
   "unit",
   "multiplier",
   "price",
+  "column_break_abso",
   "enabled",
   "allow_sum_qty",
   "show_in_sale_report",
   "allow_split_bill",
+  "is_inventory_product",
   "outlets_section",
   "product_outlet",
   "product_outlets",
@@ -35,6 +37,7 @@
    "fieldname": "product_code",
    "fieldtype": "Data",
    "label": "Product Code",
+   "no_copy": 1,
    "unique": 1
   },
   {
@@ -174,12 +177,22 @@
    "fieldtype": "Check",
    "label": "Allow Split Bill",
    "search_index": 1
+  },
+  {
+   "fieldname": "column_break_abso",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_inventory_product",
+   "fieldtype": "Check",
+   "label": "Is Inventory Product"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-08-21 15:14:13.658158",
+ "modified": "2025-08-23 14:49:25.624020",
  "modified_by": "Administrator",
  "module": "Inventory Management",
  "name": "Product",

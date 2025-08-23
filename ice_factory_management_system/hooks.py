@@ -232,4 +232,10 @@ app_include_css = "/assets/ice_factory_management_system/css/ice_factory_managem
 #	"ice_factory_management_system.auth.validate"
 # ]
 
+fixtures = [
+	{"dt": "Custom Field"},
+	 
+]
+
+
 website_route_rules = [{'from_route': '/embed/<path:app_path>', 'to_route': 'embed'}]

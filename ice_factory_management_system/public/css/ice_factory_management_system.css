@@ -1,3 +1,7 @@
+:root {
+	--sidebar-width: 250px;
+	--left-sidebar-width: 250px;
+}
 .layout-main{
     max-width: 100%!important;
   

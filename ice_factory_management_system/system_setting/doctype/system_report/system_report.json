@@ -58,7 +58,9 @@
    "fieldname": "parent_system_report",
    "fieldtype": "Link",
    "ignore_user_permissions": 1,
+   "in_list_view": 1,
    "label": "Parent System Report",
+   "link_filters": "[[\"System Report\",\"is_group\",\"=\",1]]",
    "options": "System Report"
   },
   {
@@ -81,6 +83,7 @@
    "default": "0",
    "fieldname": "is_seller_report",
    "fieldtype": "Check",
+   "in_list_view": 1,
    "label": "Is Seller Report"
   },
   {
@@ -93,6 +96,7 @@
    "default": "0",
    "fieldname": "show_in_report_list",
    "fieldtype": "Check",
+   "in_list_view": 1,
    "label": "Show in Report List"
   },
   {
@@ -105,13 +109,14 @@
    "default": "0",
    "fieldname": "is_backend_report",
    "fieldtype": "Check",
+   "in_list_view": 1,
    "label": "Is Backend Report"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2025-05-29 13:01:32.016153",
+ "modified": "2025-08-21 17:46:05.195492",
  "modified_by": "Administrator",
  "module": "System Setting",
  "name": "System Report",
@@ -140,6 +145,8 @@
    "share": 1
   }
  ],
+ "row_format": "Dynamic",
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],

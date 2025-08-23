@@ -34,7 +34,6 @@ def update_product_unit(self):
 					a.price = self.price
 					a.unit = self.unit
 					a.multiplier = 1
-			self.save()
 	else:
 		self.append("product_units", {
                 "unit":self.unit,
@@ -42,7 +41,6 @@ def update_product_unit(self):
                 "price": self.price,
 				"base_product_unit": 1
             })
-		self.save()
 
 @frappe.whitelist()
 def get_product_accounts(product_code="",outlet=""):

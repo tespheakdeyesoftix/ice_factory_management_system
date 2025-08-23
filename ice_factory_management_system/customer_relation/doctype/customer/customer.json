@@ -53,6 +53,7 @@
   {
    "fieldname": "keyword",
    "fieldtype": "Data",
+   "in_standard_filter": 1,
    "label": "Keyword",
    "reqd": 1
   },
@@ -197,7 +198,7 @@
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-08-21 11:04:10.705240",
+ "modified": "2025-08-23 15:12:19.034365",
  "modified_by": "Administrator",
  "module": "Customer Relation",
  "name": "Customer",
@@ -245,6 +246,18 @@
    "report": 1,
    "role": "All",
    "share": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Customer Relationship",
+   "share": 1,
+   "write": 1
   }
  ],
  "quick_entry": 1,
