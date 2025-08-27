@@ -6,7 +6,10 @@ from frappe.model.document import Document
 from ice_factory_management_system.api.utils import get_currency_symbol
 
 class ExchangeRate(Document):
-	pass
+	def on_submit(self):
+		sql="update `tabPayment Type` set exchange_rate = %(exchange_rate)s where currency = %(to_currency)s"
+		frappe.db.sql(sql,{"exchange_rate":self.currency_exchange_rate,"to_currency":self.to_currency})
+		
 
 @frappe.whitelist()
 def get_exchange_rate(currency):

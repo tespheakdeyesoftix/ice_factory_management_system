@@ -13,6 +13,10 @@ const routes = [
 	name: "ServerReport",
   component: () => import('@/views/server-report/ServerReport.vue'), 
   },
+  {
+	path: "/doctype-server-report",
+  component: () => import('@/views/server-report/DoctypeServerReportViewer.vue'), 
+  },
   ...authRoutes,
 ];
 

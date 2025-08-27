@@ -2,13 +2,16 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on("Sale", {
+    refresh(frm) {
+         console.log(frm)
+
+        updateSummary(frm);
+	},
     outlet(frm) {
         get_default_accounts(frm);
         get_products_default_account(frm)
     },
-	refresh(frm) {
-        updateSummary(frm);
-	},
+	
     customer(frm) {
         frappe.call({
             method: 'ice_factory_management_system.customer_relation.doctype.customer.customer.get_customer_product_price',

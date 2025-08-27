@@ -22,8 +22,8 @@ add_to_apps_screen = [
 # ------------------
 
 # include js, css files in header of desk.html
-app_include_css = "/assets/ice_factory_management_system/css/ice_factory_management_system.css"
-# app_include_js = "/assets/ice_factory_management_system/js/ice_factory_management_system.js"
+app_include_css = ["/assets/ice_factory_management_system/css/ice_factory_management_system.css"]
+app_include_js = ["/assets/ice_factory_management_system/js/ice_factory_management_system.js"]
 
 # include js, css files in header of web template
 # web_include_css = "/assets/ice_factory_management_system/css/ice_factory_management_system.css"
@@ -37,7 +37,7 @@ app_include_css = "/assets/ice_factory_management_system/css/ice_factory_managem
 # webform_include_css = {"doctype": "public/css/doctype.css"}
 
 # include js in page
-# page_js = {"page" : "public/js/file.js"}
+page_js = {"print-report-server" : "/assets/ice_factory_management_system/js/page.js"}
 
 # include js in doctype views
 # doctype_js = {"doctype" : "public/js/doctype.js"}
@@ -239,3 +239,4 @@ fixtures = [
 
 
 website_route_rules = [{'from_route': '/embed/<path:app_path>', 'to_route': 'embed'}]
+ 

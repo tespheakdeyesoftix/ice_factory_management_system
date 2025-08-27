@@ -52,7 +52,7 @@ def get_default_accounts(outlet=""):
 	free_account = ""
 	cash_transfer_account = ""
 	receivable_account = ""
-	credit_account = ""
+	payable_account = ""
 	write_off_account = ""
 	inventory_account = ""
 	if outlet:
@@ -63,7 +63,7 @@ def get_default_accounts(outlet=""):
 		free_account = outlet_default.free_account
 		cash_transfer_account = outlet_default.cash_transfer_account
 		receivable_account = outlet_default.receivable_account
-		credit_account = outlet_default.credit_account
+		payable_account = outlet_default.payable_account
 		write_off_account = outlet_default.write_off_account
 		inventory_account = outlet_default.inventory_account
 	
@@ -74,7 +74,7 @@ def get_default_accounts(outlet=""):
 	free_account = business_default.free_account if (free_account or "") == "" else free_account
 	cash_transfer_account = business_default.cash_transfer_account if (cash_transfer_account or "") == "" else cash_transfer_account
 	receivable_account = business_default.receivable_account if (receivable_account or "") == "" else receivable_account
-	credit_account = business_default.credit_account if (credit_account or "") == "" else credit_account
+	payable_account = business_default.payable_account if (payable_account or "") == "" else payable_account
 	write_off_account = business_default.write_off_account if (write_off_account or "") == "" else write_off_account
 	inventory_account = business_default.inventory_account if (inventory_account or "") == "" else inventory_account
 	return {
@@ -84,7 +84,7 @@ def get_default_accounts(outlet=""):
 		"free_account":free_account,
 		"cash_transfer_account":cash_transfer_account,
 		"receivable_account":receivable_account,
-		"credit_account":credit_account,
+		"payable_account":payable_account,
 		"write_off_account":write_off_account,
 		"inventory_account":inventory_account
 		}

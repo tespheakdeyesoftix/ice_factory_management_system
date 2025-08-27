@@ -22,14 +22,16 @@ class Employee(Document):
 			user_doc.username = self.username
 			user_doc.email = "{}@mail.com".format(self.username.strip().lower().replace(" ", "_"))
 			user_doc.language = self.language
-			
-			user_doc.insert(ignore_permissions=True)
-			self.user_id = user_doc.name
 			if self.role_profile:
 				user_doc.append("role_profiles", {  
 						"role_profile": self.role_profile
 				})
+				module_profile = frappe.get_cached_value("Role Profile",self.role_profile,"custom_module_profile") or ""
+				user_doc.module_profile = module_profile
 
+			user_doc.insert(ignore_permissions=True)
+			self.user_id = user_doc.name
+			
 
 			if self._password:
 				update_password(user=user_doc.name, pwd=self.get_password("_password"), logout_all_sessions=True)
@@ -47,11 +49,16 @@ class Employee(Document):
 				user_doc.set("role_profiles", [])
 				
 				if self.role_profile:
+					 
 					user_doc.append("role_profiles", {  
 							"role_profile": self.role_profile
 					})
+					module_profile = frappe.get_cached_value("Role Profile",self.role_profile,"custom_module_profile") or ""
+					user_doc.module_profile = module_profile
+					 
 				else:
 					user_doc.set("roles", [])
+					user_doc.module_profile = ""
 				
 				if self._password:
 					update_password(user=user_doc.name, pwd=self.get_password("_password"), logout_all_sessions=True)

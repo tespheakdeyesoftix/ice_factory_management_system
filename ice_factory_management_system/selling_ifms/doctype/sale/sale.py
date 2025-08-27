@@ -6,7 +6,8 @@ from frappe import _
 from frappe.model.document import Document
 import json
 from datetime import datetime, date
-from ice_factory_management_system.api.utils import cancel_general_ledger_entery,get_previous_closed_date
+from ice_factory_management_system.api.accounting import cancel_general_ledger_entery
+from ice_factory_management_system.api.utils import get_previous_closed_date
 class Sale(Document):
 	def validate(self):
 		self.validate_require_fields()
@@ -180,7 +181,7 @@ def get_customer_product_price(self):
 def submit_to_GL_entry(self):
 	import uuid
 	self.id = str(uuid.uuid4().hex)
-	from ice_factory_management_system.api.utils import submit_general_ledger_entry
+	from ice_factory_management_system.api.accounting import submit_general_ledger_entry
 	docs = []
 	for acc in set([d.default_income_account for d in self.sale_products]):
 		if not acc:
@@ -196,6 +197,9 @@ def submit_to_GL_entry(self):
 			"voucher_no":self.name,
 			"type":"Income",
 			"sale_id": self.id,
+			"party_type":"Customer",
+			"party":self.customer,
+			"party_name":self.customer_name,
 			"remark":"Sale To Customer {0} On {1} Total Amount {2}".format(self.customer_name,self.posting_date,frappe.format(sum([d.sub_total for d in self.sale_products if d.default_income_account == acc]),{"fieldtype":"Currency"})),
 		}
 		docs.append(doc)
@@ -215,6 +219,9 @@ def submit_to_GL_entry(self):
 				"voucher_no":self.name,
 				"type":"Income",
 				"sale_id": self.id,
+				"party_type":"Customer",
+				"party":self.customer,
+				"party_name":self.customer_name,
 				"remark":"Free To Customer {0} On {1} Total Free {2}".format(self.customer_name,self.posting_date,frappe.format(sum([(d.free_quantity*d.price) for d in self.sale_products if d.default_free_account == acc]),{"fieldtype":"Currency"})),
 			}
 			docs.append(doc)
@@ -235,7 +242,8 @@ def submit_to_GL_entry(self):
 			"type":"Asset",
 			"sale_id": self.id,
 			"party_type": "Customer",
-			"party":"{}-{}".format(self.customer,self.customer_name),
+			"party":self.customer,
+			"party_name":self.customer_name,
 			"remark":"Sale To Customer {0} On {1} Total Amount {2}".format(self.customer_name,self.posting_date,frappe.format(self.total_amount,{"fieldtype":"Currency"})),
 		}
 		docs.append(doc)

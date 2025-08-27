@@ -89,7 +89,7 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Account Type",
-   "options": "\nReceivable\nPayable\nCash\nBank\nIncome\nExpense\nTemporary\nStock Asset"
+   "options": "\nReceivable\nPayable\nCash\nBank\nIncome\nExpense\nTemporary\nStock Asset\nFixed Asset"
   },
   {
    "fieldname": "root_type",
@@ -104,7 +104,7 @@
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2025-08-21 13:51:59.318385",
+ "modified": "2025-08-25 16:20:31.113243",
  "modified_by": "Administrator",
  "module": "Account IFMF",
  "name": "Chart of Account",

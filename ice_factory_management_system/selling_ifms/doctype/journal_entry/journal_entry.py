@@ -4,7 +4,8 @@
 import frappe
 from frappe import _
 from frappe.model.document import Document
-from ice_factory_management_system.api.utils import submit_general_ledger_entry,cancel_general_ledger_entery,get_previous_closed_date
+from ice_factory_management_system.api.accounting import submit_general_ledger_entry,cancel_general_ledger_entery
+
 
 class JournalEntry(Document):
 	def validate(self):

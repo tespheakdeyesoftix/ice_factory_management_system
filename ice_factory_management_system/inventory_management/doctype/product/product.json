@@ -27,6 +27,9 @@
   "outlets_section",
   "product_outlet",
   "product_outlets",
+  "purchasing_section",
+  "allow_purchase",
+  "cost",
   "account_tab",
   "product_accounts",
   "product_unit_tab",
@@ -187,12 +190,28 @@
    "fieldname": "is_inventory_product",
    "fieldtype": "Check",
    "label": "Is Inventory Product"
+  },
+  {
+   "fieldname": "purchasing_section",
+   "fieldtype": "Section Break",
+   "label": "Purchasing"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_purchase",
+   "fieldtype": "Check",
+   "label": "Allow Purchase"
+  },
+  {
+   "fieldname": "cost",
+   "fieldtype": "Currency",
+   "label": "Purchase Price"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-08-23 14:49:25.624020",
+ "modified": "2025-08-23 17:00:18.670810",
  "modified_by": "Administrator",
  "module": "Inventory Management",
  "name": "Product",
@@ -219,6 +238,42 @@
    "report": 1,
    "role": "Sales User",
    "share": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Stocks Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Stocks User",
+   "share": 1,
+   "write": 1
   }
  ],
  "row_format": "Dynamic",

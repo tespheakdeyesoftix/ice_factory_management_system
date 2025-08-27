@@ -1,0 +1,23 @@
+{
+ "content": null,
+ "creation": "2025-08-25 17:23:11.736022",
+ "docstatus": 0,
+ "doctype": "Page",
+ "idx": 0,
+ "modified": "2025-08-25 17:23:11.736022",
+ "modified_by": "Administrator",
+ "module": "Ice Factory Management System",
+ "name": "print-report-server",
+ "owner": "Administrator",
+ "page_name": "print-report-server",
+ "roles": [
+  {
+   "role": "All"
+  }
+ ],
+ "script": null,
+ "standard": "Yes",
+ "style": null,
+ "system_page": 1,
+ "title": "Print Server Report"
+}

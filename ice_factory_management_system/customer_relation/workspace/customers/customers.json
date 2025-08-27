@@ -16,7 +16,7 @@
  "link_to": "Customer",
  "link_type": "DocType",
  "links": [],
- "modified": "2025-08-23 15:03:05.978460",
+ "modified": "2025-08-23 15:49:25.685085",
  "modified_by": "Administrator",
  "module": "Customer Relation",
  "name": "Customers",
@@ -30,7 +30,7 @@
    "role": "Customer Relationship"
   }
  ],
- "sequence_id": 27.0,
+ "sequence_id": 3.0,
  "shortcuts": [],
  "title": "Customers",
  "type": "Link"

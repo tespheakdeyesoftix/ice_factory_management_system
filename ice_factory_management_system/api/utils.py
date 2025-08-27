@@ -170,61 +170,7 @@ def reset_sale_transaction(password):
         return "reset"
     else:
         return "wrong password"
-
-def submit_general_ledger_entry(docs):
-    def get_general_ledger_entry_record(docs):
-        for d in docs:
-            doc = frappe.get_doc(d)
-            if doc.amount and not (doc.credit_amount or doc.debit_amount ):
-                root_type = frappe.get_cached_value("Account Code",doc.account,"root_type")
-                if root_type in ["Asset","Expenses"]:
-                    if doc.amount>0:
-                        doc.debit_amount = abs(doc.amount)
-                    else:
-                        doc.credit_amount = abs(doc.amount)
-                else:
-                    if doc.amount>0:
-                        doc.credit_amount = abs(doc.amount)
-                    else:
-                        doc.debit_amount = abs(doc.amount)
-            doc.name  = make_autoname("GLE.YYYY.-.#####")
-            doc.docstatus = 1
-            yield doc
-    frappe.db.commit()
-    bulk_insert("GL Entry", get_general_ledger_entry_record(docs=docs) , chunk_size=10000)
-        
-def cancel_general_ledger_entery(doctype,docname):
-    filters = "where voucher_type='{}' and voucher_no='{}'".format(doctype,docname)
-    if doctype == "Sale":
-        sale_id = frappe.db.get_value(doctype, docname, 'id')
-        filters = "where sale_id='{}'".format(sale_id)
-
-    frappe.db.sql("update `tabGL Entry` set is_cancelled=1 {0}".format(filters))
-    frappe.db.commit()
-    
-    sql = "select * from `tabGL Entry` {0}".format(filters)
-    data = frappe.db.sql(sql,as_dict=1)
-    docs = []
-    for r in data:
-        doc = {
-                "doctype":"GL Entry",
-                "posting_date":r["posting_date"],
-                "account":r["account"],
-                "credit_amount":r["debit_amount"],
-                "debit_amount":r["credit_amount"],
-                "against":r["against"],
-                "against_voucher_type":"Sale",
-                "against_voucher_no": r["against_voucher_no"],
-                "voucher_type":doctype,
-                "voucher_no":docname,
-                "remark": r["remark"],
-                "party_type": r["party_type"],
-                "party": r["party"],
-                "is_cancelled":1,
-            }
-        docs.append(doc)
-    submit_general_ledger_entry(docs)
-
+ 
 def ensure_date(posting_date,creation):
     from datetime import datetime,date,time
     a = datetime.strptime(creation, "%Y-%m-%d %H:%M:%S.%f")
@@ -252,19 +198,7 @@ def get_previous_closed_date(posting_date,creation,outlet):
 def get_currency_symbol(currency):
     symbol = frappe.get_cached_value("Currency", currency, "symbol")
     return symbol
-
-@frappe.whitelist()
-def get_default_account():
-    data = frappe.get_doc("Business Information")
-    return {
-        "cash_account":data.cash_account,
-        "bank_account":data.bank_account,
-        "receivable_account":data.receivable_account,
-        "income_account":data.income_account,
-        "credit_account":data.credit_account,
-        "write_off_account":data.write_off_account,
-        "free_account":data.free_account,
-    }
+ 
 @frappe.whitelist()
 def get_meta(doctype=None):
     data =  frappe.get_meta(doctype)
@@ -355,6 +289,7 @@ def get_response_user_information(property):
     position=""
     photo=""
     home_page = ""
+    role_profile=""
     user = frappe.get_doc("User", frappe.session.user)
     
 
@@ -376,6 +311,7 @@ def get_response_user_information(property):
         address = data[0].get("address")
         photo = data[0].get("photo")
         home_page = data[0].get("default_frontend_home_page")
+        role_profile = data[0].get("role_profile")
         user_info=data[0]
 
         
@@ -387,7 +323,7 @@ def get_response_user_information(property):
     return {
             "username":user.username,
             "full_name":user.full_name,
-            "role_profile":user.role_profile_name,
+            "role_profile":role_profile,
             "photo":photo,
             "phone_number":phone_number,
             "address":address,

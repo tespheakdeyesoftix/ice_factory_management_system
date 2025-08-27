@@ -17,6 +17,8 @@
   "is_seller_report",
   "show_in_report_list",
   "is_backend_report",
+  "is_doctype_report",
+  "doctype_name",
   "sort_order",
   "default_filter_options"
  ],
@@ -111,12 +113,25 @@
    "fieldtype": "Check",
    "in_list_view": 1,
    "label": "Is Backend Report"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_doctype_report",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Is Doctype Report"
+  },
+  {
+   "fieldname": "doctype_name",
+   "fieldtype": "Link",
+   "label": "Doctype Name",
+   "options": "DocType"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2025-08-21 17:46:05.195492",
+ "modified": "2025-08-26 11:38:06.678852",
  "modified_by": "Administrator",
  "module": "System Setting",
  "name": "System Report",

@@ -1,0 +1,63 @@
+{
+ "app": "ice_factory_management_system",
+ "charts": [
+  {
+   "chart_name": "Daily Expense Chart - Expense",
+   "label": "Daily Expense Chart"
+  }
+ ],
+ "content": "[{\"id\":\"eH6f2S2Kfa\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Today Expense\",\"col\":4}},{\"id\":\"Xx6H_VlH5R\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"MTD Expense\",\"col\":4}},{\"id\":\"nCKQKQHcEi\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Daily Expense Chart\",\"col\":12}},{\"id\":\"24WZxsqBIX\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Expenses\",\"col\":3}},{\"id\":\"qesl-XrhaF\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New Expense\",\"col\":3}}]",
+ "creation": "2025-08-25 14:59:32.241296",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "expenses",
+ "idx": 0,
+ "indicator_color": "green",
+ "is_hidden": 0,
+ "label": "Expense",
+ "link_type": "DocType",
+ "links": [],
+ "modified": "2025-08-27 11:40:20.843412",
+ "modified_by": "Administrator",
+ "module": "Account IFMF",
+ "name": "Expense",
+ "number_cards": [
+  {
+   "label": "Today Expense",
+   "number_card_name": "Today Expense - Expense"
+  },
+  {
+   "label": "MTD Expense",
+   "number_card_name": "MTD Expense - Expense"
+  }
+ ],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 115.0,
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Expenses",
+   "link_to": "Expenses",
+   "stats_filter": "[[\"Expenses\",\"posting_date\",\"Timespan\",\"this month\",false]]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "New",
+   "label": "New Expense",
+   "link_to": "Expenses",
+   "stats_filter": "[]",
+   "type": "DocType"
+  }
+ ],
+ "title": "Expense",
+ "type": "Workspace"
+}

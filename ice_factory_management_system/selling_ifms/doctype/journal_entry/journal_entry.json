@@ -15,6 +15,7 @@
   "party_type",
   "party",
   "party_name",
+  "photo",
   "section_break_oesn",
   "account_entries",
   "section_break_oxwa",
@@ -86,7 +87,7 @@
    "fieldname": "party_type",
    "fieldtype": "Link",
    "label": "Party Type",
-   "link_filters": "[]",
+   "link_filters": "[[\"DocType\",\"name\",\"in\",[\"Vendor\",\"Customer\",\"Employee\"]]]",
    "options": "DocType",
    "search_index": 1
   },
@@ -147,12 +148,18 @@
    "in_list_view": 1,
    "label": "Balance",
    "read_only": 1
+  },
+  {
+   "fieldname": "photo",
+   "fieldtype": "Attach Image",
+   "label": "Photo"
   }
  ],
+ "image_field": "photo",
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-05-28 11:17:23.263103",
+ "modified": "2025-08-25 09:17:31.284990",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Journal Entry",
@@ -173,6 +180,7 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []

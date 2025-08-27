@@ -205,7 +205,7 @@ Position,មុខតំណែង,
 Default Outlet,សាខាលំនាំដើម,
 Employee Code,លេខកូដបុគ្គលិក,
 Default Frontend Home Page,ទំព័រដើមផ្នែកមុខ,
-Login Information,ព័ត៌មានចូលប្រព័ន្ធ,
+Login Information,ព័ត៌មានចូលប្រព័ន្ធ, 
 Allow Login,អនុញ្ញាតឲ្យចូល,
 Role Profile,ព័ត៌មានតួនាទី,
 Edit Bill,កែប្រែវិក្កយបត្រ,
@@ -219,8 +219,20 @@ New Employee,បុគ្គលិកថ្មី,
 Employee Position,មុខតំណែងបុគ្គលិក,
 Photo,រូបភាព,
 Index,សន្ទស្សន៍,
-Block Ice,,
-
+Journal Entry,ប្រតិទិនគណនេយ្យ,
+Purchase,បញ្ជាទិញ,
+Purchase Order,បញ្ជាទិញ,
+Products Quantity,បរិមាណផលិតផល,
+Units,ឯកតា,
+Stock Location Products,ផលិតផលទីតាំងស្តុក,
+Selling,ការលក់,
+Sale Invoice List,បញ្ជីវិក្ក័យបត្រលក់,
+Block Ice Invoice,វិក្ក័យបត្រទឹកកកដុំ,
+Expense List,បញ្ជីចំណាយ,
+Expense,ចំណាយ,
+Expense Payment,ការទូទាត់ចំណាយ,
+Expense Category,ប្រភេទចំណាយ,
+Expense Items,មុខទំនិញចំណាយ,
 Stock Management,គ្រប់គ្រងឃ្លាំង,
 Create a new {0},បង្កើត{0}ថ្មី,
 Accounting,គណនី,
@@ -753,4 +765,8 @@ Total Value,តម្លៃសរុប
 Coupon Name,ឈ្មោះគូប៉ុង
 Cashier,អ្នកគិតលុយ
 By,ដោយ
+Tube Ice Invoice,ប៉ុងទឹកកកអនាម័យ
+Block Ice Invoice,ប៉ុងទឹកកកដើម
+Sale Invoice List,តារាងវិកយប័ត្រ
+Payment amount cannot greater than purchase order amount,ចំនួនទឹកប្រាក់ទូទាត់មិនធំជាងចំនួនទឹកប្រាក់បញ្ជាទិញបានទេ។
 Add new Store Payment,បញ្ចូលទូទាត់តាមហាងថ្មី

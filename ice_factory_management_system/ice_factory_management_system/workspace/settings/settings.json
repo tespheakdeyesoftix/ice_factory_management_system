@@ -1,7 +1,7 @@
 {
  "app": "ice_factory_management_system",
  "charts": [],
- "content": "[{\"id\":\"EHvJXFRGLE\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Business Information\",\"col\":3}},{\"id\":\"Vm-zYXFd2G\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Outlet\",\"col\":3}},{\"id\":\"IqhKNmUay3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Location\",\"col\":3}}]",
+ "content": "[{\"id\":\"EHvJXFRGLE\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Business Information\",\"col\":3}},{\"id\":\"Vm-zYXFd2G\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Outlet\",\"col\":3}},{\"id\":\"IqhKNmUay3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Location\",\"col\":3}},{\"id\":\"hHTyg4C2Uf\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Payment Type\",\"col\":3}},{\"id\":\"eHX8PCPXoK\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Payment Type Group\",\"col\":3}}]",
  "creation": "2025-08-21 09:32:21.333213",
  "custom_blocks": [],
  "docstatus": 0,
@@ -16,7 +16,7 @@
  "label": "Settings",
  "link_type": "DocType",
  "links": [],
- "modified": "2025-08-21 17:02:48.220959",
+ "modified": "2025-08-25 11:08:26.079350",
  "modified_by": "Administrator",
  "module": "Ice Factory Management System",
  "name": "Settings",
@@ -51,8 +51,24 @@
   {
    "color": "Grey",
    "doc_view": "List",
+   "label": "Payment Type",
+   "link_to": "Payment Type",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
    "label": "Business Information",
    "link_to": "Business Information",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Payment Type Group",
+   "link_to": "Payment Type Group",
+   "stats_filter": "[]",
    "type": "DocType"
   }
  ],

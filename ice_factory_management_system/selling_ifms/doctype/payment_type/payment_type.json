@@ -13,6 +13,8 @@
   "column_break_pwvx",
   "sort_order",
   "currency",
+  "exchange_rate",
+  "account",
   "section_break_ymfg",
   "payment_type_accounts"
  ],
@@ -20,6 +22,8 @@
   {
    "fieldname": "payment_type_group",
    "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Payment Type Group",
    "options": "Payment Type Group"
   },
@@ -44,6 +48,7 @@
    "default": "0",
    "fieldname": "is_default",
    "fieldtype": "Check",
+   "in_list_view": 1,
    "label": "Is Default"
   },
   {
@@ -62,13 +67,30 @@
   {
    "fieldname": "currency",
    "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Currency",
    "options": "Currency"
+  },
+  {
+   "fieldname": "exchange_rate",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Exchange Rate",
+   "precision": "9",
+   "read_only": 1
+  },
+  {
+   "fieldname": "account",
+   "fieldtype": "Link",
+   "label": "Account",
+   "link_filters": "[[\"Chart of Account\",\"is_group\",\"=\",0],[\"Chart of Account\",\"account_type\",\"in\",[\"Cash\",\"Bank\",null]]]",
+   "options": "Chart of Account"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-05-30 13:57:52.962687",
+ "modified": "2025-08-25 16:17:03.585190",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Payment Type",
@@ -88,6 +110,7 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []

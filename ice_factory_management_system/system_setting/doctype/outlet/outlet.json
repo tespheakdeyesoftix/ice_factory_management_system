@@ -6,11 +6,11 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "enabled",
   "outlet_name_en",
   "outlet_name_kh",
-  "column_break_vptn",
   "default_unit",
-  "enabled",
+  "column_break_vptn",
   "tab_2_tab",
   "cash_account",
   "bank_account",
@@ -19,7 +19,7 @@
   "cash_transfer_account",
   "column_break_nrpa",
   "receivable_account",
-  "credit_account",
+  "payable_account",
   "write_off_account",
   "inventory_account"
  ],
@@ -105,13 +105,6 @@
    "options": "Chart of Account"
   },
   {
-   "fieldname": "credit_account",
-   "fieldtype": "Link",
-   "label": "Credit Account",
-   "link_filters": "[[\"Chart of Account\",\"account_type\",\"=\",\"Payable\"]]",
-   "options": "Chart of Account"
-  },
-  {
    "fieldname": "write_off_account",
    "fieldtype": "Link",
    "label": "Write Off Account",
@@ -124,11 +117,18 @@
    "label": "Inventory Account",
    "link_filters": "[[\"Chart of Account\",\"account_type\",\"=\",\"Stock Asset\"],[\"Chart of Account\",\"is_group\",\"=\",0]]",
    "options": "Chart of Account"
+  },
+  {
+   "fieldname": "payable_account",
+   "fieldtype": "Link",
+   "label": "Payable Account",
+   "link_filters": "[[\"Chart of Account\",\"account_type\",\"=\",\"Payable\"]]",
+   "options": "Chart of Account"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-08-22 12:00:13.697839",
+ "modified": "2025-08-27 12:11:37.766056",
  "modified_by": "Administrator",
  "module": "System Setting",
  "name": "Outlet",

@@ -61,6 +61,7 @@
    "fieldname": "outlet",
    "fieldtype": "Link",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Outlet",
    "link_filters": "[[{\"fieldname\":\"outlet\",\"field_option\":\"Outlet\"},\"enabled\",\"=\",1]]",
    "options": "Outlet",
@@ -70,13 +71,18 @@
    "fieldname": "customer",
    "fieldtype": "Link",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Customer",
+   "link_filters": "[[\"Customer\",\"is_customer\",\"=\",1]]",
    "options": "Customer"
   },
   {
    "fieldname": "driver",
    "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Driver",
+   "link_filters": "[[\"Customer\",\"is_driver\",\"=\",1]]",
    "options": "Customer"
   },
   {
@@ -102,6 +108,7 @@
    "fieldname": "total_quantity",
    "fieldtype": "Float",
    "hidden": 1,
+   "in_list_view": 1,
    "label": "Total Quantity",
    "read_only": 1
   },
@@ -132,6 +139,7 @@
    "fieldname": "total_payment",
    "fieldtype": "Currency",
    "hidden": 1,
+   "in_list_view": 1,
    "label": "Total Payment",
    "read_only": 1
   },
@@ -154,6 +162,7 @@
    "fetch_from": "customer.customer_name",
    "fieldname": "customer_name",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Customer Name",
    "read_only": 1
   },
@@ -168,6 +177,7 @@
    "fetch_from": "driver.customer_name",
    "fieldname": "driver_name",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Driver Name"
   },
   {
@@ -175,6 +185,7 @@
    "fetch_if_empty": 1,
    "fieldname": "plate_number",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Plate Number"
   },
   {
@@ -276,6 +287,8 @@
    "default": "Today",
    "fieldname": "posting_date",
    "fieldtype": "Date",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Posting Date"
   },
   {
@@ -287,6 +300,7 @@
    "fetch_from": "customer.photo",
    "fieldname": "customer_photo",
    "fieldtype": "Attach Image",
+   "hidden": 1,
    "label": "Customer Photo"
   },
   {
@@ -316,6 +330,7 @@
    "label": "Can Show Price"
   }
  ],
+ "image_field": "customer_photo",
  "index_web_pages_for_search": 1,
  "links": [
   {
@@ -323,7 +338,7 @@
    "link_fieldname": "sale"
   }
  ],
- "modified": "2025-06-03 11:53:06.318419",
+ "modified": "2025-08-25 09:41:06.353412",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Sale",
@@ -367,6 +382,7 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "search_fields": "customer,customer_name,posting_date",
  "sort_field": "modified",
  "sort_order": "DESC",

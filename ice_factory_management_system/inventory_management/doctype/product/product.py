@@ -6,6 +6,7 @@ from frappe.model.document import Document
 from frappe.utils.data import strip
 import json
 import frappe
+from frappe import _ 
 class Product(Document):
 	def validate(self):
 		if (self.product_name_kh or "") == "":
@@ -25,6 +26,31 @@ class Product(Document):
 			product_outlets.append({"outlet":a.outlet})
 		self.product_outlets = json.dumps(product_outlets)
 		update_product_unit(self)
+
+	@frappe.whitelist()
+	def get_stats(self):
+		
+		sql="select stock_location as label, quantity as value  from `tabStock Location Products` where product_code=%(product_code)s"
+		data = frappe.db.sql(sql,{"product_code":self.name},as_dict = 1)
+		
+		if data:
+			data.append({
+				"label":_("Total"),
+				"value": sum([d.get("value") for d in data])
+				 
+			})
+		# format number
+		for d in data:
+			d["value"] = frappe.format(d.get("value"),{"fieldtype":"Float"})
+
+
+		data.append({
+			"label":_("Stock Value"),
+			"value":frappe.format(265900,{"fieldtype":"Currency"}),
+			
+		})
+			
+		return data
 	
 def update_product_unit(self):
 	if len(self.product_units or [])>0:
