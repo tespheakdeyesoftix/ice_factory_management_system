@@ -15,6 +15,15 @@ frappe.ui.form.on("Expense Item Child", {
     }
 });
 
+frappe.ui.form.on('Expense Payment Child', {
+    payment_type: function(frm, cdt, cdn) {
+       calculate_payment_amount(frm,cdt,cdn)
+    }, 
+    input_amount: function(frm, cdt, cdn) {
+       calculate_payment_amount(frm,cdt,cdn)
+    } 
+});
+
 function calculate_sub_total(frm, cdt, cdn) {
     let row = locals[cdt][cdn];  // get current child row
     let sub_total = (row.price || 0) * (row.quantity || 0);
@@ -41,6 +50,23 @@ function update_summary(frm) {
     frm.set_value('total_payment', 0);
     
      frm.set_value('balance', total_amount - (frm.doc.total_payment || 0));
+}
+
+function calculate_payment_amount(frm,cdt, cdn) {
+    let row = locals[cdt][cdn];  // get current child row
+    let payment_amount =  (row.input_amount || 0) / (row.exchange_rate || 1)
 
 
+    frappe.model.set_value(cdt, cdn, 'payment_amount', payment_amount);
+
+    // update total payment
+    let total_payment = 0;
+    (frm.doc.payments || []).forEach(row => {
+        total_payment += row.payment_amount || 0;
+  
+    });
+
+    frm.set_value('total_payment', total_payment);
+
+    
 }

@@ -26,6 +26,7 @@ class PurchaseOrder(Document):
 	def on_submit(self):
 		self.validate_account_code()
 		submit_to_GL_entry(self)
+		update_stock_product(self)
  
 	
 	def validate_account_code(self):
@@ -72,7 +73,8 @@ class PurchaseOrder(Document):
 
 					
 			
-
+def update_stock_product(self):
+	frappe.throw("quantity to ware house")
 
 
 def submit_to_GL_entry(self):

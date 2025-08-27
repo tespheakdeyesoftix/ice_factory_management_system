@@ -1,5 +1,6 @@
 import frappe
 
 def add_inventory_transaction(doc):
-    pass
+    doc = frappe.get_doc(doc)
+    doc.insert(ignore_permissions=True)
 

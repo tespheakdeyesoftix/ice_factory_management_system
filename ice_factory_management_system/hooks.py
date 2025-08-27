@@ -82,6 +82,16 @@ page_js = {"print-report-server" : "/assets/ice_factory_management_system/js/pag
 # before_install = "ice_factory_management_system.install.before_install"
 # after_install = "ice_factory_management_system.install.after_install"
 
+
+before_migrate =[
+    
+]
+
+after_migrate = [
+    "ice_factory_management_system.store_procedures.execute.execute"
+]
+ 
+
 # Uninstallation
 # ------------
 

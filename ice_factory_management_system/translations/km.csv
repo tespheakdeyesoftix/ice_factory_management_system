@@ -250,6 +250,7 @@ Advanced Search,ការស្វែងរកកម្រិតខ្ពស់,
 Gender,ភេទ,
 Is Customer,ជាអតិថិជន,
 Is Driver,ជាអ្នកបើកបរ,
+Driver List,អ្នកបើកបរ,
 Is Company,ជាក្រុមហ៊ុន,
 Product Code,លេខកូដផលិតផល,
 Product Name,ឈ្មោះផលិតផល,
@@ -633,6 +634,7 @@ Email Address,អាសយដ្ឋានអ៊ីមែល
 Add Customer,បញ្ចូលអតិថិជន
 Add new customer,បញ្ចូលអតិថិជនថ្មី
 Customer List,បញ្ជីអតិថិជន
+Customer Product Prices,តារាងម្លៃតាមអតិថិជន
 Please scan member card,សូមស្កេនកាតសមាជិក
 Scan Member Card,ស្កេនកាតសមាជិក
 Phone Number,លេខទូរស័ព្ទ

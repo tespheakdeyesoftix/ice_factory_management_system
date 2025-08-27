@@ -26,7 +26,7 @@
   "total_payment_virtual",
   "balance",
   "amended_from",
-  "payment_tab",
+  "payment",
   "payments",
   "section_break_fhro",
   "column_break_lbls",
@@ -44,6 +44,7 @@
    "options": "Outlet"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "reference_number",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -69,12 +70,14 @@
    "label": "Vendor Name"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "employee",
    "fieldtype": "Link",
    "label": "Employee",
    "options": "Employee"
   },
   {
+   "allow_on_submit": 1,
    "fetch_from": "employee.employee_name",
    "fieldname": "employee_name",
    "fieldtype": "Data",
@@ -93,6 +96,7 @@
    "fieldtype": "Section Break"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "note",
    "fieldtype": "Small Text",
    "label": "Note"
@@ -153,6 +157,7 @@
    "reqd": 1
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "photo",
    "fieldtype": "Attach Image",
    "hidden": 1,
@@ -171,11 +176,6 @@
    "label": "Payable Account",
    "link_filters": "[[\"Chart of Account\",\"is_group\",\"=\",0],[\"Chart of Account\",\"account_type\",\"=\",\"Payable\"]]",
    "options": "Chart of Account"
-  },
-  {
-   "fieldname": "payment_tab",
-   "fieldtype": "Tab Break",
-   "label": "Payment"
   },
   {
    "fieldname": "total_payment_virtual",
@@ -200,13 +200,18 @@
   {
    "fieldname": "column_break_cehk",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "payment",
+   "fieldtype": "Tab Break",
+   "label": "Payment"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-08-27 14:15:49.831067",
+ "modified": "2025-08-27 14:27:44.976021",
  "modified_by": "Administrator",
  "module": "Account IFMF",
  "name": "Expenses",
