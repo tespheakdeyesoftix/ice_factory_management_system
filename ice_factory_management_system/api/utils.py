@@ -338,5 +338,26 @@ def get_response_user_information(property):
     }
 
 @frappe.whitelist()
+def on_login(login_manager):
+    pass
+    # from frappe.core.doctype.session_default_settings.session_default_settings import set_session_default_values
+    # sql = "select default_outlet from `tabEmployee` where user_id = %(user_id)s"
+    # data = frappe.db.sql(sql,{"user_id":login_manager.user},as_dict=1)
+    # default_outlet = ""
+    # if data:
+    #     default_outlet = data[0]["default_outlet"]
+    # if not  default_outlet:
+    #     outlets = frappe.get_list("Outlet")
+    #     if outlets:
+    #         default_outlet = outlets[0].name
+ 
+    # if default_outlet:
+    #     set_session_default_values(
+    #         {"outlet":default_outlet}
+    #     )
+
+
+@frappe.whitelist()
 def getCurrentUser():
     return   frappe.get_cached_doc("User", frappe.session.user)   
+

@@ -2,105 +2,102 @@
  "actions": [],
  "allow_rename": 1,
  "autoname": "naming_series:",
- "creation": "2025-04-18 11:33:06.479293",
+ "creation": "2025-08-27 16:07:58.095435",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "section_break_cj4e",
   "naming_series",
   "posting_date",
+  "outlet",
+  "enable_multiple_payment_type",
+  "column_break_hduw",
   "payment_type",
-  "bulk_sale_payment",
-  "column_break_tavu",
-  "payment_type_group",
   "currency",
   "exchange_rate",
-  "outlet",
-  "section_break_kbbn",
-  "sale",
-  "sale_date",
-  "sale_outlet",
-  "column_break_qnqt",
+  "account_paid_to",
+  "payment_from_section",
   "customer",
   "customer_name",
-  "section_break_qtup",
-  "sale_amount",
-  "column_break_jbyf",
-  "total_paid",
-  "column_break_govp",
-  "balance",
-  "section_break_lviv",
+  "customer_balance",
+  "column_break_scmg",
   "account_paid_from",
   "write_off_account",
-  "column_break_hddn",
-  "account_paid_to",
-  "section_break_ofjk",
+  "payment_infomation_section",
   "input_amount",
-  "write_off_amount",
-  "column_break_ecxw",
-  "total_amount",
-  "payment_balance",
-  "section_break_vexk",
+  "column_break_kbzt",
+  "payment_amount",
+  "column_break_dtzb",
+  "amount_to_pay",
+  "column_break_iskx",
+  "balance",
+  "sale_invoices_section",
+  "start_date",
+  "get_sales_invoice",
+  "column_break_jzip",
+  "end_date",
+  "column_break_jfye",
+  "column_break_kkta",
+  "column_break_kjhc",
+  "section_break_nuff",
+  "sales",
+  "section_break_feql",
   "note",
-  "section_break_sihz",
-  "amended_from",
-  "column_break_tomr",
-  "cancelled_from",
-  "currency_symbol"
+  "column_break_hxyd",
+  "total_sales_invoice",
+  "total_amount_to_pay_virtual",
+  "total_payment_amount_virtual",
+  "write_off_amount",
+  "balance_virtual",
+  "amended_from"
  ],
  "fields": [
-  {
-   "fieldname": "section_break_cj4e",
-   "fieldtype": "Section Break",
-   "label": "Info"
-  },
-  {
-   "fieldname": "amended_from",
-   "fieldtype": "Link",
-   "hidden": 1,
-   "label": "Amended From",
-   "no_copy": 1,
-   "options": "Sale Payment",
-   "print_hide": 1,
-   "read_only": 1,
-   "search_index": 1
-  },
   {
    "fieldname": "naming_series",
    "fieldtype": "Select",
    "label": "Naming Series",
-   "options": "SINVP.YYYY.-.####"
+   "options": "SP.YYYY.-.####"
   },
   {
-   "default": "Today",
+   "fieldname": "outlet",
+   "fieldtype": "Link",
+   "label": "Outlet",
+   "options": "Outlet",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.enable_multiple_payment_type ==0",
+   "fieldname": "payment_type",
+   "fieldtype": "Link",
+   "label": "Payment Type",
+   "mandatory_depends_on": "eval:doc.enable_multiple_payment_type ==0",
+   "options": "Payment Type"
+  },
+  {
    "fieldname": "posting_date",
    "fieldtype": "Date",
-   "in_list_view": 1,
    "label": "Posting Date",
    "reqd": 1
   },
   {
-   "fieldname": "column_break_tavu",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "payment_type",
+   "fieldname": "customer",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "Payment Type",
-   "options": "Payment Type",
+   "label": "Customer",
+   "options": "Customer",
    "reqd": 1
   },
   {
-   "fetch_from": "payment_type.payment_type_group",
-   "fieldname": "payment_type_group",
-   "fieldtype": "Link",
-   "hidden": 1,
-   "label": "Payment Type Group",
-   "options": "Payment Type Group",
-   "read_only": 1
+   "fetch_from": "customer.customer_name",
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name"
   },
   {
+   "fieldname": "column_break_hduw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.enable_multiple_payment_type ==0",
    "fetch_from": "payment_type.currency",
    "fieldname": "currency",
    "fieldtype": "Link",
@@ -109,211 +106,220 @@
    "read_only": 1
   },
   {
-   "fieldname": "section_break_kbbn",
-   "fieldtype": "Section Break",
-   "label": "Sale"
-  },
-  {
-   "fieldname": "sale",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Sale",
-   "link_filters": "[[{\"fieldname\":\"sale\",\"field_option\":\"Sale\"},\"balance\",\">\",0]]",
-   "options": "Sale",
-   "reqd": 1
-  },
-  {
-   "fetch_from": "sale.posting_date",
-   "fieldname": "sale_date",
-   "fieldtype": "Date",
-   "label": "Sale Date",
-   "read_only": 1
-  },
-  {
-   "fieldname": "column_break_qnqt",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fetch_from": "sale.customer",
-   "fieldname": "customer",
-   "fieldtype": "Link",
-   "label": "Customer",
-   "options": "Customer",
-   "read_only": 1
-  },
-  {
-   "fetch_from": "sale.customer_name",
-   "fieldname": "customer_name",
+   "depends_on": "eval:doc.enable_multiple_payment_type ==0",
+   "fetch_from": "payment_type.exchange_rate",
+   "fieldname": "exchange_rate",
    "fieldtype": "Data",
-   "label": "Customer Name",
+   "label": "Exchange Rate",
+   "precision": "9",
    "read_only": 1
   },
   {
-   "fieldname": "section_break_qtup",
-   "fieldtype": "Section Break",
-   "label": "Sale Totals"
-  },
-  {
-   "default": "0",
-   "fetch_from": "sale.total_amount",
-   "fieldname": "sale_amount",
-   "fieldtype": "Currency",
-   "label": "Sale Amount",
-   "read_only": 1
-  },
-  {
-   "fieldname": "column_break_jbyf",
-   "fieldtype": "Column Break"
-  },
-  {
-   "default": "0",
-   "fetch_from": "sale.total_payment",
-   "fieldname": "total_paid",
-   "fieldtype": "Currency",
-   "label": "Total Paid",
-   "read_only": 1
-  },
-  {
-   "fieldname": "column_break_govp",
-   "fieldtype": "Column Break"
-  },
-  {
-   "default": "0",
-   "fetch_from": "sale.balance",
+   "depends_on": "eval:doc.enable_multiple_payment_type ==0",
    "fieldname": "balance",
    "fieldtype": "Currency",
    "label": "Balance",
-   "read_only": 1
+   "mandatory_depends_on": "eval:doc.enable_multiple_payment_type ==0"
   },
   {
-   "fieldname": "section_break_ofjk",
+   "depends_on": "eval:doc.enable_multiple_payment_type ==0",
+   "fieldname": "account_paid_to",
+   "fieldtype": "Link",
+   "label": "Account Paid To",
+   "link_filters": "[[\"Chart of Account\",\"is_group\",\"=\",0],[\"Chart of Account\",\"root_type\",\"=\",\"Asset\"]]",
+   "options": "Chart of Account"
+  },
+  {
+   "fieldname": "payment_from_section",
    "fieldtype": "Section Break",
-   "label": "Payment"
+   "label": "Payment From"
+  },
+  {
+   "fieldname": "column_break_scmg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "outlet.receivable_account",
+   "fieldname": "account_paid_from",
+   "fieldtype": "Link",
+   "label": "Account Paid From",
+   "link_filters": "[[\"Chart of Account\",\"is_group\",\"=\",0],[\"Chart of Account\",\"account_type\",\"=\",\"Receivable\"]]",
+   "options": "Chart of Account"
   },
   {
    "default": "0",
+   "fieldname": "enable_multiple_payment_type",
+   "fieldtype": "Check",
+   "label": "Enable Multiple Payment Type"
+  },
+  {
+   "fetch_from": "outlet.write_off_account",
+   "fieldname": "write_off_account",
+   "fieldtype": "Link",
+   "label": "Write off Account",
+   "link_filters": "[[\"Chart of Account\",\"is_group\",\"=\",0],[\"Chart of Account\",\"account_type\",\"=\",\"Receivable\"]]",
+   "options": "Chart of Account"
+  },
+  {
+   "collapsible": 1,
+   "depends_on": "eval:doc.docstatus ==0",
+   "fieldname": "sale_invoices_section",
+   "fieldtype": "Section Break",
+   "label": "Get Sales Invoice by Date"
+  },
+  {
+   "fieldname": "sales",
+   "fieldtype": "Table",
+   "options": "Sale Payment Invoices"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start Date"
+  },
+  {
+   "fieldname": "column_break_jzip",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "label": "End Date"
+  },
+  {
+   "fieldname": "column_break_jfye",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "get_sales_invoice",
+   "fieldtype": "Button",
+   "label": "Get Sales Invoice"
+  },
+  {
+   "fieldname": "column_break_kkta",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_kjhc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_nuff",
+   "fieldtype": "Section Break",
+   "label": "Sales Invoice List"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.enable_multiple_payment_type ==0",
+   "fieldname": "payment_amount",
+   "fieldtype": "Currency",
+   "label": "Payment Amount",
+   "mandatory_depends_on": "eval:doc.enable_multiple_payment_type ==0",
+   "read_only": 1
+  },
+  {
+   "fieldname": "payment_infomation_section",
+   "fieldtype": "Section Break",
+   "label": "Payment Infomation"
+  },
+  {
+   "depends_on": "eval:doc.enable_multiple_payment_type ==0",
    "fieldname": "input_amount",
    "fieldtype": "Float",
    "label": "Input Amount"
   },
   {
-   "fieldname": "column_break_ecxw",
+   "fieldname": "column_break_kbzt",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_dtzb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_iskx",
    "fieldtype": "Column Break"
   },
   {
    "default": "0",
-   "fieldname": "exchange_rate",
-   "fieldtype": "Float",
-   "label": "Exchange Rate",
-   "precision": "8",
+   "fieldname": "customer_balance",
+   "fieldtype": "Currency",
+   "label": "Customer Balance",
    "read_only": 1
   },
   {
-   "fieldname": "section_break_vexk",
+   "fieldname": "section_break_feql",
    "fieldtype": "Section Break"
   },
   {
    "fieldname": "note",
-   "fieldtype": "Long Text",
+   "fieldtype": "Small Text",
    "label": "Note"
+  },
+  {
+   "fieldname": "column_break_hxyd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_sales_invoice",
+   "fieldtype": "Int",
+   "label": "Total Sales Invoice",
+   "read_only": 1
   },
   {
    "default": "0",
    "fieldname": "write_off_amount",
-   "fieldtype": "Float",
-   "label": "Write Off Amount"
-  },
-  {
-   "fieldname": "payment_balance",
-   "fieldtype": "Data",
-   "label": "Payment Balance",
+   "fieldtype": "Currency",
+   "label": "Write off Amount",
+   "non_negative": 1,
    "read_only": 1
-  },
-  {
-   "fieldname": "bulk_sale_payment",
-   "fieldtype": "Data",
-   "label": "Bulk Sale Payment",
-   "read_only": 1
-  },
-  {
-   "default": "Sale Payment",
-   "fieldname": "cancelled_from",
-   "fieldtype": "Data",
-   "hidden": 1,
-   "label": "Cancelled From",
-   "read_only": 1
-  },
-  {
-   "fieldname": "section_break_sihz",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "column_break_tomr",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "section_break_lviv",
-   "fieldtype": "Section Break",
-   "label": "Accounts"
-  },
-  {
-   "fetch_from": ".",
-   "fieldname": "account_paid_from",
-   "fieldtype": "Link",
-   "label": "Account Paid From",
-   "options": "Account Code"
-  },
-  {
-   "fieldname": "column_break_hddn",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fetch_from": ".account",
-   "fetch_if_empty": 1,
-   "fieldname": "account_paid_to",
-   "fieldtype": "Link",
-   "label": "Account Paid To",
-   "options": "Account Code"
-  },
-  {
-   "fieldname": "currency_symbol",
-   "fieldtype": "Data",
-   "hidden": 1,
-   "label": "Currency Symbol",
-   "read_only": 1
-  },
-  {
-   "fieldname": "write_off_account",
-   "fieldtype": "Link",
-   "label": "Write Off Account",
-   "options": "Account Code"
-  },
-  {
-   "fieldname": "outlet",
-   "fieldtype": "Link",
-   "label": "Outlet",
-   "options": "Outlet"
   },
   {
    "default": "0",
-   "fieldname": "total_amount",
-   "fieldtype": "Float",
-   "label": "Total Amount",
+   "depends_on": "eval:doc.enable_multiple_payment_type ==0",
+   "fieldname": "amount_to_pay",
+   "fieldtype": "Currency",
+   "label": "Amount to  Pay",
+   "mandatory_depends_on": "eval:doc.enable_multiple_payment_type ==0",
    "read_only": 1
   },
   {
-   "fetch_from": "sale.outlet",
-   "fieldname": "sale_outlet",
+   "fieldname": "total_amount_to_pay_virtual",
+   "fieldtype": "Currency",
+   "is_virtual": 1,
+   "label": "Total Amount To Pay",
+   "options": "doc.amount_to_pay"
+  },
+  {
+   "fieldname": "total_payment_amount_virtual",
+   "fieldtype": "Currency",
+   "is_virtual": 1,
+   "label": "Total Payment Amount",
+   "options": "doc.payment_amount"
+  },
+  {
+   "fieldname": "balance_virtual",
+   "fieldtype": "Currency",
+   "is_virtual": 1,
+   "label": "Balance",
+   "options": "doc.balance"
+  },
+  {
+   "fieldname": "amended_from",
    "fieldtype": "Link",
-   "label": "Outlet",
-   "options": "Outlet",
-   "read_only": 1
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Sale Payment",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
   }
  ],
+ "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-05-30 15:52:00.216420",
+ "modified": "2025-08-29 17:58:43.784947",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Sale Payment",
@@ -330,23 +336,11 @@
    "report": 1,
    "role": "System Manager",
    "share": 1,
-   "submit": 1,
-   "write": 1
-  },
-  {
-   "create": 1,
-   "email": 1,
-   "export": 1,
-   "print": 1,
-   "read": 1,
-   "report": 1,
-   "role": "Sales User",
-   "share": 1,
    "write": 1
   }
  ],
- "sort_field": "modified",
+ "row_format": "Dynamic",
+ "sort_field": "creation",
  "sort_order": "DESC",
- "states": [],
- "track_changes": 1
+ "states": []
 }

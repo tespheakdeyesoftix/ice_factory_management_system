@@ -74,7 +74,7 @@
   },
   {
    "fieldname": "exchange_rate",
-   "fieldtype": "Float",
+   "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Exchange Rate",
    "precision": "9",
@@ -90,7 +90,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-08-25 16:17:03.585190",
+ "modified": "2025-08-29 10:56:29.627635",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Payment Type",

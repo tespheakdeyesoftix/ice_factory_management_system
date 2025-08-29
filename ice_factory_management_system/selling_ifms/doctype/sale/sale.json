@@ -37,6 +37,7 @@
   "status",
   "total_quantity",
   "total_free",
+  "total_quantity_return",
   "total_sale_quantity",
   "total_amount",
   "total_payment",
@@ -65,7 +66,8 @@
    "label": "Outlet",
    "link_filters": "[[{\"fieldname\":\"outlet\",\"field_option\":\"Outlet\"},\"enabled\",\"=\",1]]",
    "options": "Outlet",
-   "reqd": 1
+   "reqd": 1,
+   "search_index": 1
   },
   {
    "fieldname": "customer",
@@ -74,7 +76,8 @@
    "in_standard_filter": 1,
    "label": "Customer",
    "link_filters": "[[\"Customer\",\"is_customer\",\"=\",1]]",
-   "options": "Customer"
+   "options": "Customer",
+   "search_index": 1
   },
   {
    "fieldname": "driver",
@@ -83,7 +86,8 @@
    "in_standard_filter": 1,
    "label": "Driver",
    "link_filters": "[[\"Customer\",\"is_driver\",\"=\",1]]",
-   "options": "Customer"
+   "options": "Customer",
+   "search_index": 1
   },
   {
    "fieldname": "column_break_zdac",
@@ -236,7 +240,8 @@
    "fieldname": "sale_status",
    "fieldtype": "Select",
    "label": "Sale Status",
-   "options": "Draft\nClosed\nDeleted"
+   "options": "Draft\nClosed\nDeleted",
+   "search_index": 1
   },
   {
    "fieldname": "total_split_bill",
@@ -253,7 +258,8 @@
    "fieldname": "default_income_account",
    "fieldtype": "Link",
    "label": "Default Income Account",
-   "options": "Account Code"
+   "link_filters": "[[\"Chart of Account\",\"is_group\",\"=\",0],[\"Chart of Account\",\"account_type\",\"=\",\"Income\"]]",
+   "options": "Chart of Account"
   },
   {
    "fieldname": "column_break_kmmy",
@@ -263,7 +269,8 @@
    "fieldname": "default_receivable_account",
    "fieldtype": "Link",
    "label": "Default Receivable Account",
-   "options": "Account Code"
+   "link_filters": "[[\"Chart of Account\",\"is_group\",\"=\",0],[\"Chart of Account\",\"account_type\",\"=\",\"Receivable\"]]",
+   "options": "Chart of Account"
   },
   {
    "fieldname": "note",
@@ -274,7 +281,8 @@
    "fieldname": "default_free_account",
    "fieldtype": "Link",
    "label": "Default Free Account",
-   "options": "Account Code"
+   "link_filters": "[[\"Chart of Account\",\"is_group\",\"=\",0],[\"Chart of Account\",\"account_type\",\"=\",\"Expense\"]]",
+   "options": "Chart of Account"
   },
   {
    "fieldname": "id",
@@ -289,7 +297,8 @@
    "fieldtype": "Date",
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "Posting Date"
+   "label": "Posting Date",
+   "search_index": 1
   },
   {
    "fieldname": "info_section",
@@ -328,17 +337,19 @@
    "fieldtype": "Check",
    "hidden": 1,
    "label": "Can Show Price"
+  },
+  {
+   "fieldname": "total_quantity_return",
+   "fieldtype": "Float",
+   "hidden": 1,
+   "label": "Total Quantity Return",
+   "read_only": 1
   }
  ],
  "image_field": "customer_photo",
  "index_web_pages_for_search": 1,
- "links": [
-  {
-   "link_doctype": "Sale Payment",
-   "link_fieldname": "sale"
-  }
- ],
- "modified": "2025-08-25 09:41:06.353412",
+ "links": [],
+ "modified": "2025-08-28 17:23:25.012622",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Sale",

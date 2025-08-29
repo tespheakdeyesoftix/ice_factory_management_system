@@ -17,14 +17,26 @@ class Expenses(Document):
 			# get default from global setting
 			self.payable_account = frappe.get_cached_value("Business Information",None,"payable_account")
 		
-		if not self.payable_account:
-			frappe.throw(_("Please select payable account"))
+
+
+		# validate payment account
+		if self.payments:
+			for p in [d for d in self.payments if not d.account]:
+				payment_type_doc = frappe.get_cached_doc("Payment Type",p.payment_type)
+				if self.outlet:
+					p.account = next((r.account for r in payment_type_doc.payment_type_accounts if r.outlet == self.outlet), "")
+
+				if not p.account:
+					p.account = payment_type_doc.account
+					
 
 	def on_submit(self):
+		# validate account code
+		if not self.payable_account:
+			frappe.throw(_("Please select payable account"))
 		submit_to_GL_entry(self)
 
 def submit_to_GL_entry(self):
- 
 	from ice_factory_management_system.api.accounting import submit_general_ledger_entry
 	docs = []
 
@@ -47,29 +59,29 @@ def submit_to_GL_entry(self):
 		}
 		docs.append(doc)
 
-	# # add payment account
-	# for acc in set([d.account for d in self.payments]):
-	# 	if not acc:
-	# 			frappe.throw(_("Please enter payment account code in payment list"))
-	# 	doc = {
-	# 		"doctype":"GL Entry",
-	# 		"outlet":self.outlet,
-	# 		"posting_date":self.posting_date,
-	# 		"account":acc,
-	# 		"amount":sum([d.payment_amount for d in self.payments if d.account == acc]),
-	# 		"against":self.name,
-	# 		"voucher_type":"Purchase Order",
-	# 		"voucher_no":self.name,
-	# 		"remark":"ទូទាត់ទឹកប្រាក់បញ្ជាទិញអោយ {0}, នៅថ្ងៃទី {1}, ចំនួនទឹកប្រាក់​ {2}".format(
-	# 			self.vendor + "-" + self.vendor_name,
-	# 			frappe.format(self.posting_date,{"fieldtype":"Date"}),
-	# 			frappe.format(sum([d.payment_amount for d in self.payments if d.account == acc]),{"fieldtype":"Currency"})
-	# 		),
-	# 		"party_type":"Vendor",
-	# 		"party": self.vendor,
-	# 		"vendor_name": self.vendor_name
-	# 	}
-	# 	docs.append(doc)
+	# add payment account
+	for acc in set([d.account for d in self.payments]):
+		if not acc:
+				frappe.throw(_("Please enter payment account code in payment list"))
+		doc = {
+			"doctype":"GL Entry",
+			"outlet":self.outlet,
+			"posting_date":self.posting_date,
+			"account":acc,
+			"amount":sum([d.payment_amount for d in self.payments if d.account == acc]),
+			"against":self.name,
+			"voucher_type":"Purchase Order",
+			"voucher_no":self.name,
+			"remark":"ទូទាត់ទឹកប្រាក់បញ្ជាទិញអោយ {0}, នៅថ្ងៃទី {1}, ចំនួនទឹកប្រាក់​ {2}".format(
+				self.vendor + "-" + self.vendor_name,
+				frappe.format(self.posting_date,{"fieldtype":"Date"}),
+				frappe.format(sum([d.payment_amount for d in self.payments if d.account == acc]),{"fieldtype":"Currency"})
+			),
+			"party_type":"Vendor",
+			"party": self.vendor,
+			"vendor_name": self.vendor_name
+		}
+		docs.append(doc)
 	
 	
 	if self.balance:

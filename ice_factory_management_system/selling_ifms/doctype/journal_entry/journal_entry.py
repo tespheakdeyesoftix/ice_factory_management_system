@@ -52,8 +52,10 @@ def get_party_name_field(party_type):
 			return "vendor_name"
 		elif party_type == "Customer":
 			return "customer_name"
+		elif party_type == "Employee":
+			return "employee_name"
 		else:
-			frappe.throw(_("Party type must be either Customer or Vendor"))
+			frappe.throw(_("Party type must be either Customer or Vendor or Employee"))
 	else:
 		return None
 def submit_to_general_ledger_entry(self):

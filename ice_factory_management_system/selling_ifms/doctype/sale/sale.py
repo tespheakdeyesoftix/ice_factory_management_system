@@ -10,9 +10,11 @@ from ice_factory_management_system.api.accounting import cancel_general_ledger_e
 from ice_factory_management_system.api.utils import get_previous_closed_date
 class Sale(Document):
 	def validate(self):
+		 
 		self.validate_require_fields()
 		if self.update_from == "Sale":
 			get_previous_closed_date(self.posting_date,self.creation,self.outlet)
+
 		verify_account(self)
 		verify_product(self)
 		update_total_amounts(self)
@@ -24,7 +26,8 @@ class Sale(Document):
 		self.total_payment = 0
 		self.total_write_off = 0
 		self.balance = self.total_amount	
-		get_customer_product_price(self)	
+		
+		get_customer_product_price(self)
 
 	def validate_require_fields(self):
 
@@ -92,7 +95,9 @@ def verify_account(self):
 def update_total_amounts(self):
 	self.total_quantity = (sum((d.quantity or 0) for d in self.sale_products if d.allow_sum_qty == 1) or 0)
 	self.total_free = (sum((d.free_quantity or 0) for d in self.sale_products if d.allow_sum_qty == 1) or 0)
-	self.total_sale_quantity = (sum((d.quantity or 0)-(d.free_quantity or 0) for d in self.sale_products if d.allow_sum_qty == 1) or 0)
+	self.total_quantity_return = (sum((d.return_quantity or 0) for d in self.sale_products if d.allow_sum_qty == 1) or 0)
+	
+	self.total_sale_quantity = (self.total_quantity or 0)  - ((self.total_free or 0) + (self.total_quantity_return or 0))
 
 	self.total_amount = (sum((d.price or 0)*(d.total_sale_quantity or 0)*(d.multiplier or 1) for d in self.sale_products if d.allow_sum_qty == 1) or 0)
 	self.balance = self.total_amount - self.total_payment
@@ -103,6 +108,7 @@ def verify_product(self):
 	error = ""
 	for a in self.sale_products:
 		default = get_product_accounts(a.product_code,self.outlet)
+
 		a.default_income_account = default.get("income_account") if (a.default_income_account or "") == "" else a.default_income_account
 		a.default_receivable_account = default.get("receivable_account") if (a.default_receivable_account or "") == "" else a.default_receivable_account
 		a.default_free_account = default.get("free_account") if (a.default_free_account or "") == "" else a.default_free_account
@@ -111,6 +117,7 @@ def verify_product(self):
 		m = frappe.db.get_value("Unit",a.unit,["multiplier"],as_dict=1)
 		a.allow_sum_qty = p.allow_sum_qty
 		a.total_sale_quantity = (a.quantity or 0) -((a.free_quantity or 0) + (a.return_quantity or 0))
+		
 		a.total_amount = a.price * a.total_sale_quantity * m.multiplier
 		a.sub_total = a.price * a.quantity * m.multiplier
 		a.multiplier = m.multiplier
@@ -170,15 +177,15 @@ def get_customer_product_price(self):
 		for a in customer_free_products:
 			for b in self.sale_products:
 				if (a.get("product_code") or "") == b.product_code:
+					
 					b.free_quantity = (a.get("quantity") or 0) * (a.get("multiplier",1)/b.get("multiplier",1))
 					b.total_sale_quantity = b.quantity - b.free_quantity
 					b.total_amount = b.price * b.total_sale_quantity
 					b.sub_total = b.price * b.quantity
-	else:
-		for a in self.sale_products:
-			b.free_quantity = 0
+
 
 def submit_to_GL_entry(self):
+	
 	import uuid
 	self.id = str(uuid.uuid4().hex)
 	from ice_factory_management_system.api.accounting import submit_general_ledger_entry
@@ -204,10 +211,11 @@ def submit_to_GL_entry(self):
 		}
 		docs.append(doc)
 	
-	if sum([(d.free_quantity or 0) for d in self.sale_products]) > 0:
-		for acc in set([d.default_free_account for d in self.sale_products]):
+	if sum([(d.free_quantity or 0) for d in self.sale_products ]) > 0:
+		 
+		for acc in set([d.default_free_account for d in self.sale_products if d.free_quantity>0]):
 			if not acc:
-					frappe.throw(_("Please enter income account"))
+					frappe.throw(_("Please enter free  account"))
 			doc = {
 				"doctype":"GL Entry",
 				"outlet":self.outlet,

@@ -93,7 +93,7 @@ function calculate_payment_amount(frm,cdt, cdn) {
     let total_payment = 0;
     (frm.doc.payments || []).forEach(row => {
         total_payment += row.payment_amount || 0;
-  
+        
     });
 
     frm.set_value('total_payment', total_payment);

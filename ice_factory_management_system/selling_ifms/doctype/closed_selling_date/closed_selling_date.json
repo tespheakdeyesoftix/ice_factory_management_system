@@ -8,13 +8,12 @@
  "field_order": [
   "section_break_gnnz",
   "naming_series",
+  "posting_date",
   "outlet",
   "column_break_uhkh",
-  "posting_date",
+  "note",
   "section_break_utvt",
   "closed_selling_date_items",
-  "section_break_coaw",
-  "note",
   "amended_from"
  ],
  "fields": [
@@ -46,7 +45,9 @@
    "default": "Today",
    "fieldname": "posting_date",
    "fieldtype": "Date",
-   "label": "Posting Date"
+   "in_list_view": 1,
+   "label": "Posting Date",
+   "reqd": 1
   },
   {
    "fieldname": "column_break_uhkh",
@@ -58,10 +59,6 @@
    "label": "Close Data"
   },
   {
-   "fieldname": "section_break_coaw",
-   "fieldtype": "Section Break"
-  },
-  {
    "fieldname": "naming_series",
    "fieldtype": "Select",
    "label": "Naming Series",
@@ -69,7 +66,7 @@
   },
   {
    "fieldname": "note",
-   "fieldtype": "Long Text",
+   "fieldtype": "Small Text",
    "label": "Note"
   },
   {
@@ -87,7 +84,7 @@
    "link_fieldname": "closed_selling_date"
   }
  ],
- "modified": "2025-05-01 14:48:33.956444",
+ "modified": "2025-08-29 14:17:58.884218",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Closed Selling Date",
@@ -109,6 +106,7 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []

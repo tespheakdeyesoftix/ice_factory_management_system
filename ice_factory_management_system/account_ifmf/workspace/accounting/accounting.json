@@ -6,7 +6,7 @@
    "label": "Profit and Loss "
   }
  ],
- "content": "[{\"id\":\"hjFF2PDBik\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Profit and Loss \",\"col\":12}},{\"id\":\"0I3mbLRqEi\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"auf4yDQXTD\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Profit and Loss Statement\",\"col\":3}}]",
+ "content": "[{\"id\":\"hjFF2PDBik\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Profit and Loss \",\"col\":12}},{\"id\":\"0I3mbLRqEi\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"auf4yDQXTD\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Profit and Loss Statement\",\"col\":3}},{\"id\":\"ErbzME6Ztr\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Trail Balance\",\"col\":3}},{\"id\":\"3NrXEqgotA\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New Sale Payment\",\"col\":3}}]",
  "creation": "2025-08-20 17:19:18.478689",
  "custom_blocks": [],
  "docstatus": 0,
@@ -20,7 +20,7 @@
  "label": "Accounting",
  "link_type": "DocType",
  "links": [],
- "modified": "2025-08-27 11:57:00.445514",
+ "modified": "2025-08-28 14:51:57.313040",
  "modified_by": "Administrator",
  "module": "Account IFMF",
  "name": "Accounting",
@@ -35,10 +35,26 @@
   {
    "color": "Grey",
    "doc_view": "List",
+   "label": "Trail Balance",
+   "link_to": "Trail Balance Report",
+   "report_ref_doctype": "GL Entry",
+   "type": "Report"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
    "label": "Profit and Loss Statement",
    "link_to": "Profit and Loss Statement",
    "report_ref_doctype": "GL Entry",
    "type": "Report"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "New",
+   "label": "New Sale Payment",
+   "link_to": "Sale Payment",
+   "stats_filter": "[]",
+   "type": "DocType"
   }
  ],
  "title": "Accounting",

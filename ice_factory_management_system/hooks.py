@@ -185,6 +185,9 @@ after_migrate = [
 #	"frappe.desk.doctype.event.event.get_events": "ice_factory_management_system.event.get_events"
 # }
 #
+
+on_login = "ice_factory_management_system.api.utils.on_login"
+
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,
 # along with any modifications made in other Frappe apps

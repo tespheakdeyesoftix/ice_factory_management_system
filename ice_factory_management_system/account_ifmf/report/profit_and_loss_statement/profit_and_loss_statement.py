@@ -127,9 +127,10 @@ def get_report_summary(data):
 	]
 
 def get_data(filters):
-	outlet = ""
+	filters.outlets  = frappe.get_list("Outlet",pluck='name')
 	if filters.outlet:
-		outlet = "a.outlet = %(outlet)s  and "
+		filters.outlets = [filters.outlet]
+	outlet = "a.outlet in %(outlets)s and "
 	column_group_info= get_data_info(filters.column_group)
 	filters=get_filter_date_range(filters)
 	sql = """
@@ -140,12 +141,10 @@ def get_data(filters):
 			sum(if(c.root_type='Income',a.credit_amount-a.debit_amount,a.debit_amount-a.credit_amount)) as amount
 		from `tabGL Entry` a
 		inner join `tabChart of Account` c on c.name = a.account
-
 		where
 			a.posting_date between %(start_date)s and %(end_date)s and
 			{1}
-			c.root_type in ('Income','Expenses') and 
-			a.is_cancelled = 0
+			c.root_type in ('Income','Expenses')
 		group by
 			account,
 			c.root_type,

@@ -1,0 +1,130 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-08-28 15:19:55.496578",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "sale",
+  "customer",
+  "payment_date",
+  "posting_date",
+  "total_amount",
+  "paid_amount",
+  "sale_balance",
+  "payment_amount",
+  "write_off_amount",
+  "balance",
+  "pay",
+  "note"
+ ],
+ "fields": [
+  {
+   "fieldname": "sale",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Sale Invoice #",
+   "options": "Sale",
+   "search_index": 1
+  },
+  {
+   "fetch_from": "sale.posting_date",
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Sale Invoice Date",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "sale.total_amount",
+   "fieldname": "total_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Total Amount",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "sale.total_payment",
+   "fieldname": "paid_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Paid Amount",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "sale.balance",
+   "fetch_if_empty": 1,
+   "fieldname": "balance",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Balance",
+   "non_negative": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "payment_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Payment Amount",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "write_off_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Write off Amount",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "note",
+   "fieldtype": "Small Text",
+   "label": "Note"
+  },
+  {
+   "fetch_from": "sale.balance",
+   "fieldname": "sale_balance",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Sale Balance",
+   "read_only": 1
+  },
+  {
+   "fieldname": "pay",
+   "fieldtype": "Button",
+   "in_list_view": 1,
+   "label": "Pay"
+  },
+  {
+   "fetch_from": "sale.customer",
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Customer",
+   "options": "Customer",
+   "search_index": 1
+  },
+  {
+   "fieldname": "payment_date",
+   "fieldtype": "Date",
+   "hidden": 1,
+   "label": "Payment Date",
+   "search_index": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-08-29 11:50:00.991535",
+ "modified_by": "Administrator",
+ "module": "Selling IFMS",
+ "name": "Sale Payment Invoices",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

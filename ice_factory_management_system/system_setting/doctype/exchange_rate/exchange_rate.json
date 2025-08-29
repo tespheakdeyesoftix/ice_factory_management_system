@@ -45,10 +45,10 @@
   },
   {
    "fieldname": "currency_exchange_rate",
-   "fieldtype": "Float",
+   "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Currency Exchange Rate",
-   "precision": "8"
+   "precision": "9"
   },
   {
    "fieldname": "amended_from",
@@ -78,7 +78,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-08-25 11:15:03.728388",
+ "modified": "2025-08-29 10:55:06.026439",
  "modified_by": "Administrator",
  "module": "System Setting",
  "name": "Exchange Rate",

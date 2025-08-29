@@ -21,7 +21,15 @@ def execute():
 
             # Expect each file to have a variable `SQL`
             if hasattr(module, "SQL"):
-                sql_statements.append(f"DROP PROCEDURE IF EXISTS {get_proc_name(module.SQL)};")
+                if module.SQL.lower().startswith("create procedure"):
+
+                    sql_statements.append(f"DROP PROCEDURE IF EXISTS {get_proc_name(module.SQL)};")
+                
+                if module.SQL.lower().startswith("create function"):
+                  
+                    sql_statements.append(f"DROP function IF EXISTS {get_proc_name(module.SQL)};")
+                
+
                 sql_statements.append(module.SQL)
             else:
                 frappe.logger().warning(f"No SQL found in {file_name}")
@@ -33,7 +41,7 @@ def get_proc_name(sql):
     """Extract procedure name from SQL text (simple parser)."""
     for line in sql.splitlines():
         line = line.strip().lower()
-        if line.startswith("create procedure"):
+        if line.lower().startswith("create procedure") or line.lower().startswith("create function"):
             return line.split()[2].split("(")[0]
     return "unknown_procedure"
 
