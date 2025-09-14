@@ -1,7 +1,7 @@
 {
  "app": "ice_factory_management_system",
  "charts": [],
- "content": "[{\"id\":\"EHvJXFRGLE\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Business Information\",\"col\":3}},{\"id\":\"Vm-zYXFd2G\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Outlet\",\"col\":3}},{\"id\":\"IqhKNmUay3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Location\",\"col\":3}},{\"id\":\"hHTyg4C2Uf\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Payment Type\",\"col\":3}},{\"id\":\"eHX8PCPXoK\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Payment Type Group\",\"col\":3}}]",
+ "content": "[{\"id\":\"EHvJXFRGLE\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Business Information\",\"col\":3}},{\"id\":\"Vm-zYXFd2G\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Outlet\",\"col\":3}},{\"id\":\"IqhKNmUay3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Location\",\"col\":3}},{\"id\":\"hHTyg4C2Uf\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Payment Type\",\"col\":3}},{\"id\":\"eHX8PCPXoK\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Payment Type Group\",\"col\":3}},{\"id\":\"Oasn81Nrxi\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"EMbXXUhA5w\",\"type\":\"card\",\"data\":{\"card_name\":\"Ice Producing\",\"col\":4}}]",
  "creation": "2025-08-21 09:32:21.333213",
  "custom_blocks": [],
  "docstatus": 0,
@@ -15,8 +15,48 @@
  "is_hidden": 0,
  "label": "Settings",
  "link_type": "DocType",
- "links": [],
- "modified": "2025-08-25 11:08:26.079350",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Ice Producing",
+   "link_count": 3,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Block Ice Produce Location",
+   "link_count": 0,
+   "link_to": "Block Ice Produce Location",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Block Ice Produce Grid",
+   "link_count": 0,
+   "link_to": "Block Ice Produce Grid",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Tube Ice Machine",
+   "link_count": 0,
+   "link_to": "Tube Ice Machine",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2025-09-01 16:01:41.704993",
  "modified_by": "Administrator",
  "module": "Ice Factory Management System",
  "name": "Settings",

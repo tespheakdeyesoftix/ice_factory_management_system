@@ -2,6 +2,7 @@
 # For license information, please see license.txt
 
 import frappe
+from frappe import _
 from frappe.model.document import Document
 from frappe.model.document import bulk_insert
 from frappe.model.naming import make_autoname
@@ -9,16 +10,41 @@ from ice_factory_management_system.api.utils import get_previous_closed_date
 
 class ClosedSellingDate(Document):
 	def on_submit(self):
-		generate_closed_selling_date_data(self)
+		# generate_closed_selling_date_data(self)
+		pass
 	
 	def validate(self):
+		# validate close future date
+		if frappe.utils.getdate(self.posting_date)>frappe.utils.getdate(frappe.utils.now()):
+			frappe.throw("You cannot close date on the future date")
+
 		get_previous_closed_date(self.posting_date,self.creation,self.outlet)
-		data = get_closed_date_data(self.outlet)
-		if len(data or []) > 0:
-			for a in self.closed_selling_date_items:
-				for b in data:
-					if a.total_name == b.get("total_name"):
-						a.total_amount = b.get("total_amount")
+		self.valdiate_close_doctype_data()
+		
+		# data = get_closed_date_data(self.outlet)
+		# if len(data or []) > 0:
+		# 	for a in self.closed_selling_date_items:
+		# 		for b in data:
+		# 			if a.total_name == b.get("total_name"):
+		# 	
+		# 			a.total_amount = b.get("total_amount")
+
+	def valdiate_close_doctype_data(self):
+		# we check close doctype date that set in Business information
+		# if have data on draf for submit ted doctype we not allow to close date 
+		# for Sale Doc is not submit doctype we check on sale_status Draft
+		setting_doc = frappe.get_cached_doc("Business Information",None)
+		for dt in  setting_doc.closed_doctypes:
+			if int(dt.is_submittable)==1:
+				if frappe.db.exists(dt.closed_doctype,{"docstatus": 0,"outlet":self.outlet}):
+					frappe.throw(_("Please close all pending transaction in {} document").format(dt.closed_doctype))
+			elif dt=="Sale":
+				if frappe.db.exists(dt.closed_doctype,{"sale_status": "Draft","outlet":self.outlet}):
+					frappe.throw(_("Please close all pending transaction in {} document").format(dt.closed_doctype))
+				
+				
+
+
 
 def generate_closed_selling_date_data(self):
 	data = []

@@ -5,17 +5,18 @@ import frappe
 from frappe.model.document import Document
 from frappe import _
 from ice_factory_management_system.api.accounting import submit_general_ledger_entry,cancel_general_ledger_entery
-from ice_factory_management_system.api.utils import get_previous_closed_date
 from ice_factory_management_system.overrides.base_document import BaseDocument
+from ice_factory_management_system.api.utils import get_default_outlet,money_to_word
 class SalePayment(BaseDocument):
 	def validate(self):
+ 
+		super().validate()
+		self.payment_amount_in_word = money_to_word(int(self.payment_amount))
 		self.validate_sale_payment_invoices()
 		update_totals(self)
 		self.validate_payment_amount()
+		
 
-	def on_update(self):
-		super().on_update()
-		frappe.msgprint("on update in sale payment")
 
 	def before_submit(self):
 		self.sales = [d for d in self.sales if (d.payment_amount or 0)>0  or (d.write_off_amount or 0)>0]
@@ -25,15 +26,22 @@ class SalePayment(BaseDocument):
 	
 	
 	def on_submit(self):
-		super().on_submit()
+		
 		self.validate_account_code()
 		frappe.db.sql("call sp_update_sale_information('',%(sale_payment_name)s)",{"sale_payment_name":self.name})
 		submit_to_GL_entry(self)
+
+		# make this enqueue
+		frappe.enqueue("ice_factory_management_system.selling_ifms.doctype.sale_payment.sale_payment.add_comment_to_sale_after_submit_sale_payment",self=self)
+		
+
+		
 
 	def on_cancel(self):
 		self.flags.ignore_links = True
 		frappe.db.sql("delete from `tabGL Entry` where voucher_type='Sale Payment' and voucher_no=%(name)s",{"name":self.name})
 		frappe.db.sql("call sp_update_sale_information('',%(sale_payment)s)",{"sale_payment":self.name})
+		frappe.enqueue("ice_factory_management_system.selling_ifms.doctype.sale_payment.sale_payment.add_comment_to_sale_after_cancel_sale_payment",self=self)
 	 
 
 
@@ -41,9 +49,22 @@ class SalePayment(BaseDocument):
 		for s in self.sales:
 			# update payment date to sale payment invoice
 			s.payment_date = self.posting_date
+			s.customer = self.customer
+			# we force to validate sale amount, payment amount and write off amount from db again to
+			# ensure sale amount information is correct before save to db
+			
+			sale_amount, sale_payment,sale_write_off =frappe.db.get_value("Sale",s.sale,["total_amount","total_payment","total_write_off"])
+			s.total_amount = sale_amount or 0
+			s.paid_amount = sale_payment or 0
+			s.sale_balance = s.total_amount - (s.paid_amount + (sale_write_off or 0))
+ 
+			s.balance = (s.sale_balance or 0) - ((s.payment_amount or 0) + (s.write_off_amount or 0))
 		frappe.msgprint("dnt forget update sale balance")
 
 	def validate_payment_amount(self):
+		if self.input_amount:
+			if (self.input_amount / float(self.exchange_rate))>self.payment_amount:
+				frappe.throw(_("សូមបែងចែកចំនួនទឹកប្រាក់តាមវិកយប័ត្រអោយបានត្រឹមត្រូវ"))
 		if self.payment_amount>self.amount_to_pay:
 			frappe.throw(_("Payment amount cannot greater than amount to pay"))
 	
@@ -79,6 +100,7 @@ class SalePayment(BaseDocument):
 					name, posting_date, total_amount,total_payment,balance 
 					from `tabSale` 
 					where 
+						(name = %(sale)s or %(sale)s = '') and 
 						balance> 0 and 
 						sale_status = 'Closed' and 
 						customer=%(customer)s and 
@@ -88,13 +110,14 @@ class SalePayment(BaseDocument):
 						posting_date,
 						name
 				"""
-			data = frappe.db.sql(sql,{"outlet":self.outlet,"customer": self.customer,"start_date":self.start_date, "end_date":self.end_date},as_dict = 1)
+			data = frappe.db.sql(sql,{"outlet":self.outlet,"sale":self.sale or '',"customer": self.customer,"start_date":self.start_date, "end_date":self.end_date},as_dict = 1)
 		else:
 			sql = """
 				select 
 					name, posting_date, total_amount,total_payment,balance 
 					from `tabSale` 
 					where 
+						(name = %(sale)s or %(sale)s = '') and 
 						balance> 0 and 
 						sale_status = 'Closed' and 
 						customer=%(customer)s and 
@@ -103,7 +126,7 @@ class SalePayment(BaseDocument):
 						posting_date,
 						name
 				"""
-			data = frappe.db.sql(sql,{"outlet":self.outlet,"customer": self.customer},as_dict = 1)
+			data = frappe.db.sql(sql,{"outlet":self.outlet,"sale":self.sale or '',"customer": self.customer},as_dict = 1)
 		return data or []
 	
 	@frappe.whitelist()
@@ -116,7 +139,12 @@ class SalePayment(BaseDocument):
 			return data[0].get("balance")
 		return 0
 		
-
+	@frappe.whitelist()
+	def get_default_outlet(self):
+		if self.sale:
+			return frappe.db.get_value("Sale",self.sale,"outlet")
+		return get_default_outlet()
+	
 
 
 def update_totals(self):
@@ -231,3 +259,33 @@ def get_payment_default_account(outlet="",payment_type=""):
 		return {"account":accounts[0],"exchange_rate":exchange_rate["exchange_rate"],"symbol":exchange_rate["symbol"]}
 	else:
 		return {"account":"","exchange_rate":exchange_rate["exchange_rate"],"symbol":exchange_rate["symbol"]}
+	
+@frappe.whitelist()
+def add_comment_to_sale_after_submit_sale_payment(self):
+	for s in self.sales:
+		doc = frappe.get_doc("Sale",s.sale)
+		comment_text = f"""
+			<br/>
+			<strong>ទទួលប្រាក់ពីអតិថិជន</strong> <br/>
+			បង្កាន់ដៃបង់ប្រាក់៖ <strong>{self.name}</strong><br/>
+			កាលបរិច្ឆេទ៖ <strong>{frappe.format(s.posting_date,{"fieldtype":"Date"})}</strong><br/>
+			ទឹកប្រាក់ទទួល៖ <strong>{frappe.format(s.payment_amount,{"fieldtype":"Currency"})}</strong><br/>
+			ទឹកប្រាក់កាត់ចោល៖ <strong>{frappe.format(s.write_off_amount,{"fieldtype":"Currency"})}</strong>
+		"""
+		frappe.msgprint(comment_text)
+		doc.add_comment('Info', comment_text)
+	
+@frappe.whitelist()
+def add_comment_to_sale_after_cancel_sale_payment(self):
+	for s in self.sales:
+		doc = frappe.get_doc("Sale",s.sale)
+		comment_text = f"""
+			<br/>
+			<strong style='color:red'>លុបការទទួលប្រាក់ពីអតិថិជន</strong> <br/>
+			បង្កាន់ដៃបង់ប្រាក់៖ <strong>{self.name}</strong><br/>
+			កាលបរិច្ឆេទ៖ <strong>{frappe.format(s.posting_date,{"fieldtype":"Date"})}</strong><br/>
+			ទឹកប្រាក់ទទួល៖ <strong>{frappe.format(s.payment_amount,{"fieldtype":"Currency"})}</strong><br/>
+			ទឹកប្រាក់កាត់ចោល៖ <strong>{frappe.format(s.write_off_amount,{"fieldtype":"Currency"})}</strong>
+		"""
+		frappe.msgprint(comment_text)
+		doc.add_comment('Info', comment_text)

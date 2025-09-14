@@ -12,6 +12,7 @@ class BusinessInformation(Document):
 			self.business_name_kh = self.business_name_en
 	def on_update(self):
 		frappe.clear_document_cache('Business Information', None)
+		frappe.clear_cache(doctype="Business Information")
 		for df in self.meta.get("fields"):
 			if df.fieldtype not in no_value_fields and self.has_value_changed(df.fieldname):
 				frappe.db.set_default(df.fieldname, self.get(df.fieldname))

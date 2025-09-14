@@ -3,7 +3,7 @@
        <div v-if="!loading">
 <Splitter style="height: 98vh" v-if="reportList.length>0">
          
-                <SplitterPanel class="flex items-center justify-center" :size="20">
+                <SplitterPanel class="flex items-center justify-center" :size="20" v-if="reportList.length>1">
                     <Menu :model="reportList" style="margin: 10px;">
                         <template #item="{ item, props }">
                             <a v-ripple class="flex items-center"
@@ -116,8 +116,18 @@ selectedReport.value = rpt;
 onMounted(async () => {
     await getReportList()
     if (reportList.value.length > 0) {
+      
+        if(route.query.report_name){
+            const report = reportList.value.find(x=>x.name == route.query.report_name)
+            if(report){
+            onPreviewReport(report)    
+            return;
+            }
+        }
 
-        onPreviewReport(reportList.value[0])
+            onPreviewReport(reportList.value[0])
+        
+
     }
 
 })

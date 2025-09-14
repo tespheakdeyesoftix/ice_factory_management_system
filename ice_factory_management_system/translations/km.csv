@@ -1,4 +1,8 @@
 Tube Ice,ទឹកកកអនាម័យ,
+Block Ice Produce Location,ទីតាំងផលិតទឹកកកដើម
+Block Ice Produce Grid, តារាងចំនួនផលិតទឹកកកដើម,
+Row Number, ចំនួនជួរដេក
+Column Number, ចំនួនជួរឈរ
 Tube Ice Outlet,កន្លែងលក់ទឹកកកអនាម័យ,
 Block Ice,ទឹកកកអនាម័យ,
 Block Ice Outlet,កន្លែងលក់ទឹកកកអនាម័យ,
@@ -32,6 +36,8 @@ Add Chart to Dashboard,បន្ថែមតារាងក្រាហ្វិ
 Profit and Loss,ប្រាក់ចំណេញ និងខាត,
 Party Type,Party Type,
 Party,Party,
+Row,ជួរ,
+Value cannot be negative for,តម្លៃមិនអាចជាអវិជ្ជមានសម្រាប់,
 Party Name,Party Name,
 Setup Auto Email,កំណត់អ៊ីមែលស្វ័យប្រវត្តិ,
 Add Column,បន្ថែមជួរឈរ,
@@ -50,12 +56,12 @@ New Sale Payment,ការបង់ប្រាក់លក់ថ្មី,
 Sale Payment,ការបង់ប្រាក់លក់,
 Account Paid To,គណនីដែលបានបង់ប្រាក់,
 Enable Multiple Payment Type,អនុញ្ញាតប្រភេទការបង់ប្រាក់ច្រើន,
-Payment From,ការបង់ប្រាក់ពី,
+Payment From,ទទួលប្រាក់ពី,
 Account Paid From,គណនីដែលបានបង់ពី,
 Write off Account,គណនីកាត់ចោល,
 Payment Infomation,ព័ត៌មានការបង់ប្រាក់,
 Customer Balance,សមតុល្យអតិថិជន,
-Amount to Pay,ចំនួនទឹកប្រាក់ត្រូវបង់,
+Amount to  Pay,ចំនួនទឹកប្រាក់ត្រូវបង់,
 Get Sales Invoice by Date,ទាញយកវិក័យប័ត្រលក់តាមកាលបរិច្ឆេទ,
 Sales Invoice List,បញ្ជីវិក័យប័ត្រលក់,
 Sale Invoice #,វិក័យប័ត្រលក់លេខ,
@@ -64,11 +70,12 @@ Paid Amount,ចំនួនទឹកប្រាក់បានបង់,
 Sale Balance,សមតុល្យការលក់,
 Write off Amount,ចំនួនទឹកប្រាក់កាត់ចេញ,
 Pay,បង់ប្រាក់,
-Total Sales Invoice,,
-Total Amount To Pay,,
-Total Payment Amount,,
-Amended From,,
+Total Sales Invoice,វិក្កយបត្រលក់សរុប,
+Total Amount To Pay,ចំនួនសរុបត្រូវបង់,
+Total Payment Amount,ចំនួនទឹកប្រាក់សរុបដែលបានបង់,
+Amended From,បានកែប្រែមកពី,
 Currency Exchange Rate,អត្រាប្ដូរប្រាក់,
+Get Sales Invoice,ទាញយកវិកយប័ត្រ
 Credit Amount,ចំនួនទឹកប្រាក់ឥណទាន,
 Debit Amount,ចំនួនទឹកប្រាក់ឥណពន្ធ,
 Total Debit,សរុបឥណពន្ធ,
@@ -89,6 +96,7 @@ Remark,ចំណាំ,
 Is Cancelled,ត្រូវបានលុបចោល,
 Income,ចំណូល,
 Collapse,បង្រួម,
+Sale Payment List,បញ្ជីទូទាត់ថ្លៃលក់,
 Total Write Off,ចំនួនកាត់ចោល,
 Sale Payment Invoices,វិក្កយបត្រទូទាត់ថ្លៃលក់,
 Total Sale Quantity,ចំនួនលក់សរុប,
@@ -223,6 +231,11 @@ Set all public,កំណត់ទាំងអស់ឲ្យសាធារណ�
 Can Read,អាចអានបាន,
 Can Write,អាចសរសេរបាន,
 Can Submit,អាចដាក់ស្នើបាន,
+Submitted,បានបញ្ជូន,
+Max Produce Quantity,ចំនួនផលិតអតិបរិមា
+Total Produce Quantity,ចំនួនបានដក
+Total Remaining Quantity,ចំនួននៅសល់
+Block Ice Produce Information,ព័ត៌មានការផលិត
 Can Share,អាចចែករំលែកបាន,
 Share this document with,ចែករំលែកឯកសារនេះជាមួយ,
 Insert Below,បញ្ចូលខាងក្រោម,
@@ -892,3 +905,4 @@ Block Ice Invoice,ប៉ុងទឹកកកដើម
 Sale Invoice List,តារាងវិកយប័ត្រ
 Payment amount cannot greater than purchase order amount,ចំនួនទឹកប្រាក់ទូទាត់មិនធំជាងចំនួនទឹកប្រាក់បញ្ជាទិញបានទេ។
 Add new Store Payment,បញ្ចូលទូទាត់តាមហាងថ្មី
+This product has been use in inventory transaction. We can not change this to none inventory tracking product.,ផលិតផលនេះបានប្រើក្នុងប្រតិបត្តិការសារពើភ័ណ្ឌរួចហើយ។ យើងមិនអាចផ្លាស់ប្តូរវាទៅជាផលិតផលដែលមិនតាមដានសារពើភ័ណ្ឌបានទេ។

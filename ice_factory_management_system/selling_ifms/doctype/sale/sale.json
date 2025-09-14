@@ -49,7 +49,9 @@
   "column_break_vioy",
   "id",
   "sale_summary",
-  "product_qty"
+  "product_qty",
+  "payments_tab",
+  "html_payment_history"
  ],
  "fields": [
   {
@@ -344,12 +346,28 @@
    "hidden": 1,
    "label": "Total Quantity Return",
    "read_only": 1
+  },
+  {
+   "fieldname": "payments_tab",
+   "fieldtype": "Tab Break",
+   "label": "Payments"
+  },
+  {
+   "fieldname": "html_payment_history",
+   "fieldtype": "HTML",
+   "options": "<div id=\"payment_history\"></div>"
   }
  ],
  "image_field": "customer_photo",
  "index_web_pages_for_search": 1,
- "links": [],
- "modified": "2025-08-28 17:23:25.012622",
+ "links": [
+  {
+   "group": "Payment",
+   "link_doctype": "Sale Payment",
+   "link_fieldname": "sale"
+  }
+ ],
+ "modified": "2025-09-01 12:34:40.857598",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Sale",
@@ -389,6 +407,30 @@
    "read": 1,
    "report": 1,
    "role": "Sales Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts User",
    "share": 1,
    "write": 1
   }

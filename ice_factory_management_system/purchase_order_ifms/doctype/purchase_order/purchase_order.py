@@ -4,10 +4,11 @@
 import frappe
 from frappe.model.document import Document
 from frappe import _
-
-class PurchaseOrder(Document):
+from ice_factory_management_system.overrides.base_document import BaseDocument
+from ice_factory_management_system.api.inventory import add_inventory_transaction
+class PurchaseOrder(BaseDocument):
 	def validate(self):
-		
+		super().validate()
 		for p in self.purchase_products:
 			p.sub_total = p.quantity * p.cost
 			p.total_cost = p.sub_total
@@ -22,6 +23,7 @@ class PurchaseOrder(Document):
 
 	def before_submit(self):
 		self.update_account_code()
+		self.validate_product_unit()
 
 	def on_submit(self):
 		self.validate_account_code()
@@ -69,12 +71,36 @@ class PurchaseOrder(Document):
 			# if still not have account then get account code from payment type
 			if not p.account:
 				p.account = payment_type_doc.account
-		
 
-					
+	def validate_product_unit(self):
+		for p in [d for d in self.purchase_products if d.is_inventory_product ==1 and d.base_unit != d.unit]:
+			sql="select name,multiplier from `tabProduct Units` where parent=%(product_code)s and unit = %(unit)s"
+			data = frappe.db.sql(sql,{"product_code": p.product_code,"unit":p.unit},as_dict = 1)
+			if data:
+				p.multiplier = data[0].get("multiplier")
+			else:
+				frappe.throw("Product <strong>{}-{}</strong> does not have unit <strong>{}</strong>.".format(p.product_code,p.product_name,p.unit))
+				
 			
 def update_stock_product(self):
-	frappe.throw("quantity to ware house")
+	data = [
+		{
+			"ref_doctype":self.doctype,
+			"ref_docname":self.name,
+			"posting_date":self.posting_date,
+			"stock_location":self.stock_location,
+			"product_code":p.product_code,
+			"unit":p.unit,
+			"quantity": p.quantity,
+			"multiplier":p.multiplier or 1,
+			"is_calculate_cost":1,
+			"cost":p.cost,
+			"note": "បញ្ជូលចំនួនបន្ថែមពីបញ្ជារទិញលេខ {}".format(self.name)
+		}
+		for p in self.purchase_products if p.is_inventory_product == 1
+	]
+	add_inventory_transaction(data)
+	 
 
 
 def submit_to_GL_entry(self):

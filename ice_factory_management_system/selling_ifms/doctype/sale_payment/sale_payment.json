@@ -10,10 +10,13 @@
   "posting_date",
   "outlet",
   "enable_multiple_payment_type",
+  "sale",
+  "photo",
   "column_break_hduw",
   "payment_type",
   "currency",
   "exchange_rate",
+  "exchange_rate_virtual",
   "account_paid_to",
   "payment_from_section",
   "customer",
@@ -26,6 +29,7 @@
   "input_amount",
   "column_break_kbzt",
   "payment_amount",
+  "payment_amount_in_word",
   "column_break_dtzb",
   "amount_to_pay",
   "column_break_iskx",
@@ -54,12 +58,15 @@
   {
    "fieldname": "naming_series",
    "fieldtype": "Select",
+   "hidden": 1,
    "label": "Naming Series",
    "options": "SP.YYYY.-.####"
   },
   {
    "fieldname": "outlet",
    "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Outlet",
    "options": "Outlet",
    "reqd": 1
@@ -68,28 +75,36 @@
    "depends_on": "eval:doc.enable_multiple_payment_type ==0",
    "fieldname": "payment_type",
    "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Payment Type",
    "mandatory_depends_on": "eval:doc.enable_multiple_payment_type ==0",
    "options": "Payment Type"
   },
   {
+   "default": "Today",
    "fieldname": "posting_date",
    "fieldtype": "Date",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Posting Date",
    "reqd": 1
   },
   {
    "fieldname": "customer",
    "fieldtype": "Link",
-   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Customer",
    "options": "Customer",
-   "reqd": 1
+   "reqd": 1,
+   "search_index": 1
   },
   {
    "fetch_from": "customer.customer_name",
    "fieldname": "customer_name",
    "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Customer Name"
   },
   {
@@ -101,15 +116,16 @@
    "fetch_from": "payment_type.currency",
    "fieldname": "currency",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Currency",
    "options": "Currency",
    "read_only": 1
   },
   {
-   "depends_on": "eval:doc.enable_multiple_payment_type ==0",
    "fetch_from": "payment_type.exchange_rate",
    "fieldname": "exchange_rate",
    "fieldtype": "Data",
+   "hidden": 1,
    "label": "Exchange Rate",
    "precision": "9",
    "read_only": 1
@@ -150,6 +166,7 @@
    "default": "0",
    "fieldname": "enable_multiple_payment_type",
    "fieldtype": "Check",
+   "hidden": 1,
    "label": "Enable Multiple Payment Type"
   },
   {
@@ -162,7 +179,7 @@
   },
   {
    "collapsible": 1,
-   "depends_on": "eval:doc.docstatus ==0",
+   "depends_on": "eval:doc.docstatus ==0 && !doc.sale",
    "fieldname": "sale_invoices_section",
    "fieldtype": "Section Break",
    "label": "Get Sales Invoice by Date"
@@ -170,7 +187,8 @@
   {
    "fieldname": "sales",
    "fieldtype": "Table",
-   "options": "Sale Payment Invoices"
+   "options": "Sale Payment Invoices",
+   "reqd": 1
   },
   {
    "fieldname": "start_date",
@@ -213,11 +231,13 @@
    "depends_on": "eval:doc.enable_multiple_payment_type ==0",
    "fieldname": "payment_amount",
    "fieldtype": "Currency",
+   "in_list_view": 1,
    "label": "Payment Amount",
    "mandatory_depends_on": "eval:doc.enable_multiple_payment_type ==0",
    "read_only": 1
   },
   {
+   "depends_on": "eval:doc.docstatus ==0",
    "fieldname": "payment_infomation_section",
    "fieldtype": "Section Break",
    "label": "Payment Infomation"
@@ -252,6 +272,7 @@
    "fieldtype": "Section Break"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "note",
    "fieldtype": "Small Text",
    "label": "Note"
@@ -270,6 +291,7 @@
    "default": "0",
    "fieldname": "write_off_amount",
    "fieldtype": "Currency",
+   "in_list_view": 1,
    "label": "Write off Amount",
    "non_negative": 1,
    "read_only": 1
@@ -279,6 +301,7 @@
    "depends_on": "eval:doc.enable_multiple_payment_type ==0",
    "fieldname": "amount_to_pay",
    "fieldtype": "Currency",
+   "in_list_view": 1,
    "label": "Amount to  Pay",
    "mandatory_depends_on": "eval:doc.enable_multiple_payment_type ==0",
    "read_only": 1
@@ -313,13 +336,46 @@
    "print_hide": 1,
    "read_only": 1,
    "search_index": 1
+  },
+  {
+   "depends_on": "eval:doc.enable_multiple_payment_type ==0",
+   "fetch_from": "payment_type.exchange_rate",
+   "fieldname": "exchange_rate_virtual",
+   "fieldtype": "Float",
+   "is_virtual": 1,
+   "label": "Exchange Rate ",
+   "read_only": 1
+  },
+  {
+   "description": "We use this field to identify that this payment transaction is a single sale payment, this field value is auto assign by Route Option when user click add payment from Sale Detail Form",
+   "fieldname": "sale",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Sale",
+   "options": "Sale",
+   "search_index": 1
+  },
+  {
+   "fieldname": "photo",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "Photo"
+  },
+  {
+   "fieldname": "payment_amount_in_word",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Payment Amount in Word",
+   "length": 250,
+   "read_only": 1
   }
  ],
  "grid_page_length": 50,
+ "image_field": "photo",
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-08-29 17:58:43.784947",
+ "modified": "2025-09-01 11:37:47.499294",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Sale Payment",
@@ -337,6 +393,39 @@
    "role": "System Manager",
    "share": 1,
    "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts User",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales User",
+   "share": 1
   }
  ],
  "row_format": "Dynamic",

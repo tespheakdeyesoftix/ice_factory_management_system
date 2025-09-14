@@ -186,12 +186,16 @@ def ensure_date(posting_date,creation):
 
 @frappe.whitelist() 
 def get_previous_closed_date(posting_date,creation,outlet):
+ 
     b = frappe.db.sql("select posting_date,creation from `tabClosed Selling Date` where docstatus=1 and outlet = '{0}' order by CONCAT(posting_date,' ',DATE_FORMAT(modified, '%H:%i:%s')) desc limit 1".format(outlet),as_dict=1)
+ 
     if len(b or []) > 0:
-        posting_date = ensure_date(str(posting_date),str(creation))
-        previous_closed_date = ensure_date(str(b[0]["posting_date"]),str(b[0]["creation"]))
+        posting_date =frappe.utils.getdate(ensure_date(str(posting_date),str(creation)))
+        previous_closed_date = frappe.utils.getdate(ensure_date(str(b[0]["posting_date"]),str(b[0]["creation"])))
+
+
         if previous_closed_date >= posting_date:
-            frappe.throw("Can create or edit bill with date smaller or same as previous closed date")
+            frappe.throw("You cannot perform this operation. Date {} has been closed.".format(frappe.format(previous_closed_date,{"fieldtype":"Date"})))
     
 
 @frappe.whitelist()
@@ -361,3 +365,44 @@ def on_login(login_manager):
 def getCurrentUser():
     return   frappe.get_cached_doc("User", frappe.session.user)   
 
+def get_default_outlet():
+    sql="select default_outlet from `tabEmployee` where user_id = %(user_id)s"
+    data = frappe.db.sql(sql,{"user_id":frappe.session.user},as_dict = 1)
+    if data:
+        return data[0].get("default_outlet")
+    return frappe.get_list("Outlet",pluck='name')[0]
+
+
+
+def money_to_word(amount=7569556,currency="KHR"):
+    amount = str(amount)
+    if len(amount)>6:
+        first_number = int(amount[:len(amount) - 6])
+
+
+        return number_to_word(int(first_number)) + "លាន" + number_to_word(int(amount[-6:] )) + " " + ("រៀល" if currency=="KHR" else "ដុល្លា")
+    else:
+        return number_to_word(int(amount)) + " " + ("រៀល" if currency=="KHR" else "ដុល្លា")
+    
+def number_to_word(amount=7569556):
+    
+    khmer_digit = ["","មួយ","ពីរ","បី","បួន","ប្រាំ","ប្រាំមួយ","ប្រាំពីរ","ប្រាំបី","ប្រាំបួន"]
+    khmer_unit = ["","ដប់","រយ","ពាន់","ម៉ឺន","សែន","លាន"]
+    tens_words = ['', 'ដប់', 'ម្ភៃ', 'សាមសិប', 'សែសិប', 'ហាសិប', 'ហុកសិប', 'ចិតសិប', 'ប៉ែតសិប', 'កៅសិប']
+    khmer_number = ""
+    n = len(str(amount))
+    for index, w in enumerate(str(amount)):
+        n= n -1
+        if n == 1: # we are at 10 word
+            khmer_number +=tens_words[int(w)] 
+        else:
+            khmer_number = khmer_number + khmer_digit[int(w)] 
+            
+        if w !="0" and n>1:
+            khmer_number = khmer_number + khmer_unit[n]
+
+    return khmer_number
+ 
+
+def clear_cache(doc, method):
+    frappe.clear_document_cache(doc.doctype,doc.name)

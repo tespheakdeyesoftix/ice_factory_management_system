@@ -1,6 +1,6 @@
 :root {
-	--sidebar-width: 250px;
-	--left-sidebar-width: 250px;
+	--sidebar-width: 275px;
+	--left-sidebar-width: 275px;
 }
 .layout-main{
     max-width: 100%!important;
@@ -9,3 +9,14 @@
 .section-head, .section-body{
      max-width: 100%!important;
 }
+
+
+
+ 
+table.block-ice-produce-grid { border-collapse: collapse; }
+.block-ice-produce-grid th,.block-ice-produce-grid td { border: 1px solid #aaa; text-align: center; }
+.block-ice-produce-grid td.selected { background-color: lightblue!important; }
+.block-ice-produce-grid td.selected { background-color: lightblue!important; }
+.block-ice-produce-grid td.has-value { background-color: rgb(191, 240, 153); }
+.block-ice-produce-grid th.selected { background-color: #add8e6; }
+ 

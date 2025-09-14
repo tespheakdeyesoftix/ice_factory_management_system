@@ -6,9 +6,14 @@
    "label": "Profit and Loss "
   }
  ],
- "content": "[{\"id\":\"hjFF2PDBik\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Profit and Loss \",\"col\":12}},{\"id\":\"0I3mbLRqEi\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"auf4yDQXTD\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Profit and Loss Statement\",\"col\":3}},{\"id\":\"ErbzME6Ztr\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Trail Balance\",\"col\":3}},{\"id\":\"3NrXEqgotA\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New Sale Payment\",\"col\":3}}]",
+ "content": "[{\"id\":\"YBHtbns9tg\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"Profit and Loss KPI\",\"col\":12}},{\"id\":\"hjFF2PDBik\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Profit and Loss \",\"col\":12}},{\"id\":\"0I3mbLRqEi\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"auf4yDQXTD\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Profit and Loss Statement\",\"col\":3}},{\"id\":\"ErbzME6Ztr\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Trail Balance\",\"col\":3}},{\"id\":\"3NrXEqgotA\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New Sale Payment\",\"col\":3}}]",
  "creation": "2025-08-20 17:19:18.478689",
- "custom_blocks": [],
+ "custom_blocks": [
+  {
+   "custom_block_name": "Profit and Loss KPI",
+   "label": "Profit and Loss KPI"
+  }
+ ],
  "docstatus": 0,
  "doctype": "Workspace",
  "for_user": "",
@@ -20,7 +25,7 @@
  "label": "Accounting",
  "link_type": "DocType",
  "links": [],
- "modified": "2025-08-28 14:51:57.313040",
+ "modified": "2025-09-01 16:20:03.003390",
  "modified_by": "Administrator",
  "module": "Account IFMF",
  "name": "Accounting",

@@ -1,0 +1,127 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2025-08-30 21:08:34.703621",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "block_grid_name",
+  "location",
+  "product_code",
+  "row",
+  "column",
+  "total_produce_per_day",
+  "max_produce_quantity",
+  "column_break_npzl",
+  "note"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Naming Series",
+   "options": "GRD.-.####"
+  },
+  {
+   "fieldname": "row",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Row Number",
+   "non_negative": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "column",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Column Number",
+   "non_negative": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "note",
+   "fieldtype": "Small Text",
+   "label": "Note"
+  },
+  {
+   "fieldname": "location",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Location",
+   "options": "Block Ice Produce Location",
+   "reqd": 1
+  },
+  {
+   "fieldname": "total_produce_per_day",
+   "fieldtype": "Int",
+   "label": "Total Produce Per Day",
+   "non_negative": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "max_produce_quantity",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Max Produce Quantity",
+   "read_only": 1
+  },
+  {
+   "fieldname": "block_grid_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Block Grid Name"
+  },
+  {
+   "fieldname": "column_break_npzl",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "product_code",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Product Code",
+   "options": "Product",
+   "reqd": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-09-01 15:28:26.052760",
+ "modified_by": "Administrator",
+ "module": "Inventory Management",
+ "name": "Block Ice Produce Grid",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "share": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

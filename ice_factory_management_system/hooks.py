@@ -144,13 +144,17 @@ after_migrate = [
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-#	"*": {
-#		"on_update": "method",
-#		"on_cancel": "method",
-#		"on_trash": "method"
-#	}
-# }
+doc_events = {
+	"Payment Type": {"on_update": "ice_factory_management_system.api.utils.clear_cache"	},
+	"Chart of Account": {"on_update": "ice_factory_management_system.api.utils.clear_cache"	},
+	"Stock Location": {"on_update": "ice_factory_management_system.api.utils.clear_cache"	},
+	"Outlet": {"on_update": "ice_factory_management_system.api.utils.clear_cache"	},
+	"Customer": {"on_update": "ice_factory_management_system.api.utils.clear_cache"	},
+	"Product": {"on_update": "ice_factory_management_system.api.utils.clear_cache"	},
+	"Block Ice Produce Grid": {"on_update": "ice_factory_management_system.api.utils.clear_cache"	},
+	"Tube Ice Machine": {"on_update": "ice_factory_management_system.api.utils.clear_cache"	},
+	 
+}
 
 # Scheduled Tasks
 # ---------------

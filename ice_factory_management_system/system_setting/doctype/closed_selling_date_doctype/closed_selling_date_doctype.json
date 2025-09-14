@@ -7,7 +7,8 @@
  "engine": "InnoDB",
  "field_order": [
   "closed_doctype",
-  "note"
+  "note",
+  "is_submittable"
  ],
  "fields": [
   {
@@ -20,17 +21,25 @@
    "fieldname": "note",
    "fieldtype": "Data",
    "label": "Note"
+  },
+  {
+   "default": "0",
+   "fetch_from": "closed_doctype.is_submittable",
+   "fieldname": "is_submittable",
+   "fieldtype": "Check",
+   "label": "Is Submittable"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-05-05 09:24:02.826809",
+ "modified": "2025-08-31 16:49:07.316577",
  "modified_by": "Administrator",
  "module": "System Setting",
  "name": "Closed Selling Date Doctype",
  "owner": "Administrator",
  "permissions": [],
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []

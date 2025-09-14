@@ -2,10 +2,56 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on("Sale", {
+    onload(frm){
+        if (!frm.is_new()) {
+            frm.call("update_sale_information")
+        }
+    },
     refresh(frm) {
-         console.log(frm)
+        frm.dashboard.clear_headline();
+        if (!frm.is_new()) {
+            frm.dashboard.add_indicator(
+                __("Total Quantity: {0}", [format_number(frm.doc.total_quantity)]),
+                "blue"  
+            );
+            
+            frm.dashboard.add_indicator(
+                __("Total Amount: {0}", [fmt_money(frm.doc.total_amount)]),
+                "blue"  
+            );
+            frm.dashboard.add_indicator(
+                __("Total Payment: {0}", [fmt_money(frm.doc.total_payment)]),
+                "green"  ,
+                
+            );
+            frm.dashboard.add_indicator(
+                __("Write Off Amount: {0}", [fmt_money(frm.doc.total_write_off)]),
+                "red"  
+            );
+            
+            frm.dashboard.add_indicator(
+                __("Balance: {0}", [fmt_money(frm.doc.balance)]),
+                "blue"  
+            );
+
+
+
+            // make all control read only
+            frm.fields.forEach(function(field) {
+                frm.set_df_property(field.df.fieldname, 'read_only', 1);
+            });
+
+            // Refresh the fields to apply the changes
+            frm.refresh_fields();
+
+        }
+
 
         updateSummary(frm);
+
+        addCustomButton(frm)
+
+        renderPaymentHistory(frm)
 	},
     outlet(frm) {
         get_default_accounts(frm);
@@ -173,3 +219,53 @@ function update_sale_total(frm) {
     frm.set_value("balance", total_sale_amount);
     updateSummary(frm);
 }
+
+
+function addCustomButton(frm){
+
+    if(frm.doc.balance>0){
+        frm.add_custom_button(__("Add Payment"), function() {
+        frappe.route_options = { customer: frm.doc.customer,customer_name:frm.doc.customer_name, sale:frm.doc.name,outlet:frm.doc.outlet };
+        frappe.set_route('Form', 'Sale Payment', 'new');
+
+    });
+    
+    }
+    
+
+    // add menu from report
+    frappe.db.get_list("System Report",{fields:["name","report_title","report_url"],filters:[["is_doctype_report","=",1],["doctype_name","=",frm.doctype]]}).then(result=>{
+        if(result){
+            result.forEach(r=>{
+             
+                 frm.add_custom_button(r.report_title, function() {
+                        printDoc(frm,r.name)
+
+    }, __('View Reports')); 
+            })
+        }
+    
+    })
+    
+}
+
+function renderPaymentHistory(frm){
+  
+            //  frm.call("get_payment_history").then(result=>{
+            //      new frappe.DataTable('#payment_history',  result.message);
+
+            // })
+            
+             frm.call("get_payment_history").then(result=>{
+                   const html = frappe.render_template("payment_history", {data:result.message});		
+                $(frm.fields_dict['html_payment_history'].wrapper).html(html);
+
+            })
+
+            
+       
+        
+    
+}
+ 
+ 

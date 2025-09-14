@@ -104,7 +104,7 @@
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2025-08-25 16:20:31.113243",
+ "modified": "2025-08-30 01:02:05.188607",
  "modified_by": "Administrator",
  "module": "Account IFMF",
  "name": "Chart of Account",
@@ -122,6 +122,15 @@
    "role": "System Manager",
    "share": 1,
    "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "share": 1
   }
  ],
  "row_format": "Dynamic",

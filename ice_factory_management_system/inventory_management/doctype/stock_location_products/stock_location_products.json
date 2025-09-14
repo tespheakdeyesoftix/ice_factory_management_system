@@ -8,8 +8,8 @@
  "field_order": [
   "product_code",
   "product_name",
-  "unit",
   "stock_location",
+  "unit",
   "quantity",
   "cost"
  ],
@@ -26,6 +26,7 @@
    "fieldname": "stock_location",
    "fieldtype": "Link",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Stock Location",
    "options": "Stock Location"
   },
@@ -60,7 +61,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-08-23 16:56:42.726073",
+ "modified": "2025-09-01 21:40:38.276062",
  "modified_by": "Administrator",
  "module": "Inventory Management",
  "name": "Stock Location Products",
@@ -68,7 +69,6 @@
  "owner": "Administrator",
  "permissions": [
   {
-   "create": 1,
    "delete": 1,
    "email": 1,
    "export": 1,
@@ -76,16 +76,6 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
-   "share": 1,
-   "write": 1
-  },
-  {
-   "email": 1,
-   "export": 1,
-   "print": 1,
-   "read": 1,
-   "report": 1,
-   "role": "Stocks User",
    "share": 1
   },
   {
@@ -94,7 +84,7 @@
    "print": 1,
    "read": 1,
    "report": 1,
-   "role": "Stocks Manager",
+   "role": "All",
    "share": 1
   }
  ],

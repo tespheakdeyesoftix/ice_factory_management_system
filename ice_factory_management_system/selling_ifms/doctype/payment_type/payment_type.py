@@ -22,6 +22,7 @@ class PaymentType(Document):
 			else:
 				frappe.throw("There is no exchange rate from {} to {}".format(main_currency,self.currency))
 	def on_update(self):
+	 
 		if self.is_default == 1:
 			frappe.db.sql("""UPDATE `tabPayment Type` SET is_default = 0 where name <> '{}'""".format(self.name), as_dict=1)
 			frappe.db.commit()

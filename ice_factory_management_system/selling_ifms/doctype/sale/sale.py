@@ -35,6 +35,48 @@ class Sale(Document):
 			frappe.throw(_("Please select customer"))
 
 
+	# other doc method
+	@frappe.whitelist()
+	def update_sale_information(self):
+		# this function to recalculate sale total when form open improve data consistency
+		frappe.db.sql("call sp_update_sale_information ('{}','')".format(self.name))
+
+	@frappe.whitelist()
+	def get_payment_history_for_frappe_data_table(self):
+
+		columns = [
+			{ "id": 'payment_date', "name": _('Payment Date'),   "width": 120, "align":"center"},
+			{ "id": 'receipt_number', "name": _('Receipt No'),   "width": 150 ,"align":"center"},
+			{ "id": 'payment_amount', "name": _('Payment Amount'),   "width": 150,"align":"right" },
+			{ "id": 'write_off_amount', "name": _('Write Off Amount'),   "width": 150 ,"align":"right"},
+		
+			{ "id": 'created_by', "name": _('Created By'),   "width": 120 },
+			{ "id": 'created_date', "name": _('Created Date'),   "width": 200 },
+				{ "id": 'note', "name": _('Note'),"width":250,"align":"left"   },
+		]
+	 
+		sql = "select payment_date,parent as receipt_number,payment_amount,write_off_amount, note, owner as created_by, creation as created_date from `tabSale Payment Invoices` where sale = %(sale)s and docstatus = 1"
+		data  = frappe.db.sql(sql, {"sale":self.name},as_dict = 1)
+		# apply formating
+		for d in data:
+			d["payment_date"] = frappe.format(d.get("payment_date"),{"fieldtype":"Date"})
+			d["created_date"] = frappe.format(d.get("created_date"),{"fieldtype":"Datetime"})
+			d["payment_amount"] = frappe.format(d.get("payment_amount"),{"fieldtype":"Currency"})
+			d["write_off_amount"] = frappe.format(d.get("write_off_amount"),{"fieldtype":"Currency"})
+		return {
+			"columns":columns,
+			"data":data,
+			"layout": 'fitColumns',
+			 "selectable": False,
+    "editable": False
+		}
+	
+	@frappe.whitelist()
+	def get_payment_history(self):
+		sql = "select payment_date,parent as receipt_number,payment_amount,write_off_amount, note, owner as created_by, creation as created_date from `tabSale Payment Invoices` where sale = %(sale)s and docstatus = 1"
+		data  = frappe.db.sql(sql, {"sale":self.name},as_dict = 1)
+		return data
+
 
 def verify_before_GL_submit(self):
 	if self.is_new():

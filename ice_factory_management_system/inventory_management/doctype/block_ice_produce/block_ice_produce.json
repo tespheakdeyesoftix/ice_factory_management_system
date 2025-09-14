@@ -1,0 +1,268 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2025-08-30 21:25:33.879732",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "block_ice_produce_information_tab",
+  "naming_series",
+  "posting_date",
+  "photo",
+  "outlet",
+  "column_break_ffpw",
+  "max_produce_quantity",
+  "column_break_jstc",
+  "total_produce_quantity",
+  "column_break_lcjc",
+  "total_remaining_quantity",
+  "section_break_evpv",
+  "produce_quantity",
+  "section_break_viwj",
+  "note",
+  "amended_from",
+  "product_grid_tab",
+  "html_wvzz",
+  "column_break_jyce",
+  "html_vrgm",
+  "section_break_jnet",
+  "html_zqyt",
+  "column_break_bpzd",
+  "html_lxyx",
+  "produce_grid_5_to_8_tab",
+  "grid_5_7x8_max_produce_per_day_100",
+  "column_break_yrka",
+  "html_yajf",
+  "section_break_svvf",
+  "html_ctfc"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "BIP.YYYY.-.####"
+  },
+  {
+   "default": "Today",
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Posting Date",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "max_produce_quantity",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Max Produce Quantity",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "total_produce_quantity",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Total Produce Quantity",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "total_remaining_quantity",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Total Remaining Quantity",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_ffpw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_evpv",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_viwj",
+   "fieldtype": "Section Break"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "allow_on_submit": 1,
+   "fieldname": "note",
+   "fieldtype": "Small Text",
+   "label": "Note"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Block Ice Produce",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "depends_on": "eval:!doc.__islocal",
+   "fieldname": "produce_quantity",
+   "fieldtype": "Table",
+   "no_copy": 1,
+   "options": "Block Ice Produce Grid Child"
+  },
+  {
+   "fieldname": "column_break_jstc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_lcjc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:!doc.__islocal",
+   "fieldname": "product_grid_tab",
+   "fieldtype": "Tab Break",
+   "label": "Produce Grid 1 to 4"
+  },
+  {
+   "fieldname": "html_wvzz",
+   "fieldtype": "HTML",
+   "options": "<div id=\"GRD-0001\"></div>"
+  },
+  {
+   "fieldname": "column_break_jyce",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:!doc.__islocal",
+   "fieldname": "produce_grid_5_to_8_tab",
+   "fieldtype": "Tab Break",
+   "label": "Produce Grid 5 to 8"
+  },
+  {
+   "description": "Grid 5 (7x8), Max Produce per Day 100",
+   "fieldname": "grid_5_7x8_max_produce_per_day_100",
+   "fieldtype": "HTML",
+   "options": "<div id=\"GRD-0005\"></div>"
+  },
+  {
+   "fieldname": "column_break_yrka",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "Grid 5 (7x8), Max Produce per Day 100",
+   "fieldname": "html_yajf",
+   "fieldtype": "HTML",
+   "options": "<div id=\"GRD-0006\"></div>"
+  },
+  {
+   "fieldname": "html_vrgm",
+   "fieldtype": "HTML",
+   "options": "<div id=\"GRD-0002\"></div>"
+  },
+  {
+   "fieldname": "section_break_jnet",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "html_zqyt",
+   "fieldtype": "HTML",
+   "options": "<div id=\"GRD-0003\"></div>"
+  },
+  {
+   "fieldname": "column_break_bpzd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "html_lxyx",
+   "fieldtype": "HTML",
+   "options": "<div id=\"GRD-0004\"></div>"
+  },
+  {
+   "fieldname": "photo",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "Photo"
+  },
+  {
+   "fieldname": "block_ice_produce_information_tab",
+   "fieldtype": "Tab Break",
+   "label": "Block Ice Produce Information"
+  },
+  {
+   "fieldname": "outlet",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Outlet",
+   "options": "Outlet"
+  },
+  {
+   "fieldname": "section_break_svvf",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "html_ctfc",
+   "fieldtype": "HTML",
+   "options": "<div id=\"GRD-0007\"></div>"
+  }
+ ],
+ "grid_page_length": 50,
+ "image_field": "photo",
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2025-09-01 08:16:00.446985",
+ "modified_by": "Administrator",
+ "module": "Inventory Management",
+ "name": "Block Ice Produce",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Stocks User",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Stocks Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}
