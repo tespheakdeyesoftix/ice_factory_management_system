@@ -13,18 +13,19 @@
   "product_name",
   "product_name_kh",
   "revenue_group",
+  "color",
   "column_break_xcqe",
   "photo",
   "unit",
   "multiplier",
   "price",
-  "sort_order",
+  "default_sale_transaction_type",
   "column_break_abso",
   "enabled",
   "allow_sum_qty",
-  "show_in_sale_report",
   "allow_split_bill",
   "show_in_customer_product_price",
+  "sort_order",
   "outlets_section",
   "product_outlet",
   "product_outlets",
@@ -38,10 +39,21 @@
   "stock_location",
   "opening_quantity",
   "cost",
+  "column_break_wnox",
+  "default_sale_stock_location",
   "account_tab",
   "inventory_account",
+  "column_break_ixfy",
   "stock_adjustment_account",
-  "product_accounts"
+  "section_break_rxzx",
+  "product_accounts",
+  "options_tab",
+  "show_in_sale_report",
+  "allow_free",
+  "allow_return",
+  "allow_change_price",
+  "column_break_enps",
+  "check_auth_remove_from_sale"
  ],
  "fields": [
   {
@@ -268,12 +280,76 @@
    "label": "Stock Adjustment Account",
    "link_filters": "[[\"Chart of Account\",\"is_group\",\"=\",0],[\"Chart of Account\",\"account_type\",\"=\",\"Expense\"]]",
    "options": "Chart of Account"
+  },
+  {
+   "fieldname": "column_break_ixfy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_rxzx",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "Sale",
+   "fieldname": "default_sale_transaction_type",
+   "fieldtype": "Select",
+   "label": "Default Sale Transaction Type",
+   "options": "\nSale\nBorrow"
+  },
+  {
+   "fieldname": "column_break_wnox",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.is_inventory_product == 1",
+   "fieldname": "default_sale_stock_location",
+   "fieldtype": "Link",
+   "label": "Default Sale Stock Location",
+   "options": "Stock Location"
+  },
+  {
+   "fieldname": "options_tab",
+   "fieldtype": "Tab Break",
+   "label": "Options"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_free",
+   "fieldtype": "Check",
+   "label": "Allow Free"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_return",
+   "fieldtype": "Check",
+   "label": "Allow Return"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_change_price",
+   "fieldtype": "Check",
+   "label": "Allow Change Price"
+  },
+  {
+   "fieldname": "column_break_enps",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "check_auth_remove_from_sale",
+   "fieldtype": "Check",
+   "label": "Authorize Permission when Remove from Sale"
+  },
+  {
+   "fieldname": "color",
+   "fieldtype": "Color",
+   "label": "Color"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-09-03 14:11:55.018880",
+ "modified": "2025-10-23 16:02:32.817739",
  "modified_by": "Administrator",
  "module": "Inventory Management",
  "name": "Product",

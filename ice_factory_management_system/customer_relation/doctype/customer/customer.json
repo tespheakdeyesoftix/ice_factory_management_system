@@ -209,7 +209,7 @@
    "link_fieldname": "customer"
   }
  ],
- "modified": "2025-08-30 09:42:29.504152",
+ "modified": "2025-10-22 11:30:28.618484",
  "modified_by": "Administrator",
  "module": "Customer Relation",
  "name": "Customer",
@@ -271,9 +271,9 @@
    "write": 1
   }
  ],
- "quick_entry": 1,
  "row_format": "Dynamic",
  "search_fields": "keyword,phone_number_1",
+ "show_name_in_global_search": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],

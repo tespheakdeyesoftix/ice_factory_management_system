@@ -70,10 +70,12 @@ def get_split_bill_list(name):
             name,customer,customer_name,
             reference_number,
             customer_photo,
-            phone_number
+            phone_number,
+            can_show_price
         from `tabSale` 
         where
-            parent_bill_number = %(name)s
+            parent_bill_number = %(name)s and 
+            sale_status <> 'Deleted'
         order by 
             name
     """
@@ -85,7 +87,10 @@ def get_split_bill_list(name):
             parent,
             product_code,
             product_name,
-            total_sale_quantity
+            total_sale_quantity,
+            total_amount,
+            price,
+            unit
         from `tabSale Products` 
         where 
             parent in %(names)s

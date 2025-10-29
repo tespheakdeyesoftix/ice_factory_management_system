@@ -13,16 +13,21 @@
   "outlet",
   "outlet_unit",
   "station",
+  "stock_location",
   "column_break_wrwm",
   "customer",
   "customer_name",
   "phone_number",
   "customer_photo",
   "can_show_price",
+  "can_split_bill",
+  "can_edit_bill",
   "column_break_zdac",
   "driver",
   "driver_name",
+  "driver_phone_number",
   "plate_number",
+  "driver_photo",
   "sale_status",
   "parent_bill_number",
   "products_section",
@@ -38,6 +43,7 @@
   "total_quantity",
   "total_free",
   "total_quantity_return",
+  "total_split_quantity",
   "total_sale_quantity",
   "total_amount",
   "total_payment",
@@ -46,12 +52,17 @@
   "update_from",
   "total_split_bill",
   "note",
+  "deleted_date",
+  "deleted_by",
+  "deleted_note",
   "column_break_vioy",
   "id",
   "sale_summary",
   "product_qty",
   "payments_tab",
-  "html_payment_history"
+  "html_payment_history",
+  "section_break_nmry",
+  "payments"
  ],
  "fields": [
   {
@@ -74,6 +85,7 @@
   {
    "fieldname": "customer",
    "fieldtype": "Link",
+   "in_global_search": 1,
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Customer",
@@ -168,6 +180,7 @@
    "fetch_from": "customer.customer_name",
    "fieldname": "customer_name",
    "fieldtype": "Data",
+   "in_global_search": 1,
    "in_list_view": 1,
    "label": "Customer Name",
    "read_only": 1
@@ -176,6 +189,7 @@
    "fetch_from": "customer.phone_number_1",
    "fieldname": "phone_number",
    "fieldtype": "Data",
+   "in_global_search": 1,
    "label": "Phone Number",
    "read_only": 1
   },
@@ -241,6 +255,7 @@
    "default": "Draft",
    "fieldname": "sale_status",
    "fieldtype": "Select",
+   "hidden": 1,
    "label": "Sale Status",
    "options": "Draft\nClosed\nDeleted",
    "search_index": 1
@@ -324,6 +339,7 @@
   {
    "fieldname": "parent_bill_number",
    "fieldtype": "Data",
+   "hidden": 1,
    "label": "Parent Bill Number",
    "search_index": 1
   },
@@ -356,6 +372,73 @@
    "fieldname": "html_payment_history",
    "fieldtype": "HTML",
    "options": "<div id=\"payment_history\"></div>"
+  },
+  {
+   "fieldname": "driver_photo",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "Driver Photo"
+  },
+  {
+   "fieldname": "driver_phone_number",
+   "fieldtype": "Data",
+   "label": "Driver Phone Number"
+  },
+  {
+   "fetch_from": "outlet.default_stock_location",
+   "fieldname": "stock_location",
+   "fieldtype": "Link",
+   "label": "Stock Location",
+   "options": "Stock Location"
+  },
+  {
+   "fieldname": "deleted_date",
+   "fieldtype": "Datetime",
+   "label": "Deleted Date"
+  },
+  {
+   "fieldname": "deleted_by",
+   "fieldtype": "Data",
+   "label": "Deleted  By"
+  },
+  {
+   "fieldname": "deleted_note",
+   "fieldtype": "Data",
+   "label": "Delete Note"
+  },
+  {
+   "fieldname": "payments",
+   "fieldtype": "Table",
+   "label": "Payments",
+   "options": "POS Sale Payment"
+  },
+  {
+   "fieldname": "section_break_nmry",
+   "fieldtype": "Section Break",
+   "hidden": 1
+  },
+  {
+   "fieldname": "total_split_quantity",
+   "fieldtype": "Float",
+   "hidden": 1,
+   "label": "Total Split Quantity",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fetch_from": "customer.can_split_bill",
+   "fieldname": "can_split_bill",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Can Split Bill"
+  },
+  {
+   "default": "0",
+   "fetch_from": "customer.can_edit_bill",
+   "fieldname": "can_edit_bill",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Can Edit Bill"
   }
  ],
  "image_field": "customer_photo",
@@ -367,7 +450,8 @@
    "link_fieldname": "sale"
   }
  ],
- "modified": "2025-09-01 12:34:40.857598",
+ "make_attachments_public": 1,
+ "modified": "2025-10-29 11:45:03.932320",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Sale",
@@ -437,6 +521,7 @@
  ],
  "row_format": "Dynamic",
  "search_fields": "customer,customer_name,posting_date",
+ "show_name_in_global_search": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],

@@ -20,7 +20,7 @@ BEGIN
 			s.total_payment = COALESCE(b.payment_amount,0),
 			s.total_write_off = coalesce(b.write_off_amount,0),
 			s.balance = s.total_amount - (coalesce(b.payment_amount,0) + COALESCE(b.write_off_amount,0)),
-			s.status = fn_get_payment_status(s.total_amount,(coalesce(b.payment_amount,0) + COALESCE(b.write_off_amount,0)) )
+			s.status = if(s.sale_status = 'Deleted','Deleted' , fn_get_payment_status(s.total_amount,(coalesce(b.payment_amount,0) + COALESCE(b.write_off_amount,0)) ))
 		WHERE
 			s.name = v_sale;
 			
@@ -50,7 +50,7 @@ BEGIN
 			s.total_payment = coalesce(b.payment_amount,0),
 			s.total_write_off =coalesce( b.write_off_amount,0),
 			s.balance = coalesce(s.total_amount,0) - (coalesce(b.payment_amount,0) + COALESCE(b.write_off_amount,0)),
-			s.status = fn_get_payment_status(s.total_amount,(coalesce(b.payment_amount,0) + COALESCE(b.write_off_amount,0)) )
+			s.status = if(s.sale_status = 'Deleted', 'Deleted' , fn_get_payment_status(s.total_amount,(coalesce(b.payment_amount,0) + COALESCE(b.write_off_amount,0)) ))
 		WHERE
 			s.name in (select name from tbl_sale);
 		

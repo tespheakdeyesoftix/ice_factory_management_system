@@ -195,16 +195,24 @@ def get_product_accounts(product_code="",outlet=""):
 	income_account = ""
 	free_account = ""
 	receivable_account = ""
+	expense_account = ""
+	inventory_account = ""
+	borrow_account = ""
 	product_defaults = frappe.get_doc("Product", product_code)
 	product_default = [a for a in product_defaults.product_accounts if a.outlet == outlet]
 	if len(product_default) > 0:
 		income_account = product_default[0].income_account
 		free_account = product_default[0].free_account
+		expense_account = product_default[0].expense_account
+		borrow_account = product_default[0].borrow_account
 
 	if outlet:
 		outlet_default = frappe.get_doc("Outlet", outlet)
 		income_account = outlet_default.income_account if (income_account or "") == "" else income_account
 		free_account = outlet_default.free_account if (free_account or "") == "" else free_account
+		inventory_account = outlet_default.inventory_account
+		if not borrow_account:
+			borrow_account = outlet_default.borrow_account
 
 	business_default = frappe.get_doc("Business Information")
 	income_account = business_default.income_account if (income_account or "") == "" else income_account
@@ -212,4 +220,11 @@ def get_product_accounts(product_code="",outlet=""):
 
 	receivable_account = business_default.receivable_account if (receivable_account or "") == "" else receivable_account
 
-	return {"income_account":income_account,"free_account":free_account,"receivable_account":receivable_account}
+	return {
+			"income_account":income_account,
+			"free_account":free_account,
+			"receivable_account":receivable_account,
+			"expense_account":expense_account,
+		 	"inventory_account":inventory_account,
+			 "borrow_account":borrow_account
+		}

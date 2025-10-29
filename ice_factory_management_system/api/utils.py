@@ -195,7 +195,7 @@ def get_previous_closed_date(posting_date,creation,outlet):
 
 
         if previous_closed_date >= posting_date:
-            frappe.throw("You cannot perform this operation. Date {} has been closed.".format(frappe.format(previous_closed_date,{"fieldtype":"Date"})))
+            frappe.throw("អ្នកមិនធ្វើប្រតិបត្តិការនេះបានទេ។ ព្រោះថ្ងៃទី {} ត្រូបានបិទបញ្ជីររួចហើយ.".format(frappe.format(previous_closed_date,{"fieldtype":"Date"})))
     
 
 @frappe.whitelist()
@@ -212,8 +212,7 @@ def get_meta(doctype=None):
 def get_setting(station_name=""):
     data  = frappe.get_cached_doc("Business Information",None)
     data =json.loads( frappe.as_json(data))
-    
- 
+
     if station_name:
         
         if frappe.db.exists("Station", station_name):
@@ -223,7 +222,24 @@ def get_setting(station_name=""):
             
             data["default_unit"]  = frappe.get_cached_value("Outlet",data.get("outlet"),"default_unit")
 
-              
+
+    data["currency"] = frappe.get_cached_value("System Settings", None, "currency")
+    data["currency_symbol"] = frappe.get_cached_value("Currency",data.get("currency"),"symbol")
+    data["second_currency_symbol"] = frappe.get_cached_value("Currency",data.get("second_currency"),"symbol")
+    
+    # payment type
+    payment_types = frappe.db.get_list("Payment Type",["name","currency","exchange_rate"])
+    data["payment_types"] = payment_types    
+
+    # get exchange rate
+    exchange_rate = 1
+    exchange_rate_data =  frappe.db.sql("select currency_exchange_rate from `tabExchange Rate` where from_currency=%(from_currency)s and to_currency =  %(to_currency)s and docstatus = 1 order by creation desc  limit 1",{"from_currency":data.get("currency"),"to_currency":data.get("second_currency")},as_dict = 1)
+    if exchange_rate_data:
+        from decimal import Decimal
+        exchange_rate = Decimal( exchange_rate_data[0].get("currency_exchange_rate",1))
+
+    data["exchange_rate"]  = exchange_rate
+    data["exchange_rate_display"]  = exchange_rate if exchange_rate>1 else 1/exchange_rate
     return data
     
 
@@ -308,6 +324,7 @@ def get_response_user_information(property):
 
     data = frappe.db.sql(sql, as_dict=1)
     user_info={}
+    
     if data:
         position = data[0].get("position")
         employee_id = data[0].get("name")
@@ -315,6 +332,7 @@ def get_response_user_information(property):
         address = data[0].get("address")
         photo = data[0].get("photo")
         home_page = data[0].get("default_frontend_home_page")
+
         role_profile = data[0].get("role_profile")
         user_info=data[0]
 
@@ -406,3 +424,16 @@ def number_to_word(amount=7569556):
 
 def clear_cache(doc, method):
     frappe.clear_document_cache(doc.doctype,doc.name)
+
+@frappe.whitelist()
+def add_audit_trail_log(data):
+    if isinstance(data, list):
+        for d in data:
+            d["doctype"] = "Audit Trail Log"
+            d["username"] = frappe.get_cached_value("User",frappe.session.user,"full_name")
+            frappe.get_doc(d).insert(ignore_permissions=True)
+    else:
+        data["doctype"] = "Audit Trail Log"
+        data["username"] = frappe.get_cached_value("User",frappe.session.user,"full_name")
+        frappe.get_doc(data).insert(ignore_permissions=True)
+    frappe.db.commit()

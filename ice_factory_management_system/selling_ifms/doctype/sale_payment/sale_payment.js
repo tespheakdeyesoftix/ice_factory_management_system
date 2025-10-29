@@ -28,6 +28,12 @@ frappe.ui.form.on("Sale Payment", {
     },
     refresh(frm) {
         setOutlet(frm);
+        if(!frm.is_new()){
+            if(frm.doc.exchange_rate){
+            
+            frm.set_value("exchange_rate_virtual",1/ parseFloat(frm.doc.exchange_rate))
+        }
+        }
     },
 
     async customer(frm) {

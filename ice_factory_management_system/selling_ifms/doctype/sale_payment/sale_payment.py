@@ -62,6 +62,7 @@ class SalePayment(BaseDocument):
 		frappe.msgprint("dnt forget update sale balance")
 
 	def validate_payment_amount(self):
+		
 		if self.input_amount:
 			if (self.input_amount / float(self.exchange_rate))>self.payment_amount:
 				frappe.throw(_("សូមបែងចែកចំនួនទឹកប្រាក់តាមវិកយប័ត្រអោយបានត្រឹមត្រូវ"))

@@ -12,6 +12,7 @@ def login(property,usr, pwd,station_name):
         frappe.clear_messages()
         frappe.throw(_("Usename and password incorrect."))
     user_info = get_response_user_information(property)
+    
     frappe.response["message"] = user_info
     frappe.response["home_page"] =user_info.get("home_page")
     frappe.response["setting"] = get_setting(station_name)

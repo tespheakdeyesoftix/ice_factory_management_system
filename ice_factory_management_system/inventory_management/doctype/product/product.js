@@ -31,9 +31,12 @@ function updateIndicator(frm) {
 }
 function addCustomerButtons(frm) {
 
-    frm.add_custom_button(__("Stock Adjustment"), function () {
+    if (frm.doc.is_inventory_product==1){
+         frm.add_custom_button(__("Stock Adjustment"), function () {
         onStockAdjustment(frm)
     }, __("Actions"));
+    }
+   
 }
 
 function onStockAdjustment(frm) {

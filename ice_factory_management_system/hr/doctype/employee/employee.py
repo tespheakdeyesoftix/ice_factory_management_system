@@ -87,7 +87,8 @@ def check_user_field_changed(self, fields):
 def update_outlet_user_permission(self):
 	frappe.db.sql("delete from `tabUser Permission` where user=%(user)s and allow = 'Outlet'",{"user":self.user_id})
 	outlets = [self.default_outlet]
-	outlets = outlets + [d.outlet for d in self.outlets]
+	outlets = set(outlets + [d.outlet for d in self.outlets])
+	 
 	for o in outlets:
 		user_permission_doc = frappe.new_doc("User Permission")
 		user_permission_doc.user = self.user_id

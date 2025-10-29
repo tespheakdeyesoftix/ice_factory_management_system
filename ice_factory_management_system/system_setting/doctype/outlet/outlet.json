@@ -10,6 +10,7 @@
   "outlet_name_en",
   "outlet_name_kh",
   "default_unit",
+  "default_stock_location",
   "column_break_vptn",
   "tab_2_tab",
   "cash_account",
@@ -21,7 +22,8 @@
   "receivable_account",
   "payable_account",
   "write_off_account",
-  "inventory_account"
+  "inventory_account",
+  "borrow_account"
  ],
  "fields": [
   {
@@ -124,11 +126,24 @@
    "label": "Payable Account",
    "link_filters": "[[\"Chart of Account\",\"account_type\",\"=\",\"Payable\"]]",
    "options": "Chart of Account"
+  },
+  {
+   "fieldname": "default_stock_location",
+   "fieldtype": "Link",
+   "label": "Default Stock Location",
+   "options": "Stock Location"
+  },
+  {
+   "description": "We use this account code to store Stock Value of \u1792\u17bb\u1784 that customer borrow",
+   "fieldname": "borrow_account",
+   "fieldtype": "Link",
+   "label": "Borrow Account",
+   "options": "Chart of Account"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-08-27 12:11:37.766056",
+ "modified": "2025-10-22 15:45:56.286992",
  "modified_by": "Administrator",
  "module": "System Setting",
  "name": "Outlet",

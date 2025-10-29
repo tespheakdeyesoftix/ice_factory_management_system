@@ -12,27 +12,43 @@
   "photo",
   "base_unit",
   "allow_split_bill",
+  "sale_transaction_type",
   "column_break_xuag",
   "unit",
   "multiplier",
   "product_category",
   "revenue_group",
   "allow_sum_qty",
+  "is_inventory_product",
   "section_break_vuoq",
   "price",
   "product_price",
   "quantity",
   "free_quantity",
   "return_quantity",
+  "split_quantity",
   "column_break_adxn",
   "total_sale_quantity",
   "sub_total",
   "total_amount",
+  "inventory_section",
+  "cost",
+  "total_cost",
+  "column_break_lydl",
+  "stock_location",
   "section_break_xxgr",
   "default_income_account",
   "default_free_account",
-  "column_break_pmwo",
   "default_receivable_account",
+  "default_borrow_account",
+  "column_break_pmwo",
+  "default_expense_account",
+  "default_inventory_account",
+  "product_options_section",
+  "allow_free",
+  "allow_change_price",
+  "column_break_etlg",
+  "allow_return",
   "section_break_nclv",
   "note"
  ],
@@ -164,7 +180,8 @@
   },
   {
    "fieldname": "section_break_xxgr",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "label": "Account"
   },
   {
    "fieldname": "default_income_account",
@@ -222,12 +239,103 @@
    "hidden": 1,
    "label": "Allow Split Bill",
    "search_index": 1
+  },
+  {
+   "default": "0",
+   "fetch_from": "product_code.is_inventory_product",
+   "fieldname": "is_inventory_product",
+   "fieldtype": "Check",
+   "label": "Is Inventory Product"
+  },
+  {
+   "description": "Expense Account get from product account",
+   "fieldname": "default_expense_account",
+   "fieldtype": "Link",
+   "label": "Default Expense Account",
+   "options": "Chart of Account"
+  },
+  {
+   "description": "Inventory Account get from outlet",
+   "fieldname": "default_inventory_account",
+   "fieldtype": "Link",
+   "label": "Default Inventory Account",
+   "options": "Chart of Account"
+  },
+  {
+   "fetch_from": "product_code.default_sale_transaction_type",
+   "fieldname": "sale_transaction_type",
+   "fieldtype": "Data",
+   "label": "Sale Transaction Type"
+  },
+  {
+   "fieldname": "default_borrow_account",
+   "fieldtype": "Link",
+   "label": "Default Borrow Account",
+   "options": "Chart of Account"
+  },
+  {
+   "fieldname": "cost",
+   "fieldtype": "Currency",
+   "label": "Cost"
+  },
+  {
+   "fieldname": "total_cost",
+   "fieldtype": "Currency",
+   "label": "Total Cost"
+  },
+  {
+   "fieldname": "inventory_section",
+   "fieldtype": "Section Break",
+   "label": "Inventory"
+  },
+  {
+   "fieldname": "column_break_lydl",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "product_code.default_sale_stock_location",
+   "fieldname": "stock_location",
+   "fieldtype": "Link",
+   "label": "Stock Location",
+   "options": "Stock Location"
+  },
+  {
+   "fieldname": "product_options_section",
+   "fieldtype": "Section Break",
+   "label": "Product Options"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_free",
+   "fieldtype": "Check",
+   "label": "Allow Free"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_change_price",
+   "fieldtype": "Check",
+   "label": "Allow Change Price"
+  },
+  {
+   "fieldname": "column_break_etlg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_return",
+   "fieldtype": "Check",
+   "label": "Allow Return"
+  },
+  {
+   "fieldname": "split_quantity",
+   "fieldtype": "Float",
+   "label": "Split Quantity"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-08-28 16:11:28.882206",
+ "modified": "2025-10-29 10:30:02.376399",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Sale Products",
