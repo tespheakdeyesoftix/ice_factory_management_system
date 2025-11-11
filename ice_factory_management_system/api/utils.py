@@ -437,3 +437,65 @@ def add_audit_trail_log(data):
         data["username"] = frappe.get_cached_value("User",frappe.session.user,"full_name")
         frappe.get_doc(data).insert(ignore_permissions=True)
     frappe.db.commit()
+
+def get_sale_product_changed(old_list, new_list):
+    result = {
+        "quantity_changes": [],
+        "price_changes": [],
+        "removed_products": [],
+        "added_products": []
+    }
+
+    # Convert to dict for easy lookup
+    old_map = {item.get("product_code"): item for item in old_list if item.get("product_code")}
+    new_map = {item.get("product_code"): item for item in new_list if item.get("product_code")}
+
+    # 1. Check for quantity and price changes
+    for code, old_item in old_map.items():
+        new_item = new_map.get(code)
+        if new_item:
+            old_qty = old_item.get("quantity", 0)
+            new_qty = new_item.get("quantity", 0)
+            if old_qty != new_qty:
+                result["quantity_changes"].append({
+                    "product_code": code,
+                    "product_name": old_item.get("product_name", ""),
+                    "old_quantity": old_qty,
+                    "new_quantity": new_qty,
+                    "unit": new_item.get("unit")
+                })
+
+            old_price = old_item.get("price", 0)
+            new_price = new_item.get("price", 0)
+            if old_price != new_price:
+                result["price_changes"].append({
+                    "product_code": code,
+                    "product_name": old_item.get("product_name", ""),
+                    "old_price": old_price,
+                    "new_price": new_price
+                })
+
+    # 2. Check for removed products
+    for code, old_item in old_map.items():
+        if code not in new_map:
+            result["removed_products"].append({
+                "product_code": code,
+                "product_name": old_item.get("product_name", ""),
+                "quantity": old_item.get("quantity"),
+                "price": old_item.get("price"),
+                "unit":old_item.get("unit")
+            
+            })
+
+    # 3. Check for added products
+    for code, new_item in new_map.items():
+        if code not in old_map:
+            result["added_products"].append({
+                "product_code": code,
+                "product_name": new_item.get("product_name", ""),
+                "quantity": new_item.get("quantity", 0),
+                "price": new_item.get("price", 0),
+                "unit":new_item.get('unit')
+            })
+
+    return result

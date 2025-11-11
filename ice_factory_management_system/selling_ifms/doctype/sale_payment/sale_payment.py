@@ -9,8 +9,9 @@ from ice_factory_management_system.overrides.base_document import BaseDocument
 from ice_factory_management_system.api.utils import get_default_outlet,money_to_word
 class SalePayment(BaseDocument):
 	def validate(self):
- 
+	 
 		super().validate()
+		 
 		self.payment_amount_in_word = money_to_word(int(self.payment_amount))
 		self.validate_sale_payment_invoices()
 		update_totals(self)
@@ -39,9 +40,13 @@ class SalePayment(BaseDocument):
 
 	def on_cancel(self):
 		self.flags.ignore_links = True
+		if self.pos_sale_payment:
+			frappe.db.sql("delete from `tabPOS Sale Payment` where name=%(pos_sale_payment)s",{"pos_sale_payment":self.pos_sale_payment})
+			
 		frappe.db.sql("delete from `tabGL Entry` where voucher_type='Sale Payment' and voucher_no=%(name)s",{"name":self.name})
 		frappe.db.sql("call sp_update_sale_information('',%(sale_payment)s)",{"sale_payment":self.name})
 		frappe.enqueue("ice_factory_management_system.selling_ifms.doctype.sale_payment.sale_payment.add_comment_to_sale_after_cancel_sale_payment",self=self)
+
 	 
 
 
@@ -59,11 +64,12 @@ class SalePayment(BaseDocument):
 			s.sale_balance = s.total_amount - (s.paid_amount + (sale_write_off or 0))
  
 			s.balance = (s.sale_balance or 0) - ((s.payment_amount or 0) + (s.write_off_amount or 0))
-		frappe.msgprint("dnt forget update sale balance")
+
 
 	def validate_payment_amount(self):
 		
 		if self.input_amount:
+		 
 			if (self.input_amount / float(self.exchange_rate))>self.payment_amount:
 				frappe.throw(_("សូមបែងចែកចំនួនទឹកប្រាក់តាមវិកយប័ត្រអោយបានត្រឹមត្រូវ"))
 		if self.payment_amount>self.amount_to_pay:

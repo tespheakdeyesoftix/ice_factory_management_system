@@ -71,7 +71,12 @@ def get_split_bill_list(name):
             reference_number,
             customer_photo,
             phone_number,
-            can_show_price
+            can_show_price,
+            status,
+            total_sale_quantity,
+            total_amount,
+            owner,
+            creation
         from `tabSale` 
         where
             parent_bill_number = %(name)s and 

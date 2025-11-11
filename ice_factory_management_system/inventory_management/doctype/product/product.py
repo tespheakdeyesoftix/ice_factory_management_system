@@ -7,6 +7,7 @@ from frappe.utils.data import strip
 import json
 import frappe
 from frappe import _ 
+from frappe.utils.caching import redis_cache
 from ice_factory_management_system.api.inventory import add_inventory_transaction
 class Product(Document):
 	def validate(self):
@@ -173,6 +174,40 @@ class Product(Document):
 
 		frappe.msgprint(_("Update stock adjustment successfully"))
  
+@redis_cache
+def get_product_price(product_code,unit,customer=None):
+	price = None
+	if customer:
+		price_data = frappe.db.sql("select coalesce(max(multiplier),1) as multiplier, coalesce(max(price),0) as price from `tabCustomer Product Price` where parent=%(customer)s and product_code =%(product_code)s and unit = %(unit)s",{
+
+			"product_code":product_code,
+			"unit":unit,
+			"customer":customer
+		},as_dict = 1)
+		if len(price_data)>0:
+			 
+			if  price_data[0].get("price")>0:
+				price = price_data[0]
+
+	if not price:
+		price_data = frappe.db.sql("select coalesce(max(multiplier),1) as multiplier, coalesce(max(price),0) as price from `tabProduct Units` where parent=%(product_code)s  and  unit = %(unit)s",
+			{
+			"product_code":product_code,
+			"unit":unit
+		},as_dict = 1)
+		if len(price_data)>0:
+			if  price_data[0].get("price")>0:
+				price = price_data[0]
+	if not price:
+		price = {
+			"price":frappe.get_cached_value("Product",product_code,"price"),
+			"multiplier": frappe.get_cached_value("Unit",frappe.get_cached_value("Product",product_code,"unit"),"multiplier") or 1
+
+		}
+	
+	return price
+			
+
 
 def update_product_unit(self):
 	if len(self.product_units or [])>0:

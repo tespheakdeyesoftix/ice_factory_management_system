@@ -46,6 +46,7 @@
   "sales",
   "section_break_feql",
   "note",
+  "pos_sale_payment",
   "column_break_hxyd",
   "total_sales_invoice",
   "total_amount_to_pay_virtual",
@@ -368,6 +369,13 @@
    "label": "Payment Amount in Word",
    "length": 250,
    "read_only": 1
+  },
+  {
+   "description": "We use this field to delete POS Sale Payment Record when user can Sale Payment",
+   "fieldname": "pos_sale_payment",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "POS Sale Payment"
   }
  ],
  "grid_page_length": 50,
@@ -375,7 +383,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-09-01 11:37:47.499294",
+ "modified": "2025-11-08 17:32:29.401948",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Sale Payment",
@@ -383,6 +391,7 @@
  "owner": "Administrator",
  "permissions": [
   {
+   "cancel": 1,
    "create": 1,
    "delete": 1,
    "email": 1,
@@ -392,6 +401,7 @@
    "report": 1,
    "role": "System Manager",
    "share": 1,
+   "submit": 1,
    "write": 1
   },
   {

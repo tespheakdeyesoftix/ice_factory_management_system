@@ -20,7 +20,7 @@ def replace_format(string):
     return string.replace('.', '').replace('YYYY', year).replace('yyyy', year).replace('YY', short_year).replace('yy', short_year).replace('MM', month).replace('#', '')
 
  
-def submit_general_ledger_entry(docs):
+def submit_general_ledger_entry(docs,run_commit = True):
     def get_general_ledger_entry_record(docs):
         for d in docs:
             doc = frappe.get_doc(d)
@@ -39,7 +39,8 @@ def submit_general_ledger_entry(docs):
             doc.name  = make_autoname("GLE.YYYY.-.#####")
             doc.docstatus = 1
             yield doc
-    frappe.db.commit()
+    if run_commit:
+        frappe.db.commit()
 
     bulk_insert("GL Entry", get_general_ledger_entry_record(docs=docs) , chunk_size=10000)
         
