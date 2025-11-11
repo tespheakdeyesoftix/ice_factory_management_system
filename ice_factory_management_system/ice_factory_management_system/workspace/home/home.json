@@ -1,0 +1,38 @@
+{
+ "app": "ice_factory_management_system",
+ "charts": [],
+ "content": "[{\"id\":\"r3PLU7cWoz\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Home Page</span>\",\"col\":12}},{\"id\":\"qHBOJ30a-u\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Recent Sales\",\"col\":4}}]",
+ "creation": "2025-08-21 12:17:57.682633",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "home",
+ "idx": 10,
+ "indicator_color": "green",
+ "is_hidden": 0,
+ "label": "Home",
+ "link_type": "DocType",
+ "links": [],
+ "modified": "2025-11-11 10:59:35.898544",
+ "modified_by": "Administrator",
+ "module": "Ice Factory Management System",
+ "name": "Home",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [
+  {
+   "document_type": "Sale",
+   "label": "Recent Sales",
+   "quick_list_filter": "[]"
+  }
+ ],
+ "roles": [],
+ "sequence_id": 1.0,
+ "shortcuts": [],
+ "title": "Home",
+ "type": "Workspace"
+}
