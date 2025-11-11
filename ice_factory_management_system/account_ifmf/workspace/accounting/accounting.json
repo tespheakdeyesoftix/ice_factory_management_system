@@ -14,10 +14,11 @@
    "label": "Profit and Loss KPI"
   }
  ],
+ "custom_outlet": "",
  "docstatus": 0,
  "doctype": "Workspace",
  "for_user": "",
- "hide_custom": 0,
+ "hide_custom": 1,
  "icon": "income",
  "idx": 1,
  "indicator_color": "green",
@@ -25,7 +26,7 @@
  "label": "Accounting",
  "link_type": "DocType",
  "links": [],
- "modified": "2025-11-11 10:54:19.054770",
+ "modified": "2025-11-11 12:13:00.482221",
  "modified_by": "Administrator",
  "module": "Account IFMF",
  "name": "Accounting",
