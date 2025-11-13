@@ -9,6 +9,7 @@ class Customer(Document):
 	def validate(self):
 		if (self.customer_name_kh or "") == "":
 			self.customer_name_kh = self.customer_name
+		self.customer_code_name = f"{self.name} - {self.customer_name}"
 
 @frappe.whitelist()
 def get_customer_product_price(customer="", products=[],product_code="",unit=""):

@@ -11,6 +11,7 @@
   "naming_series",
   "customer_name",
   "customer_name_kh",
+  "customer_code_name",
   "customer_group",
   "phone_number_1",
   "phone_number_2",
@@ -39,7 +40,6 @@
   {
    "fieldname": "customer_name",
    "fieldtype": "Data",
-   "in_list_view": 1,
    "label": "Customer Name EN",
    "reqd": 1
   },
@@ -193,6 +193,12 @@
    "fieldname": "info_section",
    "fieldtype": "Section Break",
    "label": "Info"
+  },
+  {
+   "fieldname": "customer_code_name",
+   "fieldtype": "Data",
+   "in_standard_filter": 1,
+   "label": "Customer Code Name"
   }
  ],
  "image_field": "photo",
@@ -209,7 +215,7 @@
    "link_fieldname": "customer"
   }
  ],
- "modified": "2025-10-22 11:30:28.618484",
+ "modified": "2025-11-13 11:23:04.624158",
  "modified_by": "Administrator",
  "module": "Customer Relation",
  "name": "Customer",
@@ -274,9 +280,10 @@
  "row_format": "Dynamic",
  "search_fields": "keyword,phone_number_1",
  "show_name_in_global_search": 1,
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],
- "title_field": "customer_name",
+ "title_field": "customer_code_name",
  "track_changes": 1
 }

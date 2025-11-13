@@ -34,6 +34,9 @@ class SalePayment(BaseDocument):
 
 		# make this enqueue
 		frappe.enqueue("ice_factory_management_system.selling_ifms.doctype.sale_payment.sale_payment.add_comment_to_sale_after_submit_sale_payment",self=self)
+
+		
+
 		
 
 		
@@ -189,13 +192,14 @@ def submit_to_GL_entry(self):
 			"outlet":self.outlet,
 			"posting_date":self.posting_date,
 			"account":self.account_paid_from,
-			"credit_amount":(s.payment_amount or 0)  + (s.write_off_amount or  0),
+			"credit_amount":(s.payment_amount or 0) ,
 			"against_voucher_type": "Sale",
 			"against_voucher_no": s.sale,
 			"voucher_type":"Sale Payment",
 			"voucher_no":self.name,
 			"party_type":"Customer",
 			"party":self.customer,
+			"transaction_type":"Payment",
 			"remark": "ទទួលប្រាក់ពីអតិថិជន  {} នៅថ្ងៃទី {} លេខបង្កាន់ដៃ {}".format(
 				self.customer + " - " + self.customer_name,
 				frappe.format(self.posting_date,{"fieldtype":"Date"}),
@@ -230,6 +234,30 @@ def submit_to_GL_entry(self):
 
 		# 3 write off
 		if (s.write_off_amount or 0 )> 0:
+			doc = {
+				"doctype":"GL Entry",
+				"reference_doctype":"Sale",
+				"reference_docname":s.sale,
+				"outlet":self.outlet,
+				"posting_date":self.posting_date,
+				"account":self.account_paid_from,
+				"credit_amount": (s.write_off_amount or  0),
+				"against_voucher_type": "Sale",
+				"against_voucher_no": s.sale,
+				"voucher_type":"Sale Payment",
+				"voucher_no":self.name,
+				"party_type":"Customer",
+				"party":self.customer,
+				"transaction_type":"Write Off",
+				"remark": "កាត់ប្រាក់ចោល {} នៅថ្ងៃទី {} លេខបង្កាន់ដៃ {}".format(
+					self.customer + " - " + self.customer_name,
+					frappe.format(self.posting_date,{"fieldtype":"Date"}),
+					self.name
+				)
+			}
+			docs.append(doc)
+
+			
 			doc = {
 				"doctype":"GL Entry",
 				"reference_doctype":"Sale",
@@ -279,8 +307,22 @@ def add_comment_to_sale_after_submit_sale_payment(self):
 			ទឹកប្រាក់ទទួល៖ <strong>{frappe.format(s.payment_amount,{"fieldtype":"Currency"})}</strong><br/>
 			ទឹកប្រាក់កាត់ចោល៖ <strong>{frappe.format(s.write_off_amount,{"fieldtype":"Currency"})}</strong>
 		"""
+
 		frappe.msgprint(comment_text)
 		doc.add_comment('Info', comment_text)
+
+		audit_trail_doc = {
+			"doctype":"Audit Trail Log",
+			"ref_doctype":"Sale",
+			"ref_doc_name":s.sale,
+			"outlet":self.outlet,
+			"posting_date":frappe.utils.now(),
+			"station":"Backend Admin",
+			"audit_trail_type":"បង់ប្រាក់",
+			"description": comment_text
+		}
+		frappe.get_doc(audit_trail_doc).insert(ignore_permissions=True,ignore_links=True)
+
 	
 @frappe.whitelist()
 def add_comment_to_sale_after_cancel_sale_payment(self):
@@ -296,3 +338,15 @@ def add_comment_to_sale_after_cancel_sale_payment(self):
 		"""
 		frappe.msgprint(comment_text)
 		doc.add_comment('Info', comment_text)
+
+		audit_trail_doc = {
+			"doctype":"Audit Trail Log",
+			"ref_doctype":"Sale",
+			"ref_doc_name":s.sale,
+			"outlet":self.outlet,
+			"posting_date":frappe.utils.now(),
+			"station":"Backend Admin",
+			"audit_trail_type":"លុបការបង់ប្រាក់",
+			"description": comment_text
+		}
+		frappe.get_doc(audit_trail_doc).insert(ignore_permissions=True,ignore_links=True)

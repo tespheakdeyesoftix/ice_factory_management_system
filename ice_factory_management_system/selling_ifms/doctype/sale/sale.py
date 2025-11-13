@@ -6,7 +6,6 @@ from frappe import _
 from frappe.model.document import Document
 import json
 from datetime import datetime, date
-from ice_factory_management_system.api.accounting import cancel_general_ledger_entery
 from ice_factory_management_system.api.utils import get_previous_closed_date,get_sale_product_changed
 from ice_factory_management_system.api.inventory import add_inventory_transaction,get_stock_location_prouct
 class Sale(Document):
@@ -434,6 +433,7 @@ def submit_to_GL_entry(self):
 			"party_type": "Customer",
 			"party":self.customer,
 			"party_name":self.customer_name,
+			"transaction_type":"Receivable",
 			"remark":"Sale To Customer {0} On {1} Total Amount {2}".format(self.customer_name,self.posting_date,frappe.format(self.total_amount,{"fieldtype":"Currency"})),
 		}
 		docs.append(doc)
@@ -885,16 +885,27 @@ def update_sub_bill_audit_trail(old_doc,new_doc):
 
 
 @frappe.whitelist(methods="POST")
-def change_sale_date(sale,date, creation, outlet):
-	sale_date = frappe.db.get_value("Sale",sale,"posting_date")
-	if sale_date == date:
+def change_sale_date(sale,date,station_name=""):
+
+	sale_doc = frappe.get_doc("Sale",sale)
+	if sale_doc.posting_date == date:
 		return
-	get_previous_closed_date(sale_date, creation, outlet)
-	get_previous_closed_date(date, creation, outlet)
+	get_previous_closed_date(sale_doc.posting_date, frappe.utils.now(), sale_doc.outlet)
+	get_previous_closed_date(date,frappe.utils.now(), sale_doc.outlet)
+
 	
 	# already have payment
+	if sale_doc.total_payment> 0:
+		frappe.throw("អ្នកមិនអាចកែថ្ងៃចេញបុងនេះបានទេ ព្រោះបុងនេះបានបង់ប្រាក់រួចហើយ")
+
+	sql = "select name from `tabSale Payment Invoices` where sale=%(sale)s and docstatus <> 2"
+	data = frappe.db.sql(sql,{"sale":sale})
+	if data:
+		frappe.throw("អ្នកមិនអាចកែថ្ងៃចេញបុងនេះបានទេ ព្រោះបុងនេះបានបង់ប្រាក់រួចហើយ")
 	
 	# split bill
+	if sale_doc.total_split_bill>0:
+		frappe.throw("អ្នកមិនអាចកែថ្ងៃចេញបុងនេះបានទេ ព្រោះបុងនេះបានបំបែកបុងរួចហើយ")
 
 	sql = "update `tabSale` set posting_date = %(posting_date)s where name = %(sale)s"
 	frappe.db.sql(sql,{
@@ -902,14 +913,32 @@ def change_sale_date(sale,date, creation, outlet):
 		"posting_date":date
 	})
 	# update gl
+	sql = "update `tabGL Entry` set posting_date = %(date)s where voucher_type='Sale' and voucher_no=%(sale)s"
+	frappe.db.sql(sql,{"date":date,"sale":sale})
+
 
 	# update stock location
+	sql = "update `tabInventory Transactions` set posting_date = %(date)s where ref_doctype='Sale' and ref_docname=%(sale)s"
+	frappe.db.sql(sql,{"date":date,"sale":sale})
+	
 
 	# update sale payment
 
 	# add to audit trail
+	def get_date(date):
+		return frappe.format(date,{"fieldtype":"Date"})
+	audit_trail_doc = {
+			"ref_doctype":"Sale",
+			"ref_doc_name":sale,
+			"outlet":sale_doc.outlet,
+			"posting_date":frappe.utils.now(),
+			"station":station_name,
+			"audit_trail_type":"ប្តូរថ្ងៃចេញបុង",
+			"description": f"ប្តូរថ្ងៃចេញបុងពី {get_date(sale_doc.posting_date)} ទៅ {get_date(date)}"
+		}
+	frappe.enqueue("ice_factory_management_system.api.utils.add_audit_trail_log",queue="short",data=audit_trail_doc)
 
-# ice_factory_management_system.selling_ifms.doctype.salesale.change_sale_date
+
 	
 
 @frappe.whitelist(methods="POST")
