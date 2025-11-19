@@ -1,6 +1,4 @@
-SQL="""
-DROP PROCEDURE IF EXISTS get_monthly_data
-CREATE PROCEDURE get_monthly_data(
+SQL="""CREATE PROCEDURE get_monthly_data(
   IN p_posting_date DATE,p_outlet NVARCHAR(100)
 )
 BEGIN
