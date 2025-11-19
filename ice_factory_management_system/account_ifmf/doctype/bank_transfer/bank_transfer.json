@@ -1,0 +1,185 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2025-11-14 10:59:20.929161",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_ltbs",
+  "naming_series",
+  "transfer_type",
+  "withdraw_by",
+  "column_break_bxew",
+  "outlet",
+  "posting_date",
+  "section_break_ujir",
+  "from_account",
+  "column_break_vyzt",
+  "to_account",
+  "section_break_gspk",
+  "currency",
+  "input_amount",
+  "column_break_cpqn",
+  "exchange_rate",
+  "amount",
+  "section_break_qfht",
+  "note",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_ltbs",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Bank Transfer",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Naming Series",
+   "options": "BTS.####"
+  },
+  {
+   "default": "Today",
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Posting Date",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "label": "Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "note",
+   "fieldtype": "Long Text",
+   "label": "Note"
+  },
+  {
+   "fieldname": "column_break_bxew",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_qfht",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_ujir",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "from_account",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "From Account",
+   "options": "Chart of Account",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_vyzt",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "to_account",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "To Account",
+   "options": "Chart of Account",
+   "reqd": 1
+  },
+  {
+   "fieldname": "transfer_type",
+   "fieldtype": "Select",
+   "label": "Transfer Type",
+   "options": "Bank Transfer\nDirect Transfer"
+  },
+  {
+   "depends_on": "eval:doc.transfer_type == \"Direct Transfer\"",
+   "fieldname": "withdraw_by",
+   "fieldtype": "Link",
+   "label": "Withdraw by",
+   "mandatory_depends_on": "eval:doc.transfer_type == \"Direct Transfer\"",
+   "options": "User"
+  },
+  {
+   "fieldname": "section_break_gspk",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency",
+   "reqd": 1
+  },
+  {
+   "fieldname": "input_amount",
+   "fieldtype": "Float",
+   "label": "Input Amount"
+  },
+  {
+   "default": "1",
+   "fieldname": "exchange_rate",
+   "fieldtype": "Float",
+   "label": "Exchange Rate",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_cpqn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "outlet",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Outlet",
+   "options": "Outlet",
+   "reqd": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2025-11-15 09:18:16.446720",
+ "modified_by": "Administrator",
+ "module": "Account IFMF",
+ "name": "Bank Transfer",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "select": 1,
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

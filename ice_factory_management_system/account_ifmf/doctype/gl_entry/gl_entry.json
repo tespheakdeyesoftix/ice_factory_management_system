@@ -28,7 +28,8 @@
   "column_break_epkk",
   "reference_doctype",
   "reference_docname",
-  "transaction_type"
+  "transaction_type",
+  "amended_from"
  ],
  "fields": [
   {
@@ -168,13 +169,23 @@
    "fieldname": "transaction_type",
    "fieldtype": "Select",
    "label": "Transaction Type",
-   "options": "\nReceivable\nPayment\nWrite Off",
+   "options": "\nReceivable\nPayment\nWrite Off\nTransfer",
+   "search_index": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "GL Entry",
+   "print_hide": 1,
+   "read_only": 1,
    "search_index": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-11-12 16:22:47.016743",
+ "modified": "2025-11-15 09:34:23.020303",
  "modified_by": "Administrator",
  "module": "Account IFMF",
  "name": "GL Entry",

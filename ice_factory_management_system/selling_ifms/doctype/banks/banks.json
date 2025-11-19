@@ -10,6 +10,7 @@
   "bank_number",
   "column_break_lulk",
   "account",
+  "is_default",
   "enabled"
  ],
  "fields": [
@@ -31,7 +32,7 @@
    "fieldname": "account",
    "fieldtype": "Link",
    "label": "Account",
-   "options": "Account Code"
+   "options": "Chart of Account"
   },
   {
    "allow_in_quick_entry": 1,
@@ -43,11 +44,18 @@
   {
    "fieldname": "column_break_lulk",
    "fieldtype": "Column Break"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "default": "0",
+   "fieldname": "is_default",
+   "fieldtype": "Check",
+   "label": "Is Default"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-05-01 10:15:19.745830",
+ "modified": "2025-11-14 11:27:06.422272",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Banks",
@@ -68,7 +76,10 @@
   }
  ],
  "quick_entry": 1,
+ "row_format": "Dynamic",
+ "search_fields": "bank_name,bank_number",
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "bank_name"
 }

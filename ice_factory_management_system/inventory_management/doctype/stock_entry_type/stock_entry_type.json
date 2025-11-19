@@ -1,0 +1,68 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:stock_entry_type",
+ "creation": "2025-11-18 09:50:08.005974",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "stock_entry_type",
+  "title",
+  "multiplier",
+  "allow_change_cost"
+ ],
+ "fields": [
+  {
+   "fieldname": "stock_entry_type",
+   "fieldtype": "Data",
+   "label": "Stock Entry Type",
+   "unique": 1
+  },
+  {
+   "fieldname": "multiplier",
+   "fieldtype": "Int",
+   "label": "Multiplier",
+   "options": "1"
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_change_cost",
+   "fieldtype": "Check",
+   "label": "Allow Change Cost"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-11-18 10:44:16.696359",
+ "modified_by": "Administrator",
+ "module": "Inventory Management",
+ "name": "Stock Entry Type",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "title",
+ "translated_doctype": 1
+}

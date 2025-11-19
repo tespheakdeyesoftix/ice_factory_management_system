@@ -121,10 +121,10 @@ class Sale(Document):
 
 
 			if self.payments:
-				add_pos_payment_to_sale_payment(self)
-				# frappe.enqueue("ice_factory_management_system.selling_ifms.doctype.sale.sale.add_pos_payment_to_sale_payment",queue="short",self=self)
+				# add_pos_payment_to_sale_payment(self)
+				frappe.enqueue("ice_factory_management_system.selling_ifms.doctype.sale.sale.add_pos_payment_to_sale_payment",queue="short",self=self)
 
-
+			# add/update borrow product to Stock Entry with transaction 
 		elif self.sale_status == "Deleted":
 
 			update_stock_product(self)

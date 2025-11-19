@@ -37,7 +37,6 @@ def submit_general_ledger_entry(docs,run_commit = True):
                     else:
                         doc.debit_amount = abs(doc.amount)
             doc.name  = make_autoname("GLE.YYYY.-.#####")
-            doc.docstatus = 1
             yield doc
     if run_commit:
         frappe.db.commit()
