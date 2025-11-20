@@ -499,3 +499,48 @@ def get_sale_product_changed(old_list, new_list):
             })
 
     return result
+
+
+
+@frappe.whitelist()
+def get_count(doctype, filters=None, or_filters=None):
+    table = f"`tab{doctype}`"
+
+    where_clauses = []
+    params = {}
+
+    # AND filters: [["field", "=", value], ...]
+    if filters:
+        for idx, flt in enumerate(filters):
+            field, op, value = flt
+            key = f"and_param_{idx}"
+            where_clauses.append(f"{field} {op} %({key})s")
+            params[key] = value
+
+    # OR filters: [["field", "like", value], ...]
+    if or_filters:
+        or_parts = []
+        for idx, flt in enumerate(or_filters):
+            field, op, value = flt
+            key = f"or_param_{idx}"
+            or_parts.append(f"{field} {op} %({key})s")
+            params[key] = value
+        
+        # join OR conditions
+        where_clauses.append("(" + " OR ".join(or_parts) + ")")
+
+    # Build WHERE
+    where_sql = ""
+    if where_clauses:
+        where_sql = "WHERE " + " AND ".join(where_clauses)
+
+    # Build final SQL
+    sql = f"""
+        SELECT COUNT(*) AS total
+        FROM {table}
+        {where_sql}
+    """
+
+    # Execute SQL + return integer
+    result = frappe.db.sql(sql, params, as_dict=True)
+    return result[0].total if result else 0

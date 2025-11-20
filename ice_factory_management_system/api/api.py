@@ -4,6 +4,11 @@ from frappe import _
 import json
 
 
+
+
+
+
+
 @frappe.whitelist(allow_guest=True)
 def get_boldreport_setting():
     settings = frappe.db.get_value("Business Information",None,["server_report_url","report_server_token"], as_dict=True)   
