@@ -9,10 +9,10 @@ app_license = "mit"
 add_to_apps_screen = [
 	{
 		"name": "ice_factory_management_system",
-		# "logo": "/assets/estc_hospital_management/logo.png",
+		"logo": "/assets/frappe/images/frappe-framework-logo.svg",
 		"title": "ICE Factory Management",
 		"route": "/app",
-		# "has_permission": "estc_hospital_management.api.permission.has_app_permission"
+		"has_permission": "ice_factory_management_system.api.permission.has_app_permission"
 	}
 ]
 

@@ -111,8 +111,10 @@ class Sale(Document):
 
 	def on_update(self):
 		if self.sale_status == "Closed":
-			# dont for get more this to enqueye
-			update_stock_product(self)
+			# dont for get more this to eqnueue
+			frappe.enqueue("ice_factory_management_system.selling_ifms.doctype.sale.sale.update_stock_product",queue="short",self=self)
+			# update_stock_product(self)
+
 			submit_to_GL_entry(self)
 
 			if self.parent_bill_number:
