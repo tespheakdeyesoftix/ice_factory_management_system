@@ -241,6 +241,7 @@ def verify_product(self):
 	from ice_factory_management_system.inventory_management.doctype.product.product import get_product_accounts,get_product_price
 	error = ""
 	for a in self.sale_products:
+		a.outlet = self.outlet
 		default = get_product_accounts(a.product_code,self.outlet)
 
 		a.default_income_account = default.get("income_account") if (a.default_income_account or "") == "" else a.default_income_account
@@ -426,8 +427,6 @@ def submit_to_GL_entry(self):
 			"posting_date":self.posting_date,
 			"account":self.default_receivable_account,
 			"amount":self.balance,
-			"against_voucher_type":"Sale",
-			"against_voucher_no": self.name,
 			"voucher_type":"Sale",
 			"voucher_no":self.name,
 			"type":"Asset",

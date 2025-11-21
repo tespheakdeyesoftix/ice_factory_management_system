@@ -8,6 +8,7 @@
  "engine": "InnoDB",
  "field_order": [
   "product_code",
+  "outlet",
   "product_name",
   "photo",
   "base_unit",
@@ -330,12 +331,20 @@
    "fieldname": "split_quantity",
    "fieldtype": "Float",
    "label": "Split Quantity"
+  },
+  {
+   "fieldname": "outlet",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Outlet",
+   "options": "Outlet",
+   "search_index": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-10-29 10:30:02.376399",
+ "modified": "2025-11-21 17:39:15.738642",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Sale Products",

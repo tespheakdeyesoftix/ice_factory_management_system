@@ -8,6 +8,7 @@
  "field_order": [
   "sale",
   "customer",
+  "outlet",
   "payment_date",
   "posting_date",
   "total_amount",
@@ -118,13 +119,22 @@
    "fieldname": "is_pay",
    "fieldtype": "Check",
    "label": "Pay"
+  },
+  {
+   "fetch_from": "sale.outlet",
+   "fieldname": "outlet",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "outlet",
+   "options": "Outlet",
+   "search_index": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-09-01 10:25:34.622706",
+ "modified": "2025-11-21 09:21:55.080207",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Sale Payment Invoices",

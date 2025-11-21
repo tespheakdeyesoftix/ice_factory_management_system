@@ -215,7 +215,7 @@
    "link_fieldname": "customer"
   }
  ],
- "modified": "2025-11-13 11:23:04.624158",
+ "modified": "2025-11-21 16:55:32.654521",
  "modified_by": "Administrator",
  "module": "Customer Relation",
  "name": "Customer",
@@ -278,7 +278,7 @@
   }
  ],
  "row_format": "Dynamic",
- "search_fields": "keyword,phone_number_1",
+ "search_fields": "customer_name,keyword,phone_number_1",
  "show_name_in_global_search": 1,
  "show_title_field_in_link": 1,
  "sort_field": "modified",
