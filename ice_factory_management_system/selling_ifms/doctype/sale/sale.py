@@ -319,6 +319,7 @@ def submit_to_GL_entry(self):
 	self.id = str(uuid.uuid4().hex)
 	from ice_factory_management_system.api.accounting import submit_general_ledger_entry
 	docs = []
+	
 	# income account 
 	for acc in set([d.default_income_account for d in self.sale_products]):
 		if not acc:

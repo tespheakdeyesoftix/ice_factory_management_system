@@ -24,7 +24,7 @@ def get_dashboard_data(outlet, date):
     }
 
 @frappe.whitelist()
-def get_total_daily_sale_product_summary(outlet="", start_date=None,end_date=None):
+def get_total_daily_sale_product_summary(outlet="", start_date=None,end_date=None,customer=""):
     if not start_date:
         start_date = frappe.utils.today()
         
@@ -50,7 +50,8 @@ def get_total_daily_sale_product_summary(outlet="", start_date=None,end_date=Non
     where 
         s.sale_status = 'Closed' and 
         s.posting_date between %(start_date)s and %(end_date)s and 
-        (%(outlet)s = '' or s.outlet = %(outlet)s)   
+        (%(outlet)s = '' or s.outlet = %(outlet)s)   and 
+        (%(customer)s = '' or s.customer = %(customer)s)
     group by
          coalesce(sp.photo,'') ,
         sp.product_code,
@@ -60,7 +61,7 @@ def get_total_daily_sale_product_summary(outlet="", start_date=None,end_date=Non
     """ 
     
 
-    data = frappe.db.sql(sql,{"outlet":outlet, "start_date":start_date, "end_date":end_date},as_dict = 1)
+    data = frappe.db.sql(sql,{"outlet":outlet, "start_date":start_date, "end_date":end_date,"customer":customer},as_dict = 1)
     return data
 
 @frappe.whitelist()

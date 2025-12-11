@@ -24,6 +24,7 @@
   "section_break_uiea",
   "party_type",
   "party",
+  "party_name",
   "amount",
   "column_break_epkk",
   "reference_doctype",
@@ -181,11 +182,16 @@
    "print_hide": 1,
    "read_only": 1,
    "search_index": 1
+  },
+  {
+   "fieldname": "party_name",
+   "fieldtype": "Data",
+   "label": "Party Name"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-11-15 09:34:23.020303",
+ "modified": "2025-11-22 09:29:00.625830",
  "modified_by": "Administrator",
  "module": "Account IFMF",
  "name": "GL Entry",
