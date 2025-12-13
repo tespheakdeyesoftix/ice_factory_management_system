@@ -7,3 +7,4 @@ Selling IFMS
 Account IFMF
 Report IFMS
 Purchase Order IFMS
+HR IFMF
