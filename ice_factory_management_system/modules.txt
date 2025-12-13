@@ -1,6 +1,5 @@
 Ice Factory Management System
 System Setting
-HR
 Inventory Management
 Customer Relation
 Selling IFMS
@@ -8,3 +7,4 @@ Account IFMF
 Report IFMS
 Purchase Order IFMS
 HR IFMF
+HR IFMS
