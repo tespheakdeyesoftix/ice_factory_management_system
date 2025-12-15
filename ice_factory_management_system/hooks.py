@@ -88,7 +88,8 @@ before_migrate =[
 ]
 
 after_migrate = [
-    "ice_factory_management_system.store_procedures.execute.execute"
+    "ice_factory_management_system.store_procedures.execute.execute",
+    "ice_factory_management_system.api.permission.disable_frappe_desktop"
 ]
  
 
@@ -124,9 +125,10 @@ after_migrate = [
 # -----------
 # Permissions evaluated in scripted ways
 
-# permission_query_conditions = {
-#	"Event": "frappe.desk.doctype.event.event.get_permission_query_conditions",
-# }
+permission_query_conditions = {
+	"Sale": "ice_factory_management_system.selling_ifms.doctype.sale.sale.query_permission",
+	
+}
 #
 # has_permission = {
 #	"Event": "frappe.desk.doctype.event.event.has_permission",
@@ -255,5 +257,9 @@ fixtures = [
 ]
 
 
-website_route_rules = [{'from_route': '/embed/<path:app_path>', 'to_route': 'embed'}]
+website_route_rules = [
+	{'from_route': '/embed/<path:app_path>', 'to_route': 'embed'},
+	{'from_route': '/block-ice', 'to_route': '/desk/sale'},
+	# {"from_route": "/profile", "to_route": "me"},
+	]
  

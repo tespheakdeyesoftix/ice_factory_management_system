@@ -1,0 +1,42 @@
+{
+ "app": "ice_factory_management_system",
+ "creation": "2025-12-15 14:44:40.649445",
+ "docstatus": 0,
+ "doctype": "Sidebar Item Group",
+ "idx": 0,
+ "links": [
+  {
+   "creation": "2025-12-15 14:44:40.649445",
+   "docstatus": 0,
+   "doctype": "Sidebar Item Group Link",
+   "idx": 1,
+   "modified": "2025-12-15 14:45:01.036220",
+   "modified_by": "Administrator",
+   "name": "n0mbsjmh6f",
+   "owner": "Administrator",
+   "parent": "Selling",
+   "parentfield": "links",
+   "parenttype": "Sidebar Item Group",
+   "report": "Accounts Payable"
+  },
+  {
+   "creation": "2025-12-15 14:44:40.649445",
+   "docstatus": 0,
+   "doctype": "Sidebar Item Group Link",
+   "idx": 2,
+   "modified": "2025-12-15 14:45:01.036220",
+   "modified_by": "Administrator",
+   "name": "n729riik18",
+   "owner": "Administrator",
+   "parent": "Selling",
+   "parentfield": "links",
+   "parenttype": "Sidebar Item Group",
+   "report": "Trail Balance Report"
+  }
+ ],
+ "modified": "2025-12-15 14:45:01.036220",
+ "modified_by": "Administrator",
+ "name": "Selling",
+ "owner": "Administrator",
+ "sidebar": "Selling"
+}

@@ -1,0 +1,39 @@
+{
+ "app": "ice_factory_management_system",
+ "creation": "2025-12-15 11:52:38.828070",
+ "docstatus": 0,
+ "doctype": "Workspace Sidebar",
+ "header_icon": "monitor-check",
+ "idx": 0,
+ "items": [
+  {
+   "child": 0,
+   "collapsible": 1,
+   "creation": "2025-12-15 11:52:38.828070",
+   "docstatus": 0,
+   "doctype": "Workspace Sidebar Item",
+   "icon": "list-alt",
+   "idx": 1,
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Product",
+   "link_to": "Product",
+   "link_type": "DocType",
+   "modified": "2025-12-15 11:56:41.692487",
+   "modified_by": "Administrator",
+   "name": "k1e2fjgglk",
+   "owner": "Administrator",
+   "parent": "Stock Management",
+   "parentfield": "items",
+   "parenttype": "Workspace Sidebar",
+   "show_arrow": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2025-12-15 11:56:41.692487",
+ "modified_by": "Administrator",
+ "module": "Inventory Management",
+ "name": "Stock Management",
+ "owner": "Administrator",
+ "title": "Stock Management"
+}

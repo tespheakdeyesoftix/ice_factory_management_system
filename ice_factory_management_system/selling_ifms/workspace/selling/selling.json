@@ -1,9 +1,10 @@
 {
  "app": "ice_factory_management_system",
  "charts": [],
- "content": "[{\"type\":\"header\",\"data\":{\"text\":\"Selling\"}}]",
+ "content": "[]",
  "creation": "2025-08-25 09:34:16.636879",
  "custom_blocks": [],
+ "custom_outlet": "Block Ice",
  "docstatus": 0,
  "doctype": "Workspace",
  "for_user": "",
@@ -15,7 +16,7 @@
  "label": "Selling",
  "link_type": "DocType",
  "links": [],
- "modified": "2025-08-25 09:34:38.019547",
+ "modified": "2025-12-15 15:20:30.814012",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Selling",
@@ -24,7 +25,11 @@
  "parent_page": "",
  "public": 1,
  "quick_lists": [],
- "roles": [],
+ "roles": [
+  {
+   "role": "Sales User"
+  }
+ ],
  "sequence_id": 3.0,
  "shortcuts": [],
  "title": "Selling",

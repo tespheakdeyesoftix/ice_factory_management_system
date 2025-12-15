@@ -167,6 +167,17 @@ class Sale(Document):
 				
 
 @frappe.whitelist()
+def query_permission(user):
+	from ice_factory_management_system.api.auth import get_employee_outlets
+	if frappe.session.user !="Administrator":
+		outlets = get_employee_outlets()
+		escaped_outlets = ", ".join(
+		frappe.db.escape(outlet) for outlet in outlets
+		)
+		return f"`tabSale`.outlet IN ({escaped_outlets})"
+	return ""
+
+@frappe.whitelist()
 def update_stock_product(self):
 	# find old doc and new doc merge product list when user remove item 
 	sale_products = []
