@@ -1,9 +1,23 @@
 {
  "app": "ice_factory_management_system",
- "charts": [],
- "content": "[{\"id\":\"8KO1LQAHa7\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Today Sale Invoice\",\"col\":3}},{\"id\":\"7qlFZLlXoM\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"hcrTFnYt02\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Tube Ice Invoice\",\"col\":3}},{\"id\":\"OejHsOnNLA\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Block Ice Invoice\",\"col\":3}}]",
+ "charts": [
+  {
+   "chart_name": "Daily Sale Statistic",
+   "label": "Daily Sale Statistic"
+  }
+ ],
+ "content": "[{\"id\":\"8KO1LQAHa7\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Today Sale Invoice\",\"col\":3}},{\"id\":\"zW-AB1P9Qh\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Today Sale Amount\",\"col\":3}},{\"id\":\"tuUuyngck7\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"MTD Sale Invoice\",\"col\":3}},{\"id\":\"5G0XKzlvwk\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"MTD Sale Amount\",\"col\":3}},{\"id\":\"7qlFZLlXoM\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"cVlwgj4ZZ4\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Daily Sale Statistic\",\"col\":12}},{\"id\":\"rFXZUUnDlh\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h3\\\">Quick Links</span>\",\"col\":12}},{\"id\":\"hcrTFnYt02\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Tube Ice Invoice\",\"col\":3}},{\"id\":\"OejHsOnNLA\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Block Ice Invoice\",\"col\":3}},{\"id\":\"uZFMudixpM\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sale Payment\",\"col\":3}},{\"id\":\"CUul5gonxv\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Customer\",\"col\":3}},{\"id\":\"ilvyGpmXLD\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"zafOr5T3LE\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"Recent Sale Invoice\",\"col\":6}},{\"id\":\"7piYXcHzAt\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"Recent Payments\",\"col\":6}}]",
  "creation": "2025-12-16 14:14:05.519363",
- "custom_blocks": [],
+ "custom_blocks": [
+  {
+   "custom_block_name": "Recent Sale Invoice",
+   "label": "Recent Sale Invoice"
+  },
+  {
+   "custom_block_name": "Recent Payments",
+   "label": "Recent Payments"
+  }
+ ],
  "docstatus": 0,
  "doctype": "Workspace",
  "for_user": "",
@@ -15,7 +29,7 @@
  "label": "Selling",
  "link_type": "DocType",
  "links": [],
- "modified": "2025-12-16 14:24:40.882696",
+ "modified": "2025-12-16 14:59:33.223469",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Selling",
@@ -23,6 +37,18 @@
   {
    "label": "Today Sale Invoice",
    "number_card_name": "Today Sale Invoice"
+  },
+  {
+   "label": "Today Sale Amount",
+   "number_card_name": "Today Sale Amount"
+  },
+  {
+   "label": "MTD Sale Invoice",
+   "number_card_name": "MTD Sale Invoice"
+  },
+  {
+   "label": "MTD Sale Amount",
+   "number_card_name": "MTD Sale Amount"
   }
  ],
  "owner": "Administrator",
@@ -35,9 +61,25 @@
   {
    "color": "Grey",
    "doc_view": "List",
+   "label": "Customer",
+   "link_to": "Customer",
+   "stats_filter": "[[\"Customer\",\"enabled\",\"=\",1,false]]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Sale Payment",
+   "link_to": "Sale Payment",
+   "stats_filter": "[[\"Sale Payment\",\"docstatus\",\"=\",\"1\",false],[\"Sale Payment\",\"posting_date\",\"Timespan\",\"this month\",false]]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
    "label": "Tube Ice Invoice",
    "link_to": "Sale",
-   "stats_filter": "[[\"Sale\",\"outlet\",\"=\",\"Tube Ice\",false],[\"Sale\",\"status\",\"!=\",\"Deleted\",false]]",
+   "stats_filter": "[[\"Sale\",\"outlet\",\"=\",\"Tube Ice\",false],[\"Sale\",\"status\",\"!=\",\"Deleted\",false],[\"Sale\",\"posting_date\",\"Timespan\",\"this month\",false]]",
    "type": "DocType"
   },
   {
@@ -45,7 +87,7 @@
    "doc_view": "List",
    "label": "Block Ice Invoice",
    "link_to": "Sale",
-   "stats_filter": "[[\"Sale\",\"outlet\",\"=\",\"Block Ice\",false],[\"Sale\",\"status\",\"!=\",\"Deleted\",false]]",
+   "stats_filter": "[[\"Sale\",\"outlet\",\"=\",\"Block Ice\",false],[\"Sale\",\"status\",\"!=\",\"Deleted\",false],[\"Sale\",\"posting_date\",\"Timespan\",\"this month\",false]]",
    "type": "DocType"
   }
  ],
