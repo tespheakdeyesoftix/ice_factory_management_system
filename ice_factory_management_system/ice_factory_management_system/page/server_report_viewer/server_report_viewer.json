@@ -1,0 +1,19 @@
+{
+ "content": null,
+ "creation": "2025-12-16 16:44:01.430921",
+ "docstatus": 0,
+ "doctype": "Page",
+ "idx": 0,
+ "modified": "2025-12-16 16:44:01.430921",
+ "modified_by": "Administrator",
+ "module": "Ice Factory Management System",
+ "name": "server-report-viewer",
+ "owner": "Administrator",
+ "page_name": "server-report-viewer",
+ "roles": [],
+ "script": null,
+ "standard": "Yes",
+ "style": null,
+ "system_page": 0,
+ "title": "Reports"
+}

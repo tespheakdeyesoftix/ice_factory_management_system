@@ -259,7 +259,8 @@ fixtures = [
 
 website_route_rules = [
 	{'from_route': '/embed/<path:app_path>', 'to_route': 'embed'},
-	{'from_route': '/block-ice', 'to_route': '/desk/sale'},
+	{'from_route': '/block-ice', 'to_route': '/me'},
+
 	# {"from_route": "/profile", "to_route": "me"},
 	]
  
