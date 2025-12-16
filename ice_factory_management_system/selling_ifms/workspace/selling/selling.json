@@ -1,37 +1,54 @@
 {
  "app": "ice_factory_management_system",
  "charts": [],
- "content": "[]",
- "creation": "2025-08-25 09:34:16.636879",
+ "content": "[{\"id\":\"8KO1LQAHa7\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Today Sale Invoice\",\"col\":3}},{\"id\":\"7qlFZLlXoM\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"hcrTFnYt02\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Tube Ice Invoice\",\"col\":3}},{\"id\":\"OejHsOnNLA\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Block Ice Invoice\",\"col\":3}}]",
+ "creation": "2025-12-16 14:14:05.519363",
  "custom_blocks": [],
- "custom_outlet": "Block Ice",
  "docstatus": 0,
  "doctype": "Workspace",
  "for_user": "",
  "hide_custom": 0,
- "icon": "retail",
+ "icon": "badge-dollar-sign",
  "idx": 0,
  "indicator_color": "green",
  "is_hidden": 0,
  "label": "Selling",
  "link_type": "DocType",
  "links": [],
- "modified": "2025-12-15 15:20:30.814012",
+ "modified": "2025-12-16 14:24:40.882696",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Selling",
- "number_cards": [],
+ "number_cards": [
+  {
+   "label": "Today Sale Invoice",
+   "number_card_name": "Today Sale Invoice"
+  }
+ ],
  "owner": "Administrator",
  "parent_page": "",
  "public": 1,
  "quick_lists": [],
- "roles": [
+ "roles": [],
+ "sequence_id": 131.0,
+ "shortcuts": [
   {
-   "role": "Sales User"
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Tube Ice Invoice",
+   "link_to": "Sale",
+   "stats_filter": "[[\"Sale\",\"outlet\",\"=\",\"Tube Ice\",false],[\"Sale\",\"status\",\"!=\",\"Deleted\",false]]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Block Ice Invoice",
+   "link_to": "Sale",
+   "stats_filter": "[[\"Sale\",\"outlet\",\"=\",\"Block Ice\",false],[\"Sale\",\"status\",\"!=\",\"Deleted\",false]]",
+   "type": "DocType"
   }
  ],
- "sequence_id": 3.0,
- "shortcuts": [],
  "title": "Selling",
  "type": "Workspace"
 }
