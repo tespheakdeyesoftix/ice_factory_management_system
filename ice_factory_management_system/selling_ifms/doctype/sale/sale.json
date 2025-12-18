@@ -518,6 +518,7 @@
    "fetch_from": "customer.customer_group",
    "fieldname": "customer_group",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Customer Group",
    "options": "Customer Group",
    "read_only": 1
@@ -539,7 +540,7 @@
   }
  ],
  "make_attachments_public": 1,
- "modified": "2025-12-18 10:42:58.392577",
+ "modified": "2025-12-18 17:31:44.602606",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Sale",

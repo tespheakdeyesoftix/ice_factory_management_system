@@ -283,10 +283,7 @@ def get_report_summary(data,filters):
 		columns = get_dynamic_columns(filters)
 		for f in columns:
 			value=sum(d[f["fieldname"]] for d in data if d["indent"]==0)
-			if f["fieldname"] == "total_payment":
-				value = frappe.utils.fmt_money(value)
-			else:
-				value = "{:.2f}".format(value)
+			value = frappe.utils.fmt_money(value)
 			report_summary.append({"label":f["label"],"value":value})	
 	return report_summary
 
@@ -309,7 +306,6 @@ def get_report_chart(filters,data):
 			dataset_values = []
 			for f in fields:
 				dataset_values.append(sum(d["{}".format(rf["fieldname"])] for d in data if d["indent"]==0 and d["row_group"]==f))
-				
 			dataset.append({'name':rf["label"],'values':dataset_values})
 	chart = {
 		'data':{

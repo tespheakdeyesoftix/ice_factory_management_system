@@ -193,11 +193,15 @@ def get_conditions(filters,group_filter=None):
 
 	if filters.get("customer_group"):
 		conditions += " AND b.customer_group in %(customer_group)s"
- 
-	conditions += " AND b.outlet in %(outlet)s"
+
+	if filters.outlet:
+		conditions += " AND b.outlet in %(outlet)s"
 
 	if filters.customer:
 		conditions += " AND b.customer  = %(customer)s"
+	
+	if filters.product_category:
+		conditions += " AND a.product_category  in %(product_category)s"
 
 	return conditions
 
