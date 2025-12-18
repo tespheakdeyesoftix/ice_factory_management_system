@@ -256,6 +256,7 @@ on_login = "ice_factory_management_system.api.utils.on_login"
 fixtures = [
 	{"dt": "Custom Field"},
 	{"dt": "HTML Template"},
+	{"dt": "Custom HTML Block"},
 	{
         "dt": "Workflow State",
         "filters": [

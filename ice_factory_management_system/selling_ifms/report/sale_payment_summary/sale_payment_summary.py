@@ -60,7 +60,14 @@ def get_dynamic_columns(filters):
 	columns = []
 	if filters.column_group =="Payment Type":
 		payment_types = frappe.db.get_list("Payment Type",filters=[{"enabled":1}])
-		
+		for p in payment_types:
+			if filters.row_group != "Payment Type":
+				columns.append({
+							"label":p.name,
+							"fieldname":"{}".format(p.name.replace(" ", "_").replace("-","_").lower()), 
+							"fieldtype":"Float",
+							"align":"center",
+							})
 		columns.append({
        					"label":"Total Payment",
             			"fieldname":"total_payment", 
@@ -180,7 +187,7 @@ def get_date_fields(filters):
  
 def get_report_field_by_payment_type(filters ):
 	sqls=[]
-	if filters.row_group_by != "Payment Type":
+	if filters.row_group != "Payment Type":
 		payment_types = frappe.db.get_list("Payment Type")
 		for p in payment_types:
 			sqls.append("ifnull(sum(if(a.payment_type='{0}',a.payment_amount*a.exchange_rate,0)),0) as {1}".format(p.name,p.name.replace(" ", "_").replace("-","_").lower()))
@@ -189,7 +196,7 @@ def get_report_field_by_payment_type(filters ):
  
 def get_report_field_by_payment_type_group(filters):
 	sqls=[]
-	if filters.row_group_by != "Payment Type":
+	if filters.row_group != "Payment Type":
 		payment_types = frappe.db.get_list("Payment Type Group")
 		for p in payment_types:
 			sqls.append("ifnull(sum(if(a.payment_type_group='{0}',a.payment_amount*a.exchange_rate,0)),0) as {1}".format(p.name,p.name.replace(" ", "_").replace("-","_").lower()))
@@ -198,7 +205,7 @@ def get_report_field_by_payment_type_group(filters):
 
 def get_report_field_by_currency(filters ):
 	sqls=[]
-	if filters.row_group_by != "Payment Type":
+	if filters.row_group != "Payment Type":
 		datas = frappe.db.get_list("Currency")
 		for p in datas:
 			sqls.append("ifnull(sum(if(a.currency='{0}',a.payment_amount*a.exchange_rate,0)),0) as {1}".format(p.name,p.name.replace(" ", "_").replace("-","_").lower()))
@@ -327,6 +334,11 @@ def get_row_groups():
   		{
 			"fieldname":"a.payment_type",
 			"label":"Payment Type",
+			"parent_row_group_filter_field":"row_group"
+		},
+		{
+			"fieldname":"a.payment_type_group",
+			"label":"Payment Type Group",
 			"parent_row_group_filter_field":"row_group"
 		},
    		{

@@ -12,6 +12,7 @@ def desktop_icon_query_condition(user):
 
 @frappe.whitelist()
 def disable_frappe_desktop():
+    return
     frappe.db.sql("update `tabDesktop Icon` set standard = 0 where name in ('Productivity','Integrations')")
     frappe.db.commit()
     

@@ -1,0 +1,37 @@
+{
+ "app": "ice_factory_management_system",
+ "charts": [],
+ "content": "[{\"id\":\"Hn-6jjGTYS\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Products\",\"col\":3}}]",
+ "creation": "2025-12-18 17:01:25.858975",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "stock",
+ "idx": 0,
+ "indicator_color": "green",
+ "is_hidden": 0,
+ "label": "Stock",
+ "link_type": "DocType",
+ "links": [],
+ "modified": "2025-12-18 17:03:07.610960",
+ "modified_by": "Administrator",
+ "module": "Inventory Management",
+ "name": "Stock",
+ "number_cards": [
+  {
+   "label": "Total Products",
+   "number_card_name": "Total Products"
+  }
+ ],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 132.0,
+ "shortcuts": [],
+ "title": "Stock",
+ "type": "Workspace"
+}

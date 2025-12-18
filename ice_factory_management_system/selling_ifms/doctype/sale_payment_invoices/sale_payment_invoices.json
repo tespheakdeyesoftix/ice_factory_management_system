@@ -18,6 +18,7 @@
   "total_amount",
   "paid_amount",
   "payment_type",
+  "payment_type_group",
   "column_break_pjnc",
   "sale_balance",
   "payment_amount",
@@ -156,13 +157,21 @@
    "label": "Payment Type",
    "options": "Payment Type",
    "read_only": 1
+  },
+  {
+   "fetch_from": "payment_type.payment_type_group",
+   "fieldname": "payment_type_group",
+   "fieldtype": "Link",
+   "label": "Payment Type Group",
+   "options": "Payment Type Group",
+   "read_only": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-12-18 16:10:09.429381",
+ "modified": "2025-12-18 17:09:51.758818",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Sale Payment Invoices",

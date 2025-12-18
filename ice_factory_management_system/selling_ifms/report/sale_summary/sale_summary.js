@@ -144,6 +144,15 @@ frappe.query_reports["Sale Summary"] = {
 			"on_change": function (query_report) {},
 		},
 		{
+			"fieldname": "product_category",
+			"label": __("Product Category"),
+			"fieldtype": "MultiSelectList",
+			get_data: function(txt) {
+				return frappe.db.get_link_options('Product Category', txt);
+			},
+			"on_change": function (query_report) {},
+		},
+		{
 			"fieldname": "chart_type",
 			"label": __("Chart Type"),
 			"fieldtype": "Select",
