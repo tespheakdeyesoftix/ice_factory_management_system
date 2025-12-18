@@ -4,9 +4,13 @@ frappe.ui.form.on("*", {
         frm.print_doc = function () {
             printDoc(frm)
         };
-        setTimeout(function(){
-            hideMenus()
-        },700)
+        cleanFormSidebar();
+        hideMenus();
+       
+
+        render_html_template(frm);
+        render_custom_sidebar(frm);
+        
     }
 });
 
@@ -41,9 +45,50 @@ function printDoc(frm,report_name="") {
     });
 }
 
+function render_html_template(frm){
+    let html_fields = frm.fields.filter(f => f.df.fieldtype === 'HTML').map(x=>x.df.fieldname);
+    frappe.call("ice_factory_management_system.ice_factory_management_system.doctype.html_template.html_template.get_html_template",{
+        fields:html_fields,
+        doc:frm.doc
+    }).then(r=>{
+        html_fields.forEach(f => {
+            if (r.message.hasOwnProperty(f)){
+                frm.fields_dict[f].$wrapper.html(r.message[f]);
+            }
+        });
+        
+    })
+}
+
+//render side bar
+
+function render_custom_sidebar(frm){
+    if(!frm.is_new()){
+         
+        frappe.call("ice_factory_management_system.ice_factory_management_system.doctype.html_template.html_template.get_custom_sidebar_template",{
+        doc:frm.doc
+    }).then(r=>{
+        if(r.message){
+            frm.sidebar.sidebar.append(r.message);
+        }
+    })
+    }
+    
+}
+
+//clean form sidebar
+function cleanFormSidebar(){
+      setTimeout(() => {
+            $('.form-sidebar .sidebar-section.form-shared').remove();
+            $('.form-sidebar .sidebar-section.form-assignments').remove();
+            $('.form-sidebar .sidebar-section .avatar-group').parent().parent().remove();
+        }, 100);
+}
 
 
-function hideMenus(menus=["Email","Show Link","Copy to Clipboard","Customize","Edit DocType","Jump to field","Rename"]){
+
+
+function hideMenus(menus=["Email","Show Link","Copy to Clipboard","Customize","Edit DocType","Jump to field","Rename","Undo","Redo"]){
     if(frappe.session.user=="Administrator") return
       setTimeout(() => {
             // Find and hide the Email dropdown item

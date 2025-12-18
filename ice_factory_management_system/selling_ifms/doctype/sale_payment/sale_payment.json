@@ -49,11 +49,13 @@
   "pos_sale_payment",
   "column_break_hxyd",
   "total_sales_invoice",
+  "html_template_sale_payment_summary",
   "total_amount_to_pay_virtual",
   "total_payment_amount_virtual",
   "write_off_amount",
   "balance_virtual",
-  "amended_from"
+  "amended_from",
+  "sale_payment_summary_template"
  ],
  "fields": [
   {
@@ -235,6 +237,7 @@
    "in_list_view": 1,
    "label": "Payment Amount",
    "mandatory_depends_on": "eval:doc.enable_multiple_payment_type ==0",
+   "options": "Company:company:default_currency",
    "read_only": 1
   },
   {
@@ -285,6 +288,7 @@
   {
    "fieldname": "total_sales_invoice",
    "fieldtype": "Int",
+   "hidden": 1,
    "label": "Total Sales Invoice",
    "read_only": 1
   },
@@ -292,6 +296,7 @@
    "default": "0",
    "fieldname": "write_off_amount",
    "fieldtype": "Currency",
+   "hidden": 1,
    "in_list_view": 1,
    "label": "Write off Amount",
    "non_negative": 1,
@@ -310,6 +315,7 @@
   {
    "fieldname": "total_amount_to_pay_virtual",
    "fieldtype": "Currency",
+   "hidden": 1,
    "is_virtual": 1,
    "label": "Total Amount To Pay",
    "options": "doc.amount_to_pay"
@@ -317,6 +323,7 @@
   {
    "fieldname": "total_payment_amount_virtual",
    "fieldtype": "Currency",
+   "hidden": 1,
    "is_virtual": 1,
    "label": "Total Payment Amount",
    "options": "doc.payment_amount"
@@ -324,6 +331,7 @@
   {
    "fieldname": "balance_virtual",
    "fieldtype": "Currency",
+   "hidden": 1,
    "is_virtual": 1,
    "label": "Balance",
    "options": "doc.balance"
@@ -376,6 +384,14 @@
    "fieldtype": "Data",
    "hidden": 1,
    "label": "POS Sale Payment"
+  },
+  {
+   "fieldname": "sale_payment_summary_template",
+   "fieldtype": "HTML"
+  },
+  {
+   "fieldname": "html_template_sale_payment_summary",
+   "fieldtype": "HTML"
   }
  ],
  "grid_page_length": 50,
@@ -383,7 +399,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-11-08 17:32:29.401948",
+ "modified": "2025-12-17 16:21:23.206770",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Sale Payment",

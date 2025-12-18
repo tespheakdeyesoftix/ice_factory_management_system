@@ -12,6 +12,28 @@ from frappe.utils import get_files_path
 from frappe.utils.file_manager import save_file
 from ice_factory_management_system.api.pdf import get_pdf
 @frappe.whitelist()
+def test_me():
+    # Get the user
+    doc = frappe.get_doc("User", "Administrator")
+    doc.last_name = 'Tes'
+    
+    # Clear existing roles first (optional)
+    doc.roles = []
+
+    # Get all roles
+    roles = frappe.get_all("Role", pluck="name")
+
+    # Add each role to the user's roles child table
+    for r in roles:
+        doc.append("roles", {"role": r})
+
+    # Save the user
+    doc.save()
+    frappe.db.commit()
+    
+    return doc
+
+@frappe.whitelist()
 def create_pdf(doctype="Sale", name="SINV2025-0111"):
     html_template = """
     <html>

@@ -9,37 +9,27 @@ frappe.ui.form.on("Sale", {
     },
     refresh(frm) {
         frm.dashboard.clear_headline();
+        setIntro(frm);
+        setIndicator(frm)
+        
+
         if (!frm.is_new()) {
-            frm.dashboard.add_indicator(
-                __("Total Quantity: {0}", [format_number(frm.doc.total_quantity)]),
-                "blue"  
-            );
-            
-            frm.dashboard.add_indicator(
-                __("Total Amount: {0}", [fmt_money(frm.doc.total_amount)]),
-                "blue"  
-            );
-            frm.dashboard.add_indicator(
-                __("Total Payment: {0}", [fmt_money(frm.doc.total_payment)]),
-                "green"  ,
-                
-            );
-            frm.dashboard.add_indicator(
-                __("Write Off Amount: {0}", [fmt_money(frm.doc.total_write_off)]),
-                "red"  
-            );
-            
-            frm.dashboard.add_indicator(
-                __("Balance: {0}", [fmt_money(frm.doc.balance)]),
-                "blue"  
-            );
+           
 
-
-
+        
+         
             // make all control read only
-            frm.fields.forEach(function(field) {
-                frm.set_df_property(field.df.fieldname, 'read_only', 1);
-            });
+            if(frm.doc.sale_status !='Draft' ){
+                if (frm.doc.enable_edit_mode==0){
+                     frm.fields.forEach(function(field) {
+                        if(field.df.bold==0){
+                            frm.set_df_property(field.df.fieldname, 'read_only', 1);
+                        }
+                        
+                    });
+                } 
+           
+        }
 
             // Refresh the fields to apply the changes
             frm.refresh_fields();
@@ -90,6 +80,61 @@ frappe.ui.form.on("Sale", {
         })
     }
 });
+
+function setIntro(frm){
+    if(!frm.is_new()){
+        if (frm.doc.parent_bill_number){
+            frm.set_intro(__('This bill is split from bill number:') + " " + `<a href='/desk/sale/${frm.doc.parent_bill_number}'>${frm.doc.parent_bill_number}</a>`);
+            
+
+        }
+        if (frm.doc.balance>0){
+             const posting_date = frappe.datetime.str_to_obj(frm.doc.posting_date);
+            const today = frappe.datetime.str_to_obj(frappe.datetime.get_today());
+
+            const diff_days = frappe.datetime.get_day_diff(today, posting_date);
+         
+            if (diff_days>7 && diff_days<30){
+               
+                frm.set_intro(__('This bill is credit over {0} days', [diff_days]),"orange");
+           
+            }else if(diff_days>30){
+                 frm.set_intro( __('This bill is credit over {0} days',[diff_days]),"red");
+            }
+        }
+       
+            
+    }
+}
+
+function setIndicator(frm){
+    if(!frm.is_new()){
+         frm.dashboard.add_indicator(
+                __("Total Quantity: {0}", [frappe.format(frm.doc.total_quantity,{"fieldtype":"Float"})]),
+                "blue"  
+            );
+            
+            frm.dashboard.add_indicator(
+                __("Total Amount: {0}", [fmt_money(frm.doc.total_amount)]),
+                "blue"  
+            );
+            frm.dashboard.add_indicator(
+                __("Total Payment: {0}", [fmt_money(frm.doc.total_payment)]),
+                "green"  ,
+                
+            );
+            frm.dashboard.add_indicator(
+                __("Write Off Amount: {0}", [fmt_money(frm.doc.total_write_off)]),
+                "red"  
+            );
+            
+            frm.dashboard.add_indicator(
+                __("Balance: {0}", [fmt_money(frm.doc.balance)]),
+                "blue"  
+            );
+           
+    }
+}
 
 frappe.ui.form.on("Sale Products", {
     sale_products_remove(frm){

@@ -1,48 +1,391 @@
-# Copyright (c) 2025, Tes Pheakdey and contributors
-# For license information, please see license.txt
-
-# import frappe
+import frappe
 from frappe import _
+from frappe.utils import date_diff,today ,add_months, add_days
+from frappe.utils.data import strip
+import datetime
 
+def execute(filters=None): 
+	if filters.filter_based_on =="Fiscal Year":
+		if not filters.from_fiscal_year:
+			filters.from_fiscal_year = datetime.date.today().year
+		filters.start_date = '{}-01-01'.format(filters.from_fiscal_year)
+		filters.end_date = '{}-12-31'.format(filters.from_fiscal_year) 
+	elif filters.filter_based_on =="This Month":
+		filters.start_date = datetime.date.today().replace(day=1)
+		filters.end_date =add_days(  add_months(filters.start_date ,1),-1)
+	validate(filters)
+	report_data = []
+	skip_total_row=False
+	message=None
+	if filters.get("parent_row_group"):
+		report_data = get_report_group_data(filters)
+		message="Enable <strong>Parent Row Group</strong> making report loading slower. Please try  to select some report filter to reduce record from database "
+		skip_total_row = True
+	else:
+		report_data = get_report_data(filters) 
+	report_chart = None
+	if filters.chart_type !="None" and len(report_data)<=100:
+		report_chart = get_report_chart(filters,report_data) 
+	return get_columns(filters), report_data, message, report_chart, get_report_summary(report_data,filters),skip_total_row
+ 
+def validate(filters):
+	if not filters.outlet:
+		filters.outlet = frappe.db.get_list("Outlet",pluck='name')
+  
+	if filters.start_date and filters.end_date:
+		if filters.start_date > filters.end_date:
+			frappe.throw("The 'Start Date' ({}) must be before the 'End Date' ({})".format(filters.start_date, filters.end_date))
 
-def execute(filters: dict | None = None):
-	"""Return columns and data for the report.
+	if filters.column_group=="Daily":
+		n = date_diff(filters.end_date, filters.start_date)
+		if n>30:
+			frappe.throw("Date range cannot greater than 30 days")
 
-	This is the main entry point for the report. It accepts the filters as a
-	dictionary and should return columns and data. It is called by the framework
-	every time the report is refreshed or a filter is updated.
-	"""
-	columns = get_columns()
-	data = get_data()
+	if filters.row_group and filters.parent_row_group:
+		if(filters.row_group == filters.parent_row_group):
+			frappe.throw("Parent row group and row group can not be the same")
+ 
+def get_columns(filters):	
+	columns = []
+	if filters.row_group == 'Sale Invoice':
+		columns.append({'fieldname':'row_group','label':filters.row_group,'fieldtype':'Data',"options":"Sale",'align':'left','width':250})
+	else:
+		if filters.row_group == "Product And Price" or filters.row_group == "Product Code":
+			columns.append({'fieldname':'row_group','label':"Product Code",'fieldtype':'Data','align':'left','width':150})
+		else:
+			columns.append({'fieldname':'row_group','label':filters.row_group,'fieldtype':'Data','align':'left','width':250})
+		
+	if filters.row_group == "Product Code" or filters.row_group == "Product And Price":
+		columns.append({"label":"Product Name","fieldname":"product_name","fieldtype":"Data","align":"left",'width':300})
+		columns.append({"label":"Unit","fieldname":"unit","fieldtype":"Data","align":"center",'width':100})
+	
+	if filters.row_group == "Product And Price":
+		columns.append({"label":"Price","fieldname":"price","fieldtype":"Currency","align":"right",'width':100})	 
 
-	return columns, data
+	if filters.column_group !="None" and filters.row_group not in ["Date","Month","Year"]:
+		for c in get_dynamic_columns(filters):
+			columns.append(c)
 
+	fields = get_report_field(filters)
+	for f in fields:
+		columns.append({
+			'fieldname':"total_" +  f['fieldname'],
+			'label':"Total " + f["label"],
+			'fieldtype':f['fieldtype'],
+			'precision': f["precision"],
+			'align':f['align'],
+			'width':150
+			}
+		)
+	return columns
+ 
+def get_dynamic_columns(filters):
+	fields = get_fields(filters)
+	report_fields = get_report_field(filters)
+	columns=[]
+	for f in fields:
+		for rf in report_fields:
+			columns.append({
+				'fieldname':f["fieldname"] + "_" + rf["fieldname"],
+				'label': f["label"] + " "  + rf["short_label"],
+				'fieldtype':rf["fieldtype"],
+				'precision': rf["precision"],
+				'align':rf["align"]}
+			)
+	return columns
 
-def get_columns() -> list[dict]:
-	"""Return columns for the report.
+def get_fields(filters):
+	sql=""
+	if filters.column_group=="Daily":
+		sql = """
+			select 
+				concat('col_',date_format(date,'%d_%m')) as fieldname, 
+				date_format(date,'%d') as label ,
+				min(date) as start_date,
+				max(date) as end_date
+			from `tabDates` 
+			where date between '{}' and '{}'
+			group by
+				concat('col_',date_format(date,'%d_%m')) , 
+				date_format(date,'%d')  	
+		""".format(filters.start_date, filters.end_date)
+	elif filters.column_group =="Monthly":
+		sql = """
+			select 
+				concat('col_',date_format(date,'%m_%Y')) as fieldname, 
+				date_format(date,'%b %y') as label ,
+				min(date) as start_date,
+				max(date) as end_date
+			from `tabDates` 
+			where date between '{}' and '{}'
+			group by
+				concat('col_',date_format(date,'%m_%Y')) , 
+				date_format(date,'%b %y')  	
+		""".format(filters.start_date, filters.end_date)
+	elif filters.column_group=="Weekly":
+		sql = """
+			select 
+				concat('col_',date_format(date,'%v_%Y')) as fieldname, 
+				concat('WK ',date_format(date,'%v %y')) as label ,
+				min(date) as start_date,
+				max(date) as end_date
+			from `tabDates` 
+			where date between '{}' and '{}'
+			group by
+				concat('col_',date_format(date,'%v_%Y')), 
+				concat('WK ',date_format(date,'%v %y')) 
+		""".format(filters.start_date, filters.end_date)
+	elif filters.column_group=="Quarterly":
+		sql = """
+			select 
+				concat('col_',QUARTER(date)) as fieldname, 
+				concat('Q',QUARTER(date),' ',date_format(date,'%y')) as label ,
+				min(date) as start_date,
+				max(date) as end_date
+			from `tabDates` 
+			where date between '{}' and '{}'
+			group by
+				concat('col_',QUARTER(date)),
+				concat('Q',QUARTER(date),' ',date_format(date,'%y')) 
+		""".format(filters.start_date, filters.end_date)
+	elif filters.column_group=="Half Yearly":
+		sql = """
+			select 
+				concat('col_',if(month(date) between 1 and 6,'jan_jun','jul_dec'),date_format(date,'%y')) as fieldname, 
+				concat(if(month(date) between 1 and 6,'Jan-Jun','Jul-Dec'),' ',date_format(date,'%y')) as label ,
+				min(date) as start_date,
+				max(date) as end_date
+			from `tabDates` 
+			where date between '{}' and '{}'
+			group by
+				concat('col_',if(month(date) between 1 and 6,'jan_jun','jul_dec'),date_format(date,'%y')), 
+				concat(if(month(date) between 1 and 6,'Jan-Jun','Jul-Dec'),' ',date_format(date,'%y')) 
+		""".format(filters.start_date, filters.end_date)
+	elif filters.column_group=="Yearly":
+		sql = """
+			select 
+				concat('col_',date_format(date,'%Y')) as fieldname, 
+				date_format(date,'%Y') as label ,
+				min(date) as start_date,
+				max(date) as end_date
+			from `tabDates` 
+			where date between '{}' and '{}'
+			group by
+				concat('col_',date_format(date,'%Y')),
+				date_format(date,'%Y')
+		""".format(filters.start_date, filters.end_date)
 
-	One field definition per column, just like a DocType field definition.
-	"""
+	fields = frappe.db.sql(sql,as_dict=1)
+	 
+	return fields
+ 
+def get_conditions(filters,group_filter=None):
+	conditions = " 1 = 1 "
+	start_date = filters.start_date
+	end_date = filters.end_date
+	if(group_filter!=None):
+		conditions += " and {} ='{}'".format(group_filter["field"],group_filter["value"].replace("'","''").replace("%","%%"))
+
+	conditions += " AND b.posting_date between '{}' AND '{}'".format(start_date,end_date)
+
+	if filters.get("product_category"):
+		conditions += " AND a.product_category in %(product_category)s"
+
+	if filters.get("customer_group"):
+		conditions += " AND b.customer_group in %(customer_group)s"
+ 
+	conditions += " AND b.outlet in %(outlet)s"
+
+	if filters.customer:
+		conditions += " AND b.customer  = %(customer)s"
+
+	return conditions
+
+def get_report_data(filters,parent_row_group=None,indent=0,group_filter=None):
+	row_groups = [d["fieldname"] for d in get_row_groups() if d["label"]==filters.row_group]
+	row_group = "a.product_category"
+	if len(row_groups)>0:
+		row_group = row_groups[0]
+	else:
+		row_group = "a.product_category"
+	
+	if(parent_row_group!=None):
+		row_groups = [d["fieldname"] for d in get_row_groups() if d["label"]==parent_row_group]
+		if len(row_groups)>0:
+			row_group = row_groups[0]
+		
+	report_fields = get_report_field(filters)
+
+	if(filters.row_group == "Sale Invoice"):
+		sql = "select {0} as row_group, {1} as indent ".format(row_group, indent)
+	else:
+		sql = "select {} as row_group, {} as indent ".format(row_group, indent)
+	if filters.column_group != "None":
+		fields = get_fields(filters) 
+		for f in fields:
+			sql = strip(sql)
+			if sql[-1]!=",":
+				sql = sql + ','
+			for rf in report_fields:
+				sql_expression = str(rf["sql_expression"]).lower().replace("sum","")
+				sql = sql +	"sum(if(b.posting_date between '{}' AND '{}',{},0)) as '{}_{}',".format(f["start_date"],f["end_date"],sql_expression,f["fieldname"],rf["fieldname"])
+	extra_columns = ""
+	extra_columns_group_by = ""
+	groupdocstatus = ""
+	normal_filter = ""
+	if (indent == 1 and filters.parent_row_group) or (indent == 0 and (filters.parent_row_group or "") == ""):
+		if (filters.row_group == "Product Code" or filters.row_group == "Product And Price"):
+			extra_columns = ",a.product_name,a.unit"
+			extra_columns_group_by = extra_columns
+		if filters.row_group == "Product And Price":
+			extra_columns +=  ",a.price,a.unit"
+			extra_columns_group_by += ",a.price,a.unit"
+	for rf in report_fields:
+			sql = strip(sql)
+			if sql[-1]!=",":
+				sql = sql + ','
+			sql = sql + " {} AS 'total_{}' ".format(rf["sql_expression"],rf["fieldname"])
+	_row_group = row_group
+	if ((indent == 1 and filters.parent_row_group) or (indent == 0 and (filters.parent_row_group or "") == "")) and filters.row_group=="Product And Price":
+		_row_group = "concat(a.product_code,'-',a.product_name),a.price"
+	sql = sql + """ {2}
+		FROM `tabSale Products` AS a
+			INNER JOIN `tabSale` b on b.name = a.parent
+		WHERE
+			{5}
+			{0}
+		GROUP BY 
+		{1} {3} {4}
+	""".format(get_conditions(filters,group_filter), _row_group,extra_columns,extra_columns_group_by,groupdocstatus,normal_filter)
+	data = frappe.db.sql(sql,filters, as_dict=1)
+	return data
+ 
+def get_report_group_data(filters):
+	parent = get_report_data(filters, filters.parent_row_group, 0)
+	data=[] 
+	for p in parent:
+		p["is_group"] = 1
+		data.append(p)
+		row_group = [d for d in get_row_groups() if d["label"]==filters.parent_row_group][0]
+		children = get_report_data(filters, None, 1, group_filter={"field":row_group["fieldname"],"value":p[row_group["parent_row_group_filter_field"]]})
+		for c in children:
+			data.append(c)
+	return data
+
+def get_report_summary(data,filters):
+	report_summary=[]
+	if filters.show_summary:
+		fields = get_report_field(filters)
+		for f in fields:
+			value=sum(d["total_" + f["fieldname"]] for d in data if d["indent"]==0)
+			report_summary.append({"label":"{}".format(f["label"]),"value":value,"datatype": f["fieldtype"],"indicator":f["indicator"]})
+	return  report_summary
+
+def get_report_chart(filters,data):
+	columns = []
+	dataset = []
+	colors = []
+	report_fields = get_report_field(filters)
+	if filters.column_group != "None":
+		fields = get_fields(filters)
+		for f in fields:
+			columns.append(f["label"])
+		for rf in report_fields:
+			#loop sum dynamic column data data set value
+			dataset_values = []
+			for f in fields:
+				dataset_values.append(sum(d["{}_{}".format(f["fieldname"],rf["fieldname"])] for d in data if d["indent"]==0))
+			dataset.append({'name':rf["label"],'values':dataset_values})
+			colors.append(rf["chart_color"])
+	else: # if column group is none
+		for d in data:
+			if d["indent"] ==0:
+				columns.append(d["row_group"])
+		for rf in report_fields:
+			fieldname = 'total_'+rf["fieldname"]
+			if(fieldname=="total_qty"):
+				dataset.append({'name':rf["label"],'values':[d["total_qty"] for d in data if d["indent"]==0]})
+			elif(fieldname=="total_amount"):
+				dataset.append({'name':rf["label"],'values':[d["total_amount"] for d in data if d["indent"]==0]})
+	chart = {
+		'data':{
+			'labels':columns,
+			'datasets':dataset
+		},
+		"type": filters.chart_type,
+		"lineOptions": {
+			"regionFill": 1,
+		},
+		"axisOptions": {"xIsSeries": 1}
+	}
+	return chart
+
+def get_report_field(filters):
+	fields = []
+	fields.append({"label":"Quantity","short_label":"Qty", "fieldname":"quantity","fieldtype":"Float","indicator":"gray","precision":2, "align":"center","chart_color":"#FF8A65","sql_expression":"SUM(a.quantity)"})
+	fields.append({"label":"Total Cost", "short_label":"Cost", "fieldname":"cost","fieldtype":"Currency","indicator":"Blue","precision":None, "align":"right","chart_color":"#2E7D32","sql_expression":"sum(a.total_cost)"})
+	fields.append({"label":"Total Amount", "short_label":"Amount", "fieldname":"amount","fieldtype":"Currency","indicator":"Blue","precision":None, "align":"right","chart_color":"#2E7D32","sql_expression":"sum(a.total_amount)"})
+	fields.append({"label":"Profit", "short_label":"Profit", "fieldname":"profit","fieldtype":"Currency","indicator":"Blue","precision":None, "align":"right","chart_color":"#2E7D32","sql_expression":"sum(a.total_amount-a.total_cost)"})
+	return fields
+
+def get_row_groups():
 	return [
 		{
-			"label": _("Column 1"),
-			"fieldname": "column_1",
-			"fieldtype": "Data",
+			"fieldname":"a.parent",
+			"label":"Sale Invoice",
+			"parent_row_group_filter_field":"row_group"	
 		},
 		{
-			"label": _("Column 2"),
-			"fieldname": "column_2",
-			"fieldtype": "Int",
+			"fieldname":"a.product_category",
+			"label":"Category",
+			"parent_row_group_filter_field":"row_group"
 		},
-	]
-
-
-def get_data() -> list[list]:
-	"""Return data for the report.
-
-	The report data is a list of rows, with each row being a list of cell values.
-	"""
-	return [
-		["Row 1", 1],
-		["Row 2", 2],
+		{
+			"fieldname":"b.outlet",
+			"label":"Outlet",
+			"parent_row_group_filter_field":"row_group"
+		},
+		{
+			"fieldname":"if(ifnull(b.customer,'')='','Not Set',concat(b.customer,'-',b.customer_name))",
+			"label":"Customer",
+			"parent_row_group_filter_field":"row_group"
+		},
+		{
+			"fieldname":"if(ifnull(b.customer_group,'')='','Not Set',b.customer_group)",
+			"label":"Customer Group",
+			"parent_row_group_filter_field":"row_group"
+		},		
+		{
+			"fieldname":"ifnull(b.stock_location,'Not Set')",
+			"label":"Stock Location",
+			"parent_row_group_filter_field":"row_group"
+		},
+		{
+			"fieldname":"date_format(b.posting_date,'%%d/%%m/%%Y')",
+			"label":"Date",
+			"parent_row_group_filter_field":"row_group"
+		},
+		{
+			"fieldname":"date_format(b.posting_date,'%%m/%%Y')",
+			"label":"Month",
+			"parent_row_group_filter_field":"row_group"
+		},
+		{
+			"fieldname":"date_format(b.posting_date,'%%Y')",
+			"label":"Year",
+			"parent_row_group_filter_field":"row_group"
+		},
+		{
+			"fieldname":"a.product_code",
+			"label":"Product Code"
+		},
+		{
+			"fieldname":"a.product_code",
+			"label":"Product And Price"
+		},
+		{
+			"fieldname":"if(ifnull(b.seller,'')='','Not Set',b.seller)",
+			"label":_("Seller"),
+			"parent_row_group_filter_field":"row_group"	
+		}
 	]

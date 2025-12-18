@@ -1,0 +1,52 @@
+[
+ {
+  "custom_is_standard": 1,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-12-18 12:27:25.854633",
+  "name": "Submit",
+  "style": "",
+  "workflow_state_name": "Submit"
+ },
+ {
+  "custom_is_standard": 1,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-12-18 12:27:21.950704",
+  "name": "Edit",
+  "style": "",
+  "workflow_state_name": "Edit"
+ },
+ {
+  "custom_is_standard": 1,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-12-18 12:27:30.948936",
+  "name": "Save",
+  "style": "",
+  "workflow_state_name": "Save"
+ },
+ {
+  "custom_is_standard": 1,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-12-18 12:27:15.370963",
+  "name": "Deleted",
+  "style": "Danger",
+  "workflow_state_name": "Deleted"
+ },
+ {
+  "custom_is_standard": 1,
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-12-18 12:27:18.673016",
+  "name": "Closed",
+  "style": "Success",
+  "workflow_state_name": "Closed"
+ }
+]

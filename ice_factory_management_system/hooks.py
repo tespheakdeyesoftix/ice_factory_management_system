@@ -41,7 +41,9 @@ page_js = {"print-report-server" : "/assets/ice_factory_management_system/js/pag
 
 # include js in doctype views
 # doctype_js = {"doctype" : "public/js/doctype.js"}
-# doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
+doctype_list_js = {
+    "doctype" : "ice_factory_management_system/public/js/sale_list.js"
+}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
 
@@ -253,6 +255,13 @@ on_login = "ice_factory_management_system.api.utils.on_login"
 
 fixtures = [
 	{"dt": "Custom Field"},
+	{"dt": "HTML Template"},
+	{
+        "dt": "Workflow State",
+        "filters": [
+            ["custom_is_standard", "=", 1]
+        ]
+    }
 	 
 ]
 

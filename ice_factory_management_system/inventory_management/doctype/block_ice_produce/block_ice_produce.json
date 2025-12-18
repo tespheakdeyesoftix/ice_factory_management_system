@@ -10,18 +10,20 @@
   "naming_series",
   "posting_date",
   "photo",
-  "outlet",
+  "stock_location",
   "column_break_ffpw",
-  "max_produce_quantity",
-  "column_break_jstc",
-  "total_produce_quantity",
-  "column_break_lcjc",
-  "total_remaining_quantity",
+  "outlet",
   "section_break_evpv",
   "produce_quantity",
   "section_break_viwj",
   "note",
   "amended_from",
+  "column_break_ppvp",
+  "html_block_ice_produce_summary",
+  "max_produce_quantity",
+  "total_produce_quantity",
+  "total_defected_quantity",
+  "total_remaining_quantity",
   "product_grid_tab",
   "html_wvzz",
   "column_break_jyce",
@@ -58,6 +60,7 @@
    "default": "0",
    "fieldname": "max_produce_quantity",
    "fieldtype": "Int",
+   "hidden": 1,
    "in_list_view": 1,
    "label": "Max Produce Quantity",
    "read_only": 1
@@ -66,6 +69,7 @@
    "default": "0",
    "fieldname": "total_produce_quantity",
    "fieldtype": "Int",
+   "hidden": 1,
    "in_list_view": 1,
    "label": "Total Produce Quantity",
    "no_copy": 1,
@@ -75,6 +79,7 @@
    "default": "0",
    "fieldname": "total_remaining_quantity",
    "fieldtype": "Int",
+   "hidden": 1,
    "in_list_view": 1,
    "label": "Total Remaining Quantity",
    "no_copy": 1,
@@ -115,14 +120,6 @@
    "fieldtype": "Table",
    "no_copy": 1,
    "options": "Block Ice Produce Grid Child"
-  },
-  {
-   "fieldname": "column_break_jstc",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "column_break_lcjc",
-   "fieldtype": "Column Break"
   },
   {
    "depends_on": "eval:!doc.__islocal",
@@ -198,9 +195,9 @@
   {
    "fieldname": "outlet",
    "fieldtype": "Link",
-   "hidden": 1,
    "label": "Outlet",
-   "options": "Outlet"
+   "options": "Outlet",
+   "read_only": 1
   },
   {
    "fieldname": "section_break_svvf",
@@ -210,6 +207,27 @@
    "fieldname": "html_ctfc",
    "fieldtype": "HTML",
    "options": "<div id=\"GRD-0007\"></div>"
+  },
+  {
+   "fieldname": "total_defected_quantity",
+   "fieldtype": "Int",
+   "hidden": 1,
+   "label": "Total Defected Quantity",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_ppvp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "html_block_ice_produce_summary",
+   "fieldtype": "HTML"
+  },
+  {
+   "fieldname": "stock_location",
+   "fieldtype": "Link",
+   "label": "Stock Location",
+   "options": "Stock Location"
   }
  ],
  "grid_page_length": 50,
@@ -217,7 +235,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-09-01 08:16:00.446985",
+ "modified": "2025-12-17 13:55:04.575263",
  "modified_by": "Administrator",
  "module": "Inventory Management",
  "name": "Block Ice Produce",

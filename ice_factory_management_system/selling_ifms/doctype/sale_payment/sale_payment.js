@@ -9,9 +9,7 @@ frappe.ui.form.on("Sale Payment", {
                     "customer": doc.customer || 'Not Set',
                     "outlet": doc.outlet || 'Not Set',
                     "balance": [">", 0],
-                    "sale_status": "Closed",
-                    "name": ["not in", doc.sales.map(x => x.sale || 'Not Set') || ["Not Set"]]
-
+                    "sale_status": "Closed"
                 };
           
             if (doc.sale){

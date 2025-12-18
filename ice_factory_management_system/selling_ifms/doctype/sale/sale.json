@@ -12,13 +12,13 @@
   "reference_number",
   "outlet",
   "outlet_unit",
-  "station",
-  "last_update_station",
   "stock_location",
+  "seller",
   "column_break_wrwm",
   "customer",
   "customer_name",
   "phone_number",
+  "customer_group",
   "customer_photo",
   "can_show_price",
   "can_split_bill",
@@ -40,30 +40,41 @@
   "default_receivable_account",
   "section_break_webp",
   "column_break_wybp",
-  "status",
+  "note",
+  "column_break_vioy",
+  "sale_summary",
   "total_quantity",
   "total_free",
   "total_quantity_return",
   "total_split_quantity",
   "total_sale_quantity",
-  "total_amount",
   "total_payment",
-  "balance",
+  "total_amount",
   "total_write_off",
-  "update_from",
-  "total_split_bill",
-  "note",
-  "deleted_date",
-  "deleted_by",
+  "balance",
+  "hidden_section_section",
   "deleted_note",
-  "column_break_vioy",
+  "deleted_by",
+  "deleted_date",
+  "column_break_jmhw",
+  "total_split_bill",
+  "update_from",
+  "column_break_ihpt",
+  "station",
+  "last_update_station",
+  "column_break_snvi",
+  "status",
   "id",
-  "sale_summary",
-  "product_qty",
+  "enable_edit_mode",
   "payments_tab",
   "html_payment_history",
   "section_break_nmry",
-  "payments"
+  "payments",
+  "split_bill_list_tab",
+  "html_sale_split_bill_list",
+  "hidden_tab_tab",
+  "product_qty",
+  "amended_from"
  ],
  "fields": [
   {
@@ -95,6 +106,7 @@
    "search_index": 1
   },
   {
+   "bold": 1,
    "fieldname": "driver",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -203,6 +215,7 @@
    "label": "Driver Name"
   },
   {
+   "bold": 1,
    "fetch_from": "driver.plate_number",
    "fetch_if_empty": 1,
    "fieldname": "plate_number",
@@ -217,6 +230,7 @@
   {
    "fieldname": "status",
    "fieldtype": "Select",
+   "hidden": 1,
    "label": "Status",
    "options": "Unpaid\nPaid\nPartially Paid\nDeleted"
   },
@@ -265,6 +279,7 @@
   {
    "fieldname": "total_split_bill",
    "fieldtype": "Int",
+   "hidden": 1,
    "label": "Total Split Bill"
   },
   {
@@ -292,6 +307,7 @@
    "options": "Chart of Account"
   },
   {
+   "bold": 1,
    "fieldname": "note",
    "fieldtype": "Small Text",
    "label": "Note"
@@ -447,6 +463,70 @@
    "fieldtype": "Link",
    "label": "Last Update Station",
    "options": "Station"
+  },
+  {
+   "fieldname": "hidden_section_section",
+   "fieldtype": "Section Break",
+   "hidden": 1,
+   "label": "Hidden Section"
+  },
+  {
+   "fieldname": "column_break_jmhw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_ihpt",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_snvi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "hidden_tab_tab",
+   "fieldtype": "Tab Break",
+   "hidden": 1,
+   "label": "Hidden Tab"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Sale",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_edit_mode",
+   "fieldtype": "Check",
+   "label": "Enable Edit Mode"
+  },
+  {
+   "depends_on": "eval:doc.total_split_bill>0",
+   "fieldname": "split_bill_list_tab",
+   "fieldtype": "Tab Break",
+   "label": "Split Bill List"
+  },
+  {
+   "fieldname": "html_sale_split_bill_list",
+   "fieldtype": "HTML"
+  },
+  {
+   "fetch_from": "customer.customer_group",
+   "fieldname": "customer_group",
+   "fieldtype": "Link",
+   "label": "Customer Group",
+   "options": "Customer Group",
+   "read_only": 1
+  },
+  {
+   "fieldname": "seller",
+   "fieldtype": "Data",
+   "label": "Seller",
+   "read_only": 1
   }
  ],
  "image_field": "customer_photo",
@@ -459,7 +539,7 @@
   }
  ],
  "make_attachments_public": 1,
- "modified": "2025-12-16 14:32:25.725463",
+ "modified": "2025-12-18 10:42:58.392577",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Sale",

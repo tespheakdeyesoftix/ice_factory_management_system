@@ -34,7 +34,15 @@
   "customer_product_price_section",
   "product_prices",
   "section_break_mgfg",
-  "customer_free_products"
+  "customer_free_products",
+  "summary_tab",
+  "html_customer_sumary_tab",
+  "recent_sale_tab",
+  "html_customer_recent_sale",
+  "recent_payment_tab",
+  "html_customer_recent_payment",
+  "borrow_product_tab",
+  "html_customer_borrow_return_product"
  ],
  "fields": [
   {
@@ -199,6 +207,46 @@
    "fieldtype": "Data",
    "in_standard_filter": 1,
    "label": "Customer Code Name"
+  },
+  {
+   "fieldname": "summary_tab",
+   "fieldtype": "Tab Break",
+   "label": "Summary"
+  },
+  {
+   "fieldname": "html_customer_sumary_tab",
+   "fieldtype": "HTML",
+   "options": "summary"
+  },
+  {
+   "fieldname": "recent_sale_tab",
+   "fieldtype": "Tab Break",
+   "label": "Recent Sale"
+  },
+  {
+   "fieldname": "html_customer_recent_sale",
+   "fieldtype": "HTML",
+   "options": "recent sale"
+  },
+  {
+   "fieldname": "recent_payment_tab",
+   "fieldtype": "Tab Break",
+   "label": "Recent Payment"
+  },
+  {
+   "fieldname": "html_customer_recent_payment",
+   "fieldtype": "HTML",
+   "options": "recent payment"
+  },
+  {
+   "fieldname": "borrow_product_tab",
+   "fieldtype": "Tab Break",
+   "label": "Borrow Product"
+  },
+  {
+   "fieldname": "html_customer_borrow_return_product",
+   "fieldtype": "HTML",
+   "options": "borrow / return product"
   }
  ],
  "image_field": "photo",
@@ -215,7 +263,7 @@
    "link_fieldname": "customer"
   }
  ],
- "modified": "2025-11-21 16:55:32.654521",
+ "modified": "2025-12-18 11:53:06.806921",
  "modified_by": "Administrator",
  "module": "Customer Relation",
  "name": "Customer",

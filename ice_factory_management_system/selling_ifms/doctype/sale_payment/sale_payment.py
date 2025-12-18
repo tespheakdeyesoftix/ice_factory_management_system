@@ -9,7 +9,6 @@ from ice_factory_management_system.overrides.base_document import BaseDocument
 from ice_factory_management_system.api.utils import get_default_outlet,money_to_word
 class SalePayment(BaseDocument):
 	def validate(self):
-	 
 		super().validate()
 		 
 		self.payment_amount_in_word = money_to_word(int(self.payment_amount))
@@ -17,14 +16,11 @@ class SalePayment(BaseDocument):
 		update_totals(self)
 		self.validate_payment_amount()
 		
-
-
 	def before_submit(self):
 		self.sales = [d for d in self.sales if (d.payment_amount or 0)>0  or (d.write_off_amount or 0)>0]
 		if not self.payment_amount:
 			frappe.throw(_("Please enter payment amount"))
 		self.update_account_code()
-	
 	
 	def on_submit(self):
 		
@@ -35,12 +31,6 @@ class SalePayment(BaseDocument):
 		# make this enqueue
 		frappe.enqueue("ice_factory_management_system.selling_ifms.doctype.sale_payment.sale_payment.add_comment_to_sale_after_submit_sale_payment",self=self)
 
-		
-
-		
-
-		
-
 	def on_cancel(self):
 		self.flags.ignore_links = True
 		if self.pos_sale_payment:
@@ -50,9 +40,6 @@ class SalePayment(BaseDocument):
 		frappe.db.sql("call sp_update_sale_information('',%(sale_payment)s)",{"sale_payment":self.name})
 		frappe.enqueue("ice_factory_management_system.selling_ifms.doctype.sale_payment.sale_payment.add_comment_to_sale_after_cancel_sale_payment",self=self)
 
-	 
-
-
 	def validate_sale_payment_invoices(self):
 		for s in self.sales:
 			# update payment date to sale payment invoice
@@ -60,19 +47,15 @@ class SalePayment(BaseDocument):
 			s.customer = self.customer
 			# we force to validate sale amount, payment amount and write off amount from db again to
 			# ensure sale amount information is correct before save to db
-			
 			sale_amount, sale_payment,sale_write_off =frappe.db.get_value("Sale",s.sale,["total_amount","total_payment","total_write_off"])
 			s.total_amount = sale_amount or 0
 			s.paid_amount = sale_payment or 0
 			s.sale_balance = s.total_amount - (s.paid_amount + (sale_write_off or 0))
- 
 			s.balance = (s.sale_balance or 0) - ((s.payment_amount or 0) + (s.write_off_amount or 0))
-
+			s.payment_type = self.payment_type
 
 	def validate_payment_amount(self):
-		
 		if self.input_amount:
-		 
 			if (self.input_amount / float(self.exchange_rate))>self.payment_amount:
 				frappe.throw(_("សូមបែងចែកចំនួនទឹកប្រាក់តាមវិកយប័ត្រអោយបានត្រឹមត្រូវ"))
 		if self.payment_amount>self.amount_to_pay:
@@ -158,7 +141,6 @@ class SalePayment(BaseDocument):
 
 
 def update_totals(self):
-
 	self.total_sales_invoice = len([d   for d in self.sales if (d.payment_amount or 0)> 0 or (d.write_off_amount or 0)>0 ])
 	self.payment_amount = sum([d.payment_amount or 0 for d in self.sales if (d.payment_amount or 0)> 0 ])
 	self.write_off_amount = sum([d.write_off_amount or 0 for d in self.sales if (d.write_off_amount or 0)> 0 ])
@@ -182,7 +164,6 @@ def verify_account(self):
 
 def submit_to_GL_entry(self):
 	docs = []
-	
 	for s in [d for d in self.sales if (d.payment_amount or 0) > 0 or (d.write_off_amount or 0)> 0]:
 		# 1 post deduct account receivable
 		doc = {
@@ -256,8 +237,6 @@ def submit_to_GL_entry(self):
 				)
 			}
 			docs.append(doc)
-
-			
 			doc = {
 				"doctype":"GL Entry",
 				"reference_doctype":"Sale",
@@ -275,13 +254,6 @@ def submit_to_GL_entry(self):
 				"remark": "កាតចោល {} from {}".format(frappe.format((self.write_off_amount),{"fieldtype":"Currency"}), (s.sale)),
 			}
 			docs.append(doc)
-
- 
-
-
- 
-		
- 
 	submit_general_ledger_entry(docs=docs)
 
 @frappe.whitelist()
@@ -310,7 +282,6 @@ def add_comment_to_sale_after_submit_sale_payment(self):
 
 		frappe.msgprint(comment_text)
 		doc.add_comment('Info', comment_text)
-
 		audit_trail_doc = {
 			"doctype":"Audit Trail Log",
 			"ref_doctype":"Sale",
@@ -323,7 +294,6 @@ def add_comment_to_sale_after_submit_sale_payment(self):
 		}
 		frappe.get_doc(audit_trail_doc).insert(ignore_permissions=True,ignore_links=True)
 
-	
 @frappe.whitelist()
 def add_comment_to_sale_after_cancel_sale_payment(self):
 	for s in self.sales:

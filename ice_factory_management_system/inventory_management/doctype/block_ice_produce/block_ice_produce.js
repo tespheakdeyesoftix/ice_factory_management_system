@@ -78,10 +78,15 @@ function generateGrid(frm,produce_row) {
         for(let c=0;c<cols;c++){
             let td=document.createElement("td");
             td.textContent = data[r]?.[c] ?? 0;
-            if(Number(td.textContent)>0){
+            if(Number(td.textContent)!=0){
                 td.classList.add("has-value")
+                if(Number(td.textContent)<0){
+                    console.log(Number(td.textContent))
+                    td.classList.add("defected")
+                }
             }else {
                 td.classList.remove("has-value")
+                td.classList.remove("defected")
             }
             td.dataset.row = r;
             td.dataset.col = c;
@@ -106,10 +111,15 @@ function generateGrid(frm,produce_row) {
     function highlightValue() { 
         table.querySelectorAll("td").forEach(td=>{
             // td.classList.remove("selected")
-            if(Number(td.textContent)>0){
+            if(Number(td.textContent)!=0){
                 td.classList.add("has-value")
+                if(Number(td.textContent)<0){
+                    console.log(Number(td.textContent))
+                    td.classList.add("defected")
+                }
             }else {
                 td.classList.remove("has-value")
+                td.classList.remove("defected")
             }
         }); 
     }
@@ -120,11 +130,23 @@ function generateGrid(frm,produce_row) {
         for(let r=0;r<rows;r++){
             for(let c=0;c<cols;c++){
                 let td = tbody.querySelector(`td[data-row='${r}'][data-col='${c}']`);
-                sum += Number(td.textContent||0);
+                if(Number(td.textContent||0)>=0) sum += Number(td.textContent||0);
             }
         }
         return sum;
     }
+    
+    function getTotalDefected(){
+        let sum=0;
+        for(let r=0;r<rows;r++){
+            for(let c=0;c<cols;c++){
+                let td = tbody.querySelector(`td[data-row='${r}'][data-col='${c}']`);
+                if(Number(td.textContent||0)<0) sum += Number(td.textContent||0);
+            }
+        }
+        return Math.abs( sum);
+    }
+
     function getData(){
         let res=[];
         for(let r=0;r<rows;r++){
@@ -192,7 +214,9 @@ function generateGrid(frm,produce_row) {
     let btnAssign1=document.createElement("button"); btnAssign1.textContent=__("Produce QTY 1"); btnAssign1.style.marginLeft="10px"; btnAssign1.onclick=()=>{
         setCellValue(getSelectedCells(),1);
         produce_row.total_produce_quantity = getTotalSum()
+        produce_row.defected_quantity = getTotalDefected()
         produce_row.produce_data = JSON.stringify(getData())
+        
         frm.refresh_field("produce_quantity")
         frm.dirty(); 
     };
@@ -200,11 +224,26 @@ function generateGrid(frm,produce_row) {
     let btnAssign2=document.createElement("button"); btnAssign2.textContent=__("Produce QTY 2"); btnAssign2.style.marginLeft="10px"; btnAssign2.onclick=()=>{
         setCellValue(getSelectedCells(),2);
         produce_row.total_produce_quantity = getTotalSum()
+        produce_row.defected_quantity = getTotalDefected()
         produce_row.produce_data = JSON.stringify(getData())
         frm.refresh_field("produce_quantity")
         frm.dirty(); 
      
     };
+    
+    let btnAssignDefected=document.createElement("button");
+         btnAssignDefected.textContent=__("Defected QTY"); 
+         btnAssignDefected.style.marginLeft="10px";
+        btnAssignDefected.onclick=()=>{
+        setCellValue(getSelectedCells(),-1);
+        produce_row.total_produce_quantity = getTotalSum()
+        produce_row.defected_quantity = getTotalDefected()
+        produce_row.produce_data = JSON.stringify(getData())
+        frm.refresh_field("produce_quantity")
+        frm.dirty(); 
+     
+    };
+
 
     let buttons =[btnClear,btnAssign1];
  
@@ -212,6 +251,7 @@ function generateGrid(frm,produce_row) {
        
         buttons.push(btnAssign2);
     } 
+        buttons.push(btnAssignDefected);
     
     if(frm.doc.docstatus==0) buttons.forEach(b=>btnContainer.appendChild(b));
 

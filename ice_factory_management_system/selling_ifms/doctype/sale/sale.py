@@ -10,7 +10,12 @@ from ice_factory_management_system.api.utils import get_previous_closed_date,get
 from ice_factory_management_system.api.inventory import add_inventory_transaction,get_stock_location_prouct
 class Sale(Document):
 	def validate(self):
-		 
+		if self.has_value_changed("workflow_state"):
+			if self.workflow_state == "Closed":
+				self.sale_status = "Closed"
+			elif self.workflow_state =="Deleted":
+				self.sale_status = "Deleted"
+				
 		self.validate_require_fields()
 
 		get_previous_closed_date(self.posting_date,self.creation,self.outlet)
@@ -46,8 +51,10 @@ class Sale(Document):
 			sql="select name from `tabSale Payment Invoices` where docstatus in (0,1) and sale=%(sale)s limit 1"
 			data = frappe.db.sql(sql,{"sale":self.name})
 			if data:
-				frappe.throw("អ្នកមិនអាចកែប្រែបុងដែលមានប្រតិបត្តិការបង់ប្រាក់ទេ")
-
+				if self.sale_status == "Deleted":
+					frappe.throw("អ្នកមិនអាចលុបសបុងដែលមានប្រតិបត្តិការបង់ប្រាក់ទេ")
+				else:
+					frappe.throw("អ្នកមិនអាចកែប្រែបុងដែលមានប្រតិបត្តិការបង់ប្រាក់ទេ")
 			if not self.parent_bill_number:
 				if self.has_value_changed("customer"):
 					if frappe.db.exists("Sale",{"parent_bill_number":self.name,"sale_status":["in",["Draft","Closed"]]}):
@@ -110,6 +117,8 @@ class Sale(Document):
 		return data
 
 	def on_update(self):
+		
+
 		if self.sale_status == "Closed":
 			# dont for get more this to eqnueue
 			frappe.enqueue("ice_factory_management_system.selling_ifms.doctype.sale.sale.update_stock_product",queue="short",self=self)
@@ -148,6 +157,12 @@ class Sale(Document):
 
 			update_sub_bill_audit_trail(self.get_doc_before_save() ,self)
 
+		if self.enable_edit_mode ==0:
+			frappe.db.sql("update `tabSale` set workflow_state = 'Closed' where name=%(name)s",{"name":self.name})
+		
+		get_employee_name(self)
+				
+
 	def validate_permission(self):
 		employee = frappe.db.exists("Employee",{"user_id":frappe.session.user})
 		employee_doc = frappe.get_cached_doc("Employee",employee)
@@ -162,8 +177,10 @@ class Sale(Document):
 					frappe.throw("អ្នកមិនមានសិទ្ធកែប្រែអតិថិជនក្នុងបុងបានទេ")
 
 			
-
-					
+	 
+def get_employee_name(self):
+	name = frappe.db.get_value('Employee', {'user_id':self.owner}, 'employee_name')
+	self.seller = name
 				
 
 @frappe.whitelist()
@@ -313,6 +330,8 @@ def update_payment_status(self):
 		self.status = "Unpaid"
 
 def get_customer_product_price(self):
+	return
+	# we use client to update this data
 	customer_free_products = frappe.db.sql("""SELECT product_code,quantity,unit,multiplier FROM `tabCustomer Free Products` WHERE parent = '{}'""".format(self.customer),as_dict=1)
 	if len(customer_free_products)>0:
 		for a in customer_free_products:
@@ -755,6 +774,7 @@ def update_split_quantity_to_parent_bill(name):
 			split_sp =  next((item for item in split_quantity_data if item.get("product_code") == sp.product_code), None)
 			if split_sp:
 				sp.split_quantity = split_sp.quantity
+
 	doc.total_split_bill = frappe.db.count('Sale', {'parent_bill_number': name,"sale_status":"Closed"})
 	doc.save()
 

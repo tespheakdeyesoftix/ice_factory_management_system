@@ -8,13 +8,14 @@
  "icon_type": "Link",
  "idx": 0,
  "label": "Stock",
+ "link": "/app/stock",
  "link_to": "Stock Management",
  "link_type": "Workspace",
- "modified": "2025-12-16 11:41:01.012858",
+ "modified": "2025-12-18 16:56:36.297982",
  "modified_by": "Administrator",
  "name": "Stock",
  "owner": "Administrator",
  "roles": [],
- "sidebar": "Stock",
+ "sidebar": "",
  "standard": 1
 }

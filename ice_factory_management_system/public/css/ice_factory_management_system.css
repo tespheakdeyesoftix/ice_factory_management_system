@@ -18,5 +18,6 @@ table.block-ice-produce-grid { border-collapse: collapse; }
 .block-ice-produce-grid td.selected { background-color: lightblue!important; }
 .block-ice-produce-grid td.selected { background-color: lightblue!important; }
 .block-ice-produce-grid td.has-value { background-color: rgb(191, 240, 153); }
+.block-ice-produce-grid td.defected { background-color: rgb(249 120 120) }
 .block-ice-produce-grid th.selected { background-color: #add8e6; }
  

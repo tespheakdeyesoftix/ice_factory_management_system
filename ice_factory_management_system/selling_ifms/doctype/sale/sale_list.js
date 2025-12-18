@@ -8,7 +8,7 @@ frappe.listview_settings['Sale'] = {
         if(doc.status=="Paid"){ 
             return [__("Paid"), "green"];
         }else if(doc.status=="Partially Paid"){
-            return [__("Partially Paid"), "orange"];
+            return [__("Partially Paid"), "yellow"];
         }else{
             if(doc.status=="Deleted"){
                 return [__("Deleted"), "red"];
