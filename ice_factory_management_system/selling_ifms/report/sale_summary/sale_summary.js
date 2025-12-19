@@ -9,9 +9,6 @@ frappe.query_reports["Sale Summary"] = {
 			frappe.query_report.toggle_filter_display('start_date', true  );
 			frappe.query_report.toggle_filter_display('end_date', true );
 		}
-		if(frappe.query_report.get_filter_value('row_group')!="Product Code" || frappe.query_report.get_filter_value('parent_group')!="Product Code"){
-			frappe.query_report.toggle_filter_display('product_category', true);
-		}
 		report.page.add_inner_button("Preview Report", function () {
 			frappe.query_report.refresh();
 		});
@@ -123,12 +120,6 @@ frappe.query_reports["Sale Summary"] = {
 			"options": "Product Code\nProduct And Price\nCategory\nOutlet\nCustomer\nCustomer Group\nStock Location\nDate\n\Month\nYear\nSale Invoice\nSeller",
 			"default":"Category",
 			on_change: function() { 
-				if(frappe.query_report.get_filter_value('row_group')=="Product Code" || frappe.query_report.get_filter_value('row_group')=="Product And Price"){
-					frappe.query_report.toggle_filter_display('product_category', false);
-				}
-				else{
-					frappe.query_report.toggle_filter_display('product_category', true);
-				}
 			},
 		},
 		{

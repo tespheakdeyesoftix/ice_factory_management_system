@@ -74,6 +74,7 @@ class Sale(Document):
 		if self.sale_status=='Closed' and not self.customer:
 			frappe.throw(_("Please select customer"))
 
+		get_employee_name(self)
 
 	# other doc method
 	@frappe.whitelist()
@@ -135,7 +136,7 @@ class Sale(Document):
 				# add_pos_payment_to_sale_payment(self)
 				frappe.enqueue("ice_factory_management_system.selling_ifms.doctype.sale.sale.add_pos_payment_to_sale_payment",queue="short",self=self)
 
-			# add/update borrow product to Stock Entry with transaction 
+			
 		elif self.sale_status == "Deleted":
 
 			update_stock_product(self)
@@ -153,14 +154,15 @@ class Sale(Document):
 		
 		
 		if self.parent_bill_number:
-			# frappe.enqueue("ice_factory_management_system.selling_ifms.doctype.sale.sale.update_sub_bill_audit_trail",queue="short",old_doc = self.get_doc_before_save() ,new_doc = self)
-
-			update_sub_bill_audit_trail(self.get_doc_before_save() ,self)
+			frappe.enqueue("ice_factory_management_system.selling_ifms.doctype.sale.sale.update_sub_bill_audit_trail",queue="short",old_doc = self.get_doc_before_save() ,new_doc = self)
+			# update_sub_bill_audit_trail(self.get_doc_before_save() ,self)
 
 		if self.enable_edit_mode ==0:
 			frappe.db.sql("update `tabSale` set workflow_state = 'Closed' where name=%(name)s",{"name":self.name})
 		
-		get_employee_name(self)
+		# update to borrow product
+		update_borrow_product(self.get_doc_before_save() ,self)
+		
 				
 
 	def validate_permission(self):
@@ -179,6 +181,14 @@ class Sale(Document):
 			
 	 
 def get_employee_name(self):
+	
+	if self.seller:
+		return
+
+	if frappe.session.user == "Administrator":
+		self.seller = "Administrator"
+		return
+
 	name = frappe.db.get_value('Employee', {'user_id':self.owner}, 'employee_name')
 	self.seller = name
 				
@@ -583,6 +593,7 @@ def get_sale_for_edit(name,station_name=""):
 	# sale has payment
 	sql="select name from `tabSale Payment Invoices` where docstatus in (0,1) and sale=%(sale)s limit 1"
 	data = frappe.db.sql(sql,{"sale":sale_doc.name})
+
 	if data:
 		audit_trail_doc = {
 			"ref_doctype":"Sale",
@@ -1025,3 +1036,44 @@ def change_driver(sale,data):
 	frappe.db.commit()
 
 	return frappe.get_doc("Sale",sale)
+
+@frappe.whitelist()
+def update_borrow_product(old_doc,new_doc):
+	change_data = get_sale_product_changed(
+		[d for d in old_doc.sale_products if d.sale_transaction_type == "Borrow"],
+		[d for d in new_doc.sale_products if d.sale_transaction_type == "Borrow"])
+	
+	# add new product
+	for p in change_data.get("added_products"):
+		doc = frappe.get_doc({
+				"doctype":"Borrow Product",
+				"posting_date":new_doc.posting_date,
+				"outlet":new_doc.outlet,
+				"stock_location":p.get("stock_location"),
+				"customer":new_doc.customer,
+				"product":p.get("product_code"),
+				"quantity":p.get("quantity"),
+				"reference_doctype":"Sale",
+				"reference_name":new_doc.name,
+				"sale_product_id":p.get("name"),
+				"note":f"ខ្ចីចេញពីបុងលេខ: {new_doc.name}, ចំនួន៖ {p.get('quantity')}"
+			})
+		doc.insert(ignore_permissions=True)
+		doc.submit()
+		
+	# change quantity
+	for p in change_data.get("quantity_changes"):
+		borrow_id = frappe.db.exists("Borrow Product",{"sale_product_id":p.get("name")})
+		if borrow_id:
+			note = f"បានផ្លាស់ប្តូរចំនួនពី {p.get('old_quantity')} ទៅ {p.get('new_quantity')}  ក្នុងបុងលេខ៖ {new_doc.name}"
+			frappe.db.sql("update `tabBorrow Product`  set quantity =%(quantity)s, customer=%(customer)s, customer_name=%(customer_name)s,total_cost=%(quantity)s  * cost where name = %(name)s",
+			{	
+				"name":borrow_id,"quantity":p.get("new_quantity"),
+				"customer":new_doc.customer,
+				"customer_name":new_doc.customer_name,
+			}
+			)
+			borrow_doc = frappe.get_cached_doc("Borrow Product",borrow_id)
+			borrow_doc.add_comment('Info', note)
+
+

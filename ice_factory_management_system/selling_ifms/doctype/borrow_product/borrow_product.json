@@ -1,0 +1,293 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2025-12-19 14:34:04.885648",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_zqxv",
+  "amended_from",
+  "naming_series",
+  "posting_date",
+  "transaction_type",
+  "outlet",
+  "stock_location",
+  "product",
+  "product_name",
+  "unit",
+  "quantity",
+  "cost",
+  "total_cost",
+  "column_break_qset",
+  "customer",
+  "customer_name",
+  "reference_doctype",
+  "reference_name",
+  "note",
+  "photo",
+  "sale_product_id",
+  "accounting_tab",
+  "borrow_account"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_zqxv",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Borrow Product",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Posting Date",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "outlet",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Outlet",
+   "options": "Outlet",
+   "reqd": 1
+  },
+  {
+   "fieldname": "stock_location",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Stock Location",
+   "options": "Stock Location"
+  },
+  {
+   "fieldname": "product",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Product",
+   "link_filters": "[[\"Product\",\"allow_borrow\",\"=\",1]]",
+   "options": "Product",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "product.product_name",
+   "fieldname": "product_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Product Name"
+  },
+  {
+   "fetch_from": "product.unit",
+   "fieldname": "unit",
+   "fieldtype": "Link",
+   "label": "Unit",
+   "options": "Unit"
+  },
+  {
+   "fieldname": "quantity",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Quantity",
+   "reqd": 1
+  },
+  {
+   "fieldname": "cost",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Cost",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_cost",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Total Cost",
+   "read_only": 1
+  },
+  {
+   "fieldname": "note",
+   "fieldtype": "Small Text",
+   "label": "Note"
+  },
+  {
+   "fieldname": "transaction_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Transaction Type",
+   "options": "Borrow\nReturn",
+   "reqd": 1,
+   "search_index": 1,
+   "translatable": 1
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Naming Series",
+   "options": "BR.YYYY.-.####"
+  },
+  {
+   "fieldname": "column_break_qset",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "photo",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "Photo"
+  },
+  {
+   "fieldname": "reference_doctype",
+   "fieldtype": "Link",
+   "label": "Reference Doctype",
+   "options": "DocType"
+  },
+  {
+   "fieldname": "reference_name",
+   "fieldtype": "Dynamic Link",
+   "label": "Reference Name",
+   "options": "reference_doctype"
+  },
+  {
+   "depends_on": "eval:frappe.session.user =='Administrator'",
+   "fieldname": "sale_product_id",
+   "fieldtype": "Data",
+   "label": "Sale Product ID"
+  },
+  {
+   "fieldname": "accounting_tab",
+   "fieldtype": "Tab Break",
+   "label": "Accounting"
+  },
+  {
+   "fieldname": "borrow_account",
+   "fieldtype": "Link",
+   "label": "Borrow Account",
+   "link_filters": "[[\"Chart of Account\",\"account_type\",\"=\",\"Stock Asset\"]]",
+   "options": "Chart of Account"
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "options": "Customer",
+   "search_index": 1
+  },
+  {
+   "fetch_from": "customer.customer_name",
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Customer Name"
+  }
+ ],
+ "grid_page_length": 50,
+ "image_field": "photo",
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2025-12-19 16:30:39.997623",
+ "modified_by": "Administrator",
+ "module": "Selling IFMS",
+ "name": "Borrow Product",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales User",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts User",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Stocks User",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "product_name"
+}

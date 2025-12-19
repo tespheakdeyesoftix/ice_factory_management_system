@@ -3,6 +3,7 @@ from frappe import _
 from frappe.utils import date_diff,today ,add_months, add_days
 from frappe.utils.data import strip
 import datetime
+from frappe import _
 
 def execute(filters=None): 
 	if filters.filter_based_on =="Fiscal Year":
@@ -48,19 +49,19 @@ def validate(filters):
 def get_columns(filters):	
 	columns = []
 	if filters.row_group == 'Sale Invoice':
-		columns.append({'fieldname':'row_group','label':filters.row_group,'fieldtype':'Data',"options":"Sale",'align':'left','width':250})
+		columns.append({'fieldname':'row_group','label':_(filters.row_group),'fieldtype':'Data',"options":"Sale",'align':'left','width':250})
 	else:
 		if filters.row_group == "Product And Price" or filters.row_group == "Product Code":
-			columns.append({'fieldname':'row_group','label':"Product Code",'fieldtype':'Data','align':'left','width':150})
+			columns.append({'fieldname':'row_group','label':_("Product Code"),'fieldtype':'Data','align':'left','width':150})
 		else:
-			columns.append({'fieldname':'row_group','label':filters.row_group,'fieldtype':'Data','align':'left','width':250})
+			columns.append({'fieldname':'row_group','label':_(filters.row_group),'fieldtype':'Data','align':'left','width':250})
 		
 	if filters.row_group == "Product Code" or filters.row_group == "Product And Price":
-		columns.append({"label":"Product Name","fieldname":"product_name","fieldtype":"Data","align":"left",'width':300})
-		columns.append({"label":"Unit","fieldname":"unit","fieldtype":"Data","align":"center",'width':100})
+		columns.append({"label":_("Product Name"),"fieldname":"product_name","fieldtype":"Data","align":"left",'width':300})
+		columns.append({"label":_("Unit"),"fieldname":"unit","fieldtype":"Data","align":"center",'width':100})
 	
 	if filters.row_group == "Product And Price":
-		columns.append({"label":"Price","fieldname":"price","fieldtype":"Currency","align":"right",'width':100})	 
+		columns.append({"label":_("Price"),"fieldname":"price","fieldtype":"Currency","align":"right",'width':100})	 
 
 	if filters.column_group !="None" and filters.row_group not in ["Date","Month","Year"]:
 		for c in get_dynamic_columns(filters):
@@ -70,7 +71,7 @@ def get_columns(filters):
 	for f in fields:
 		columns.append({
 			'fieldname':"total_" +  f['fieldname'],
-			'label':"Total " + f["label"],
+			'label':_("Total " + f["label"]),
 			'fieldtype':f['fieldtype'],
 			'precision': f["precision"],
 			'align':f['align'],
@@ -87,7 +88,7 @@ def get_dynamic_columns(filters):
 		for rf in report_fields:
 			columns.append({
 				'fieldname':f["fieldname"] + "_" + rf["fieldname"],
-				'label': f["label"] + " "  + rf["short_label"],
+				'label': _(f["label"] + " "  + rf["short_label"]),
 				'fieldtype':rf["fieldtype"],
 				'precision': rf["precision"],
 				'align':rf["align"]}
@@ -282,7 +283,7 @@ def get_report_summary(data,filters):
 		fields = get_report_field(filters)
 		for f in fields:
 			value=sum(d["total_" + f["fieldname"]] for d in data if d["indent"]==0)
-			report_summary.append({"label":"{}".format(f["label"]),"value":value,"datatype": f["fieldtype"],"indicator":f["indicator"]})
+			report_summary.append({"label":_("{}").format(f["label"]),"value":value,"datatype": f["fieldtype"],"indicator":f["indicator"]})
 	return  report_summary
 
 def get_report_chart(filters,data):
@@ -326,10 +327,10 @@ def get_report_chart(filters,data):
 
 def get_report_field(filters):
 	fields = []
-	fields.append({"label":"Quantity","short_label":"Qty", "fieldname":"quantity","fieldtype":"Float","indicator":"gray","precision":2, "align":"center","chart_color":"#FF8A65","sql_expression":"SUM(a.quantity)"})
-	fields.append({"label":"Total Cost", "short_label":"Cost", "fieldname":"cost","fieldtype":"Currency","indicator":"Blue","precision":None, "align":"right","chart_color":"#2E7D32","sql_expression":"sum(a.total_cost)"})
-	fields.append({"label":"Total Amount", "short_label":"Amount", "fieldname":"amount","fieldtype":"Currency","indicator":"Blue","precision":None, "align":"right","chart_color":"#2E7D32","sql_expression":"sum(a.total_amount)"})
-	fields.append({"label":"Profit", "short_label":"Profit", "fieldname":"profit","fieldtype":"Currency","indicator":"Blue","precision":None, "align":"right","chart_color":"#2E7D32","sql_expression":"sum(a.total_amount-a.total_cost)"})
+	fields.append({"label":_("Quantity"),"short_label":"Qty", "fieldname":"quantity","fieldtype":"Float","indicator":"gray","precision":2, "align":"center","chart_color":"#FF8A65","sql_expression":"SUM(a.quantity)"})
+	fields.append({"label":_("Cost"), "short_label":"Cost", "fieldname":"cost","fieldtype":"Currency","indicator":"Blue","precision":None, "align":"right","chart_color":"#2E7D32","sql_expression":"sum(a.total_cost)"})
+	fields.append({"label":_("Amount"), "short_label":"Amount", "fieldname":"amount","fieldtype":"Currency","indicator":"Blue","precision":None, "align":"right","chart_color":"#2E7D32","sql_expression":"sum(a.total_amount)"})
+	fields.append({"label":_("Profit"), "short_label":"Profit", "fieldname":"profit","fieldtype":"Currency","indicator":"Blue","precision":None, "align":"right","chart_color":"#2E7D32","sql_expression":"sum(a.total_amount-a.total_cost)"})
 	return fields
 
 def get_row_groups():

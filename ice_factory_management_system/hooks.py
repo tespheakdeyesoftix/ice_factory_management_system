@@ -149,6 +149,9 @@ permission_query_conditions = {
 # Hook on document methods and events
 
 doc_events = {
+	"*":{
+		"validate":"ice_factory_management_system.api.utils.validate_close_date"
+	},
 	"Payment Type": {"on_update": "ice_factory_management_system.api.utils.clear_cache"	},
 	"Chart of Account": {"on_update": "ice_factory_management_system.api.utils.clear_cache"	},
 	"Stock Location": {"on_update": "ice_factory_management_system.api.utils.clear_cache"	},
@@ -157,6 +160,7 @@ doc_events = {
 	"Product": {"on_update": "ice_factory_management_system.api.utils.clear_cache"	},
 	"Block Ice Produce Grid": {"on_update": "ice_factory_management_system.api.utils.clear_cache"	},
 	"Tube Ice Machine": {"on_update": "ice_factory_management_system.api.utils.clear_cache"	},
+	"Business Information": {"on_update": "ice_factory_management_system.api.utils.clear_cache"	},
 	 
 }
 

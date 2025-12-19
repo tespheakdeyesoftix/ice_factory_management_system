@@ -2,18 +2,14 @@ import frappe
 from frappe.utils import date_diff,today 
 from frappe.utils.data import strip
 import datetime
-
+from frappe import _
 def execute(filters=None): 
 	if filters.filter_based_on =="Fiscal Year":
 		if not filters.from_fiscal_year:
 			filters.from_fiscal_year = datetime.date.today().year
-		
 		filters.start_date = '{}-01-01'.format(filters.from_fiscal_year)
 		filters.end_date = '{}-12-31'.format(filters.from_fiscal_year) 
-
 	validate(filters)
-	#run this to update parent_product_group in table sales invoice item
-
 	report_data = []
 	skip_total_row=False
 	message=None
@@ -26,9 +22,7 @@ def execute(filters=None):
 	report_chart = None
 	if filters.chart_type !="None" and len(report_data)<=100:
 		report_chart = get_report_chart(filters,report_data) 
-  
 	report_summary = get_report_summary(report_data,filters)
- 
 	return get_columns(filters), report_data, message, report_chart, report_summary,skip_total_row
  
 def validate(filters):
@@ -50,7 +44,7 @@ def validate(filters):
  
 def get_columns(filters): 
 	columns = []
-	columns.append({'fieldname':'row_group','label':filters.row_group,'fieldtype':'Data','align':'left','width':250})
+	columns.append({'fieldname':'row_group','label':_(filters.row_group),'fieldtype':'Data','align':'left','width':250})
 	for c in get_dynamic_columns(filters):
 		columns.append(c)
 	return columns
@@ -63,13 +57,13 @@ def get_dynamic_columns(filters):
 		for p in payment_types:
 			if filters.row_group != "Payment Type":
 				columns.append({
-							"label":p.name,
+							"label":_(p.name),
 							"fieldname":"{}".format(p.name.replace(" ", "_").replace("-","_").lower()), 
 							"fieldtype":"Float",
 							"align":"center",
 							})
 		columns.append({
-       					"label":"Total Payment",
+       					"label":_("Total Payment"),
             			"fieldname":"total_payment", 
                			"fieldtype":"Currency",
                   		"align":"center"
@@ -78,13 +72,13 @@ def get_dynamic_columns(filters):
 		payment_types = frappe.db.get_list("Payment Type Group",filters=[{"name":['!=', "On Account"]}])
 		for p in payment_types:
 			columns.append({
-						"label":p.name,
+						"label":_(p.name),
 						"fieldname":"{}".format(p.name.replace(" ", "_").replace("-","_").lower()), 
 						"fieldtype":"Float",
 						"align":"center",
 						})
 		columns.append({
-						"label":"Total Payment",
+						"label":_("Total Payment"),
 						"fieldname":"total_payment", 
 						"fieldtype":"Currency",
 						"align":"center",
@@ -95,7 +89,7 @@ def get_dynamic_columns(filters):
 		for f in fields:
 			columns.append({
 				'fieldname':f["fieldname"],
-				'label': f["label"],
+				'label': _(f["label"]),
 				'fieldtype':"Float",
 				'precision': None,
 				'align':"center"}

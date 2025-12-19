@@ -1,6 +1,8 @@
 :root {
 	--sidebar-width: 275px;
 	--left-sidebar-width: 275px;
+    --surface-menu-bar: #badef5;
+    --text-sm: 14px;
 }
 .layout-main{
     max-width: 100%!important;

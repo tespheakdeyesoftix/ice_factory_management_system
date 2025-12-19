@@ -73,8 +73,19 @@ def get_stock_location_prouct(product,stock_location):
     sql = "select name, quantity,cost from `tabStock Location Products` where product_code = %(product_code)s and stock_location=%(stock_location)s limit 1"
     data = frappe.db.sql(sql,{"product_code":product, "stock_location":stock_location},as_dict = 1)
     if data:
+        # check if not have cost then get max cost from stock location product
+        if (data[0].get("cost") or 0 ) == 0:
+            cost_data = frappe.db.sql("select max(cost) as cost from `tabStock Location Products` where product_code = %(product_code)s",{"product_code":product},as_dict=1)
+            if cost_data:
+                data[0]["cost"] = cost_data[0].get("cost",0)
+            
+        # if still dont have cost get from product purchase price
+            if (data[0].get("cost") or 0 ) == 0:
+                data[0]["cost"] = frappe.get_cached_value("Product",product,"purchase_price")
+
         return data[0]
-    return None
+    
+    return  None
 
 def get_product_quantity(product,stock_location):
     sql = "select quantity from `tabStock Location Products` where product_code = %(product_code)s and stock_location=%(stock_location)s limit 1"

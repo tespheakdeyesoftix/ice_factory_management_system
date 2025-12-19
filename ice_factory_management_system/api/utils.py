@@ -11,27 +11,7 @@ import frappe
 from frappe.utils import get_files_path
 from frappe.utils.file_manager import save_file
 from ice_factory_management_system.api.pdf import get_pdf
-@frappe.whitelist()
-def test_me():
-    # Get the user
-    doc = frappe.get_doc("User", "Administrator")
-    doc.last_name = 'Tes'
-    
-    # Clear existing roles first (optional)
-    doc.roles = []
-
-    # Get all roles
-    roles = frappe.get_all("Role", pluck="name")
-
-    # Add each role to the user's roles child table
-    for r in roles:
-        doc.append("roles", {"role": r})
-
-    # Save the user
-    doc.save()
-    frappe.db.commit()
-    
-    return doc
+from frappe.utils.caching import redis_cache
 
 @frappe.whitelist()
 def create_pdf(doctype="Sale", name="SINV2025-0111"):
@@ -206,6 +186,18 @@ def ensure_date(posting_date,creation):
     else:
         return datetime.now()
 
+# we call this from hook
+@frappe.whitelist()
+def validate_close_date(doc,method):   
+    if doc.doctype in get_validate_close_date_doctype():
+        frappe.msgprint("validate close date from hook")
+        get_previous_closed_date(doc.posting_date, doc.creation, doc.outlet)
+
+@redis_cache(ttl=60*60*24)
+def get_validate_close_date_doctype():
+    data = frappe.db.sql("select closed_doctype from `tabClosed Selling Date Doctype`",as_dict = 1)
+    return [d.get("closed_doctype") for d in data]
+ 
 @frappe.whitelist() 
 def get_previous_closed_date(posting_date,creation,outlet):
  
@@ -446,6 +438,7 @@ def number_to_word(amount=7569556):
 
 def clear_cache(doc, method):
     frappe.clear_document_cache(doc.doctype,doc.name)
+    get_validate_close_date_doctype.clear_cache()
 
 @frappe.whitelist()
 def add_audit_trail_log(data):
@@ -459,6 +452,8 @@ def add_audit_trail_log(data):
         data["username"] = frappe.get_cached_value("User",frappe.session.user,"full_name")
         frappe.get_doc(data).insert(ignore_permissions=True)
     frappe.db.commit()
+
+
 
 def get_sale_product_changed(old_list, new_list):
     result = {
@@ -480,11 +475,13 @@ def get_sale_product_changed(old_list, new_list):
             new_qty = new_item.get("quantity", 0)
             if old_qty != new_qty:
                 result["quantity_changes"].append({
+                    "name":old_item.get("name"),
                     "product_code": code,
                     "product_name": old_item.get("product_name", ""),
                     "old_quantity": old_qty,
                     "new_quantity": new_qty,
-                    "unit": new_item.get("unit")
+                    "unit": new_item.get("unit"),
+                    "stock_location": new_item.get("stock_location")
                 })
 
             old_price = old_item.get("price", 0)
@@ -501,11 +498,13 @@ def get_sale_product_changed(old_list, new_list):
     for code, old_item in old_map.items():
         if code not in new_map:
             result["removed_products"].append({
+                "name":old_item.get("name"),
                 "product_code": code,
                 "product_name": old_item.get("product_name", ""),
                 "quantity": old_item.get("quantity"),
                 "price": old_item.get("price"),
-                "unit":old_item.get("unit")
+                "unit":old_item.get("unit"),
+                "stock_location":old_item.get("stock_location"),
             
             })
 
@@ -513,11 +512,13 @@ def get_sale_product_changed(old_list, new_list):
     for code, new_item in new_map.items():
         if code not in old_map:
             result["added_products"].append({
+                "name":new_item.get("name"),
                 "product_code": code,
                 "product_name": new_item.get("product_name", ""),
                 "quantity": new_item.get("quantity", 0),
                 "price": new_item.get("price", 0),
-                "unit":new_item.get('unit')
+                "unit":new_item.get('unit'),
+                "stock_location":new_item.get('stock_location')
             })
 
     return result

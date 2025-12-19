@@ -178,8 +178,6 @@ def submit_to_GL_entry(self):
 			"against_voucher_no": s.sale,
 			"voucher_type":"Sale Payment",
 			"voucher_no":self.name,
-			"party_type":"Customer",
-			"party":self.customer,
 			"transaction_type":"Payment",
 			"remark": "ទទួលប្រាក់ពីអតិថិជន  {} នៅថ្ងៃទី {} លេខបង្កាន់ដៃ {}".format(
 				self.customer + " - " + self.customer_name,
@@ -205,6 +203,7 @@ def submit_to_GL_entry(self):
 				"voucher_no":self.name,
 				"party_type":"Customer",
 				"party":self.customer,
+				"party_name":self.customer_name,
 				"remark": "ទទួលប្រាក់ពីអតិថិជន  {} នៅថ្ងៃទី {} លេខបង្កាន់ដៃ {}".format(
 					self.customer + " - " + self.customer_name,
 					frappe.format(self.posting_date,{"fieldtype":"Date"}),
@@ -227,8 +226,6 @@ def submit_to_GL_entry(self):
 				"against_voucher_no": s.sale,
 				"voucher_type":"Sale Payment",
 				"voucher_no":self.name,
-				"party_type":"Customer",
-				"party":self.customer,
 				"transaction_type":"Write Off",
 				"remark": "កាត់ប្រាក់ចោល {} នៅថ្ងៃទី {} លេខបង្កាន់ដៃ {}".format(
 					self.customer + " - " + self.customer_name,
@@ -251,6 +248,7 @@ def submit_to_GL_entry(self):
 				"voucher_no":self.name,
 				"party_type":"Customer",
 				"party":self.customer,
+				"party_name":self.customer_name,
 				"remark": "កាតចោល {} from {}".format(frappe.format((self.write_off_amount),{"fieldtype":"Currency"}), (s.sale)),
 			}
 			docs.append(doc)

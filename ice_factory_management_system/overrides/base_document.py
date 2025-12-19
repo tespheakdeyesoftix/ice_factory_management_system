@@ -21,7 +21,6 @@ class BaseDocument(Document):
 
   def validate_close_date(self):
     if frappe.db.exists("Closed Selling Date Doctype",{"closed_doctype":self.doctype}):
-      
       get_previous_closed_date(self.posting_date, self.creation, self.outlet)
     
     

@@ -283,7 +283,7 @@ function addCustomButton(frm){
         if(result){
             result.forEach(r=>{
              
-                 frm.add_custom_button(r.report_title, function() {
+                 frm.add_custom_button(__(r.report_title), function() {
                         printDoc(frm,r.name)
 
     }, __('View Reports')); 
