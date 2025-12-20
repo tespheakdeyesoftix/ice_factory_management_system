@@ -136,7 +136,11 @@ class Sale(Document):
 				# add_pos_payment_to_sale_payment(self)
 				frappe.enqueue("ice_factory_management_system.selling_ifms.doctype.sale.sale.add_pos_payment_to_sale_payment",queue="short",self=self)
 
+			# update to borrow product
+			frappe.enqueue("ice_factory_management_system.selling_ifms.doctype.sale.sale.update_borrow_product",queue="short",old_doc=self.get_doc_before_save() ,new_doc=self)
 			
+			# update_borrow_product(self.get_doc_before_save() ,self)
+
 		elif self.sale_status == "Deleted":
 
 			update_stock_product(self)
@@ -152,6 +156,11 @@ class Sale(Document):
 			self.add_comment('Deleted', comment_text)
 
 		
+			# cancell all borrow product
+			cancell_all_borrow_product(self)
+			# frappe.enqueue("ice_factory_management_system.selling_ifms.doctype.sale.sale.cancell_all_borrow_product",queue="short",self=self)
+
+			
 		
 		if self.parent_bill_number:
 			frappe.enqueue("ice_factory_management_system.selling_ifms.doctype.sale.sale.update_sub_bill_audit_trail",queue="short",old_doc = self.get_doc_before_save() ,new_doc = self)
@@ -159,15 +168,16 @@ class Sale(Document):
 
 		if self.enable_edit_mode ==0:
 			frappe.db.sql("update `tabSale` set workflow_state = 'Closed' where name=%(name)s",{"name":self.name})
-		
-		# update to borrow product
-		update_borrow_product(self.get_doc_before_save() ,self)
+
+	
 		
 				
 
 	def validate_permission(self):
 		employee = frappe.db.exists("Employee",{"user_id":frappe.session.user})
-		employee_doc = frappe.get_cached_doc("Employee",employee)
+		employee_doc = {"change_sale_date_after_save":0,"change_customer_after_close_sale":0}
+		if employee:
+			employee_doc = frappe.get_cached_doc("Employee",employee)
 		old_doc = self.get_doc_before_save() 
 		if not self.is_new():
 			if self.has_value_changed("posting_date"):
@@ -374,16 +384,12 @@ def submit_to_GL_entry(self):
 			"voucher_type":"Sale",
 			"voucher_no":self.name,
 			"sale_id": self.id,
-			"party_type":"Customer",
-			"party":self.customer,
-			"party_name":self.customer_name,
 			"remark":"Sale To Customer {0} On {1} Total Amount {2}".format(self.customer_name,self.posting_date,frappe.format(sum([d.sub_total for d in self.sale_products if d.default_income_account == acc]),{"fieldtype":"Currency"})),
 		}
 		docs.append(doc)
 
 	# expense account on cost and borrow
 	for acc in set([d.default_expense_account for d in self.sale_products if d.default_expense_account]):
-		
 		doc = {
 			"doctype":"GL Entry",
 			"outlet":self.outlet,
@@ -393,10 +399,7 @@ def submit_to_GL_entry(self):
 			"against":self.customer + " - " + self.customer_name,
 			"voucher_type":"Sale",
 			"voucher_no":self.name,
-			"sale_id": self.id,
-			"party_type":"Customer",
-			"party":self.customer,
-			"party_name":self.customer_name
+			"sale_id": self.id
 		}
 		docs.append(doc)
 	# borrow account 
@@ -410,10 +413,7 @@ def submit_to_GL_entry(self):
 			"against":self.customer + " - " + self.customer_name,
 			"voucher_type":"Sale",
 			"voucher_no":self.name,
-			"sale_id": self.id,
-			"party_type":"Customer",
-			"party":self.customer,
-			"party_name":self.customer_name
+			"sale_id": self.id
 		}
 		docs.append(doc)
 
@@ -429,10 +429,7 @@ def submit_to_GL_entry(self):
 			"against":self.customer + " - " + self.customer_name,
 			"voucher_type":"Sale",
 			"voucher_no":self.name,
-			"sale_id": self.id,
-			"party_type":"Customer",
-			"party":self.customer,
-			"party_name":self.customer_name
+			"sale_id": self.id
 		}
 		docs.append(doc)
 
@@ -452,9 +449,6 @@ def submit_to_GL_entry(self):
 				"voucher_no":self.name,
 				"type":"Income",
 				"sale_id": self.id,
-				"party_type":"Customer",
-				"party":self.customer,
-				"party_name":self.customer_name,
 				"remark":"Free To Customer {0} On {1} Total Free {2}".format(self.customer_name,self.posting_date,frappe.format(sum([(d.free_quantity*d.price) for d in self.sale_products if d.default_free_account == acc]),{"fieldtype":"Currency"})),
 			}
 			docs.append(doc)
@@ -472,10 +466,10 @@ def submit_to_GL_entry(self):
 			"voucher_no":self.name,
 			"type":"Asset",
 			"sale_id": self.id,
-			"party_type": "Customer",
+			"transaction_type":"Receivable",
+			"party_type":"Customer",
 			"party":self.customer,
 			"party_name":self.customer_name,
-			"transaction_type":"Receivable",
 			"remark":"Sale To Customer {0} On {1} Total Amount {2}".format(self.customer_name,self.posting_date,frappe.format(self.total_amount,{"fieldtype":"Currency"})),
 		}
 		docs.append(doc)
@@ -1040,9 +1034,13 @@ def change_driver(sale,data):
 @frappe.whitelist()
 def update_borrow_product(old_doc,new_doc):
 	change_data = get_sale_product_changed(
-		[d for d in old_doc.sale_products if d.sale_transaction_type == "Borrow"],
-		[d for d in new_doc.sale_products if d.sale_transaction_type == "Borrow"])
-	
+		[d for d in old_doc.sale_products if d.sale_transaction_type == "Borrow"] if old_doc else [],
+		[d for d in new_doc.sale_products if d.sale_transaction_type == "Borrow"],
+		"name"
+		)
+
+
+	 
 	# add new product
 	for p in change_data.get("added_products"):
 		doc = frappe.get_doc({
@@ -1062,18 +1060,43 @@ def update_borrow_product(old_doc,new_doc):
 		doc.submit()
 		
 	# change quantity
+	
 	for p in change_data.get("quantity_changes"):
 		borrow_id = frappe.db.exists("Borrow Product",{"sale_product_id":p.get("name")})
+		 
 		if borrow_id:
 			note = f"បានផ្លាស់ប្តូរចំនួនពី {p.get('old_quantity')} ទៅ {p.get('new_quantity')}  ក្នុងបុងលេខ៖ {new_doc.name}"
-			frappe.db.sql("update `tabBorrow Product`  set quantity =%(quantity)s, customer=%(customer)s, customer_name=%(customer_name)s,total_cost=%(quantity)s  * cost where name = %(name)s",
+			frappe.db.sql("update `tabBorrow Product`  set quantity =%(quantity)s, customer=%(customer)s, customer_name=%(customer_name)s,total_cost=%(quantity)s  * cost, note=concat(note,'\n',%(note)s) where name = %(name)s",
 			{	
 				"name":borrow_id,"quantity":p.get("new_quantity"),
 				"customer":new_doc.customer,
 				"customer_name":new_doc.customer_name,
+				"note":note
 			}
 			)
 			borrow_doc = frappe.get_cached_doc("Borrow Product",borrow_id)
 			borrow_doc.add_comment('Info', note)
+	# product remove
+	for p in change_data.get("removed_products"):
+		borrow_id = frappe.db.exists("Borrow Product",{"sale_product_id":p.get("name")})
+		if borrow_id:
+			borrow_doc = frappe.get_doc("Borrow Product",borrow_id)
+			borrow_doc.flags.ignore_permissions = True
+			borrow_doc.cancel()
+
+	frappe.db.sql("update `tabBorrow Product` set posting_date = %(posting_date)s, customer=%(customer)s,customer_name=%(customer_name)s where reference_doctype ='Sale' and reference_name=%(name)s",{
+		"posting_date":new_doc.posting_date,
+		"customer":new_doc.customer,
+		"customer_name":new_doc.customer_name,
+		"name":new_doc.name,
+	})
 
 
+@frappe.whitelist()
+def cancell_all_borrow_product(self):
+	data = frappe.db.sql("select name from `tabBorrow Product` where reference_doctype='Sale' and reference_name=%(name)s",{"name":self.name},as_dict=1)
+	for d in data:
+		doc = frappe.get_doc("Borrow Product",d.get("name"))
+		doc.flags.ignore_permissions = True
+		doc.flags.force_cancel = True
+		doc.cancel()

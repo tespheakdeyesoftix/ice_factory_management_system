@@ -150,7 +150,8 @@ permission_query_conditions = {
 
 doc_events = {
 	"*":{
-		"validate":"ice_factory_management_system.api.utils.validate_close_date"
+		"validate":"ice_factory_management_system.api.utils.validate_close_date",
+		"on_cancel":"ice_factory_management_system.api.utils.validate_close_date"
 	},
 	"Payment Type": {"on_update": "ice_factory_management_system.api.utils.clear_cache"	},
 	"Chart of Account": {"on_update": "ice_factory_management_system.api.utils.clear_cache"	},

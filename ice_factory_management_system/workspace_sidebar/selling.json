@@ -106,13 +106,12 @@
   {
    "child": 1,
    "collapsible": 1,
-   "filters": "",
    "icon": "right",
    "indent": 0,
    "keep_closed": 0,
    "label": "Customer",
-   "link_to": "",
-   "link_type": "URL",
+   "link_to": "Customer",
+   "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",
    "url": "/desk/customer?enabled=1&is_customer=1"
@@ -124,9 +123,8 @@
    "indent": 0,
    "keep_closed": 0,
    "label": "Driver",
-   "link_to": "",
-   "link_type": "URL",
-   "route_options": "",
+   "link_to": "Customer",
+   "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",
    "url": "/desk/customer?enabled=1&is_driver=1"
@@ -239,7 +237,7 @@
    "type": "Link"
   }
  ],
- "modified": "2025-12-19 15:00:15.482245",
+ "modified": "2025-12-20 10:58:53.335647",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Selling",

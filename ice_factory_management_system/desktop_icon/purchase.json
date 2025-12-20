@@ -1,0 +1,35 @@
+{
+ "app": "ice_factory_management_system",
+ "creation": "2025-12-20 10:07:29.091469",
+ "docstatus": 0,
+ "doctype": "Desktop Icon",
+ "hidden": 0,
+ "icon": "buying",
+ "icon_type": "Link",
+ "idx": 0,
+ "label": "Purchase",
+ "link_to": "Purchase",
+ "link_type": "Workspace",
+ "modified": "2025-12-20 10:07:47.481726",
+ "modified_by": "Administrator",
+ "name": "Purchase",
+ "owner": "Administrator",
+ "roles": [
+  {
+   "role": "Accounts Manager"
+  },
+  {
+   "role": "Accounts User"
+  },
+  {
+   "role": "Administrator"
+  },
+  {
+   "role": "Purchase Manager"
+  },
+  {
+   "role": "Purchase User"
+  }
+ ],
+ "standard": 1
+}

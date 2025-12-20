@@ -36,8 +36,10 @@ frappe.query_reports["Customer Credit Balance"] = {
 		{
 			"fieldname": "customer",
 			"label": __("Customer"),
-			"fieldtype": "Link",
-			"options":"Customer",
+			"fieldtype": "MultiSelectList",
+			get_data: function(txt) {
+				return frappe.db.get_link_options('Customer', txt);
+			},
 			"on_change": function (query_report) {},
 		},
 		{
@@ -50,6 +52,13 @@ frappe.query_reports["Customer Credit Balance"] = {
 		{
 			"fieldname": "show_chart",
 			"label": __("Show Chart"),
+			"fieldtype": "Check",
+			"default":false,
+			"on_change": function (query_report) {},			
+		},
+		{
+			"fieldname": "show_zero_amount",
+			"label": __("Show Zero"),
 			"fieldtype": "Check",
 			"default":false,
 			"on_change": function (query_report) {},			

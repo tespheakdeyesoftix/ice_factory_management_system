@@ -23,13 +23,13 @@
  "for_user": "",
  "hide_custom": 0,
  "icon": "badge-dollar-sign",
- "idx": 2,
+ "idx": 3,
  "indicator_color": "green",
  "is_hidden": 0,
  "label": "Selling",
  "link_type": "DocType",
  "links": [],
- "modified": "2025-12-19 09:33:32.416949",
+ "modified": "2025-12-20 09:19:01.428635",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Selling",
@@ -81,15 +81,7 @@
    "doc_view": "List",
    "label": "Sale Payment",
    "link_to": "Sale Payment",
-   "stats_filter": "[[\"Sale Payment\",\"docstatus\",\"=\",\"1\",false],[\"Sale Payment\",\"posting_date\",\"Timespan\",\"this month\",false]]",
-   "type": "DocType"
-  },
-  {
-   "color": "Grey",
-   "doc_view": "List",
-   "label": "Tube Ice Invoice",
-   "link_to": "Sale",
-   "stats_filter": "[[\"Sale\",\"outlet\",\"=\",\"Tube Ice\",false],[\"Sale\",\"status\",\"!=\",\"Deleted\",false],[\"Sale\",\"posting_date\",\"Timespan\",\"this month\",false]]",
+   "stats_filter": "[[\"Sale Payment\",\"posting_date\",\"Timespan\",\"this month\"],[\"Sale Payment\",\"docstatus\",\"=\",\"1\"]]",
    "type": "DocType"
   },
   {
@@ -97,7 +89,15 @@
    "doc_view": "List",
    "label": "Block Ice Invoice",
    "link_to": "Sale",
-   "stats_filter": "[[\"Sale\",\"outlet\",\"=\",\"Block Ice\",false],[\"Sale\",\"status\",\"!=\",\"Deleted\",false],[\"Sale\",\"posting_date\",\"Timespan\",\"this month\",false]]",
+   "stats_filter": "[[\"Sale\",\"status\",\"!=\",\"Deleted\"],[\"Sale\",\"posting_date\",\"Timespan\",\"this month\"],[\"Sale\",\"outlet\",\"=\",\"Block Ice\"]]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Tube Ice Invoice",
+   "link_to": "Sale",
+   "stats_filter": "[[\"Sale\",\"status\",\"!=\",\"Deleted\"],[\"Sale\",\"posting_date\",\"Timespan\",\"this month\"],[\"Sale\",\"outlet\",\"=\",\"Tube Ice\"]]",
    "type": "DocType"
   }
  ],

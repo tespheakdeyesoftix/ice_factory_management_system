@@ -1,0 +1,51 @@
+{
+ "app": "ice_factory_management_system",
+ "creation": "2025-12-20 10:12:05.439558",
+ "docstatus": 0,
+ "doctype": "Workspace Sidebar",
+ "header_icon": "buying",
+ "idx": 0,
+ "items": [
+  {
+   "child": 0,
+   "collapsible": 1,
+   "icon": "home",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Home",
+   "link_to": "Purchase",
+   "link_type": "Workspace",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "icon": "receipt-text",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Purchase Order",
+   "link_to": "Purchase Order",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "icon": "user",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Vendor",
+   "link_to": "Vendor",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2025-12-20 10:12:05.439558",
+ "modified_by": "Administrator",
+ "name": "Purchase",
+ "owner": "Administrator",
+ "title": "Purchase"
+}

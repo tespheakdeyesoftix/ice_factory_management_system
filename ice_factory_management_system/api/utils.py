@@ -455,7 +455,7 @@ def add_audit_trail_log(data):
 
 
 
-def get_sale_product_changed(old_list, new_list):
+def get_sale_product_changed(old_list, new_list,compare_field="product_code"):
     result = {
         "quantity_changes": [],
         "price_changes": [],
@@ -464,19 +464,19 @@ def get_sale_product_changed(old_list, new_list):
     }
 
     # Convert to dict for easy lookup
-    old_map = {item.get("product_code"): item for item in old_list if item.get("product_code")}
-    new_map = {item.get("product_code"): item for item in new_list if item.get("product_code")}
+    old_map = {item.get(compare_field): item for item in old_list if item.get(compare_field)}
+    new_map = {item.get(compare_field): item for item in new_list if item.get(compare_field)}
 
     # 1. Check for quantity and price changes
     for code, old_item in old_map.items():
         new_item = new_map.get(code)
         if new_item:
-            old_qty = old_item.get("quantity", 0)
-            new_qty = new_item.get("quantity", 0)
+            old_qty = old_item.get("total_sale_quantity", 0)
+            new_qty = new_item.get("total_sale_quantity", 0)
             if old_qty != new_qty:
                 result["quantity_changes"].append({
                     "name":old_item.get("name"),
-                    "product_code": code,
+                    "product_code": old_item.get("product_code"),
                     "product_name": old_item.get("product_name", ""),
                     "old_quantity": old_qty,
                     "new_quantity": new_qty,
@@ -488,7 +488,7 @@ def get_sale_product_changed(old_list, new_list):
             new_price = new_item.get("price", 0)
             if old_price != new_price:
                 result["price_changes"].append({
-                    "product_code": code,
+                    "product_code":old_item.get("product_code"),
                     "product_name": old_item.get("product_name", ""),
                     "old_price": old_price,
                     "new_price": new_price
@@ -499,7 +499,7 @@ def get_sale_product_changed(old_list, new_list):
         if code not in new_map:
             result["removed_products"].append({
                 "name":old_item.get("name"),
-                "product_code": code,
+                "product_code": old_item.get("product_code"),
                 "product_name": old_item.get("product_name", ""),
                 "quantity": old_item.get("quantity"),
                 "price": old_item.get("price"),
@@ -513,7 +513,7 @@ def get_sale_product_changed(old_list, new_list):
         if code not in old_map:
             result["added_products"].append({
                 "name":new_item.get("name"),
-                "product_code": code,
+                "product_code": new_item.get("product_code"),
                 "product_name": new_item.get("product_name", ""),
                 "quantity": new_item.get("quantity", 0),
                 "price": new_item.get("price", 0),

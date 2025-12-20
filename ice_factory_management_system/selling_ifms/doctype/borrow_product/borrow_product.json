@@ -19,14 +19,19 @@
   "quantity",
   "cost",
   "total_cost",
+  "return_quantity",
+  "balance",
   "column_break_qset",
   "customer",
   "customer_name",
   "reference_doctype",
   "reference_name",
+  "borrow_reference_name",
   "note",
   "photo",
+  "last_return_date",
   "sale_product_id",
+  "return_transaction_tab",
   "accounting_tab",
   "borrow_account"
  ],
@@ -66,7 +71,6 @@
   {
    "fieldname": "stock_location",
    "fieldtype": "Link",
-   "in_list_view": 1,
    "label": "Stock Location",
    "options": "Stock Location"
   },
@@ -116,6 +120,7 @@
    "read_only": 1
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "note",
    "fieldtype": "Small Text",
    "label": "Note"
@@ -123,7 +128,6 @@
   {
    "fieldname": "transaction_type",
    "fieldtype": "Select",
-   "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Transaction Type",
    "options": "Borrow\nReturn",
@@ -150,7 +154,7 @@
   {
    "fieldname": "reference_doctype",
    "fieldtype": "Link",
-   "label": "Reference Doctype",
+   "label": "Reference Document Type",
    "options": "DocType"
   },
   {
@@ -182,6 +186,7 @@
    "fieldtype": "Link",
    "label": "Customer",
    "options": "Customer",
+   "reqd": 1,
    "search_index": 1
   },
   {
@@ -190,6 +195,38 @@
    "fieldtype": "Data",
    "hidden": 1,
    "label": "Customer Name"
+  },
+  {
+   "fieldname": "borrow_reference_name",
+   "fieldtype": "Link",
+   "label": "Borrow Reference Name",
+   "options": "Borrow Product"
+  },
+  {
+   "depends_on": "eval:doc.transaction_type ===\"Borrow\"",
+   "fieldname": "return_quantity",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Return Quantity"
+  },
+  {
+   "depends_on": "eval:doc.transaction_type ===\"Borrow\"",
+   "fieldname": "balance",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Balance"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "last_return_date",
+   "fieldtype": "Date",
+   "label": "Last Return Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "return_transaction_tab",
+   "fieldtype": "Tab Break",
+   "label": "Return Transaction"
   }
  ],
  "grid_page_length": 50,
@@ -197,7 +234,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-12-19 16:30:39.997623",
+ "modified": "2025-12-20 18:00:12.362899",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Borrow Product",

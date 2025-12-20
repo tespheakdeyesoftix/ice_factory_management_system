@@ -13,8 +13,10 @@
   "stock_location",
   "photo",
   "column_break_sitk",
-  "vendor",
-  "vendor_name",
+  "party_type",
+  "party",
+  "party_name",
+  "phone_number",
   "employee",
   "employee_name",
   "section_break_miox",
@@ -25,8 +27,10 @@
   "note",
   "column_break_ttvg",
   "total_quantity",
+  "html_summry_purchase_order",
   "total_cost",
   "total_payment_virtual",
+  "total_write_off",
   "balance",
   "payments_tab",
   "payments",
@@ -54,6 +58,7 @@
    "reqd": 1
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "reference_number",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -64,14 +69,6 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "vendor",
-   "fieldtype": "Link",
-   "in_standard_filter": 1,
-   "label": "Vendor",
-   "options": "Vendor",
-   "reqd": 1
-  },
-  {
    "fieldname": "stock_location",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -79,13 +76,6 @@
    "label": "Stock Location",
    "options": "Stock Location",
    "reqd": 1
-  },
-  {
-   "fetch_from": "vendor.vendor_name",
-   "fieldname": "vendor_name",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Vendor Name"
   },
   {
    "fieldname": "photo",
@@ -130,17 +120,20 @@
   {
    "fieldname": "total_quantity",
    "fieldtype": "Float",
+   "hidden": 1,
    "label": "Total Quantity",
    "read_only": 1
   },
   {
    "fieldname": "total_cost",
    "fieldtype": "Currency",
+   "hidden": 1,
    "in_list_view": 1,
    "label": "Total Cost",
    "read_only": 1
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "note",
    "fieldtype": "Small Text",
    "label": "Note"
@@ -183,6 +176,7 @@
   {
    "fieldname": "total_payment_virtual",
    "fieldtype": "Currency",
+   "hidden": 1,
    "is_virtual": 1,
    "label": "Total Payment",
    "options": "doc.total_payment"
@@ -190,21 +184,26 @@
   {
    "fieldname": "balance",
    "fieldtype": "Currency",
+   "hidden": 1,
    "label": "Balance",
    "read_only": 1
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "employee",
    "fieldtype": "Link",
-   "label": "Employee",
+   "label": "Request By",
    "options": "Employee"
   },
   {
+   "allow_on_submit": 1,
    "fetch_from": "employee.employee_name",
    "fieldname": "employee_name",
    "fieldtype": "Data",
    "hidden": 1,
-   "label": "Employee Name"
+   "label": "Request By Name",
+   "print_hide": 1,
+   "report_hide": 1
   },
   {
    "fieldname": "accounting_tab",
@@ -219,6 +218,52 @@
    "label": "Payable Account",
    "link_filters": "[[\"Chart of Account\",\"is_group\",\"=\",0],[\"Chart of Account\",\"account_type\",\"=\",\"Payable\"]]",
    "options": "Chart of Account"
+  },
+  {
+   "default": "Vendor",
+   "fieldname": "party_type",
+   "fieldtype": "Select",
+   "in_standard_filter": 1,
+   "label": "Party Type",
+   "options": "Vendor\nEmployee\nCustomer",
+   "reqd": 1
+  },
+  {
+   "fieldname": "party",
+   "fieldtype": "Dynamic Link",
+   "in_standard_filter": 1,
+   "label": "Party",
+   "options": "party_type",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "party_name",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "in_list_view": 1,
+   "label": "Party Name",
+   "print_hide": 1,
+   "report_hide": 1
+  },
+  {
+   "fieldname": "html_summry_purchase_order",
+   "fieldtype": "HTML"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "phone_number",
+   "fieldtype": "Data",
+   "label": "Phone Number"
+  },
+  {
+   "default": "0",
+   "fieldname": "total_write_off",
+   "fieldtype": "Currency",
+   "hidden": 1,
+   "is_virtual": 1,
+   "label": "Total Write off",
+   "options": "doc.total_payment"
   }
  ],
  "grid_page_length": 50,
@@ -226,7 +271,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-08-25 15:29:59.456839",
+ "modified": "2025-12-20 17:41:31.837529",
  "modified_by": "Administrator",
  "module": "Purchase Order IFMS",
  "name": "Purchase Order",
@@ -270,6 +315,8 @@
   }
  ],
  "row_format": "Dynamic",
+ "search_fields": "party,party_name,posting_date",
+ "show_name_in_global_search": 1,
  "sort_field": "creation",
  "sort_order": "DESC",
  "states": []

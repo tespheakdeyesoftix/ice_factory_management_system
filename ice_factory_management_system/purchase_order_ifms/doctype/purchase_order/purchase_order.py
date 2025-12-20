@@ -4,24 +4,29 @@
 import frappe
 from frappe.model.document import Document
 from frappe import _
-from ice_factory_management_system.overrides.base_document import BaseDocument
 from ice_factory_management_system.api.inventory import add_inventory_transaction
-class PurchaseOrder(BaseDocument):
+class PurchaseOrder(Document):
 	def validate(self):
-		super().validate()
+		
+
+
 		for p in self.purchase_products:
 			p.sub_total = p.quantity * p.cost
 			p.total_cost = p.sub_total
 
-
+		self.update_party_name()
 		self.total_quantity = sum([d.quantity for d in self.purchase_products])
 		self.total_cost= sum([d.total_cost for d in self.purchase_products])
 		self.balance= (self.total_cost or 0) - (self.total_payment or 0)
 		if self.balance<0:
 			frappe.throw(_("Payment amount cannot greater than purchase order amount"))
 
+		
+
 
 	def before_submit(self):
+
+
 		self.update_account_code()
 		self.validate_product_unit()
 
@@ -80,7 +85,20 @@ class PurchaseOrder(BaseDocument):
 				p.multiplier = data[0].get("multiplier")
 			else:
 				frappe.throw("Product <strong>{}-{}</strong> does not have unit <strong>{}</strong>.".format(p.product_code,p.product_name,p.unit))
-				
+
+
+	def update_party_name(self):
+		##update value of party name
+		doctype = self.party_type
+		name = self.party
+		party_name =  frappe.get_value(doctype, name, '{}_name'.format(doctype.lower()))
+		self.party_name = party_name
+		if self.party_type in ["Customer","Vendor"]:
+			self.phone_number = frappe.get_cached_value(self.party_type, self.party,"phone_number_1")
+		else:
+			self.phone_number = frappe.get_cached_value(self.party_type, self.party,"phone_number")
+
+		##end update part name value		
 			
 def update_stock_product(self):
 	data = [
@@ -117,16 +135,16 @@ def submit_to_GL_entry(self):
 			"posting_date":self.posting_date,
 			"account":acc,
 			"amount":sum([d.total_cost for d in self.purchase_products if d.inventory_account == acc]),
-			"against":self.vendor + " - " + self.vendor_name,
+			"against":self.party + " - " + self.party_name,
 			"voucher_type":"Purchase Order",
 			"voucher_no":self.name,
 			"remark":"បញ្ជាទិញពី {0} នៅថ្ងៃទី {1}។ សរុបទឹកប្រាក់ {2}".format(
-				self.vendor + "-" + self.vendor_name ,
+				self.party + "-" + self.party_name ,
 				frappe.format(self.posting_date,{"fieldtype":"Date"}),
 				frappe.format(sum([d.total_cost for d in self.purchase_products if d.inventory_account == acc]),{"fieldtype":"Currency"})),
-			"party_type":"Vendor",
-			"party": self.vendor,
-			"party_name": self.vendor_name,
+			"party_type": self.party_type,
+			"party": self.party,
+			"party_name": self.party_name,
 		}
 		docs.append(doc)
 
@@ -144,13 +162,13 @@ def submit_to_GL_entry(self):
 			"voucher_type":"Purchase Order",
 			"voucher_no":self.name,
 			"remark":"ទូទាត់ទឹកប្រាក់បញ្ជាទិញអោយ {0}, នៅថ្ងៃទី {1}, ចំនួនទឹកប្រាក់​ {2}".format(
-				self.vendor + "-" + self.vendor_name,
+				self.party + "-" + self.party_name,
 				frappe.format(self.posting_date,{"fieldtype":"Date"}),
 				frappe.format(sum([d.payment_amount for d in self.payments if d.account == acc]),{"fieldtype":"Currency"})
 			),
-			"party_type":"Vendor",
-			"party": self.vendor,
-			"vendor_name": self.vendor_name
+			"party_type":self.party_type,
+			"party": self.party,
+			"party_name": self.party_name
 		}
 		docs.append(doc)
 	
@@ -168,11 +186,11 @@ def submit_to_GL_entry(self):
 			"against_voucher_no": self.name,
 			"voucher_type":"Purchase Order",
 			"voucher_no":self.name,
-			"party_type": "Vendor",
-			"party":self.vendor,
-			"party_name":self.vendor_name,
+			"party_type": self.party_type,
+			"party":self.party,
+			"party_name":self.party_name,
 			"remark":"បញ្ជាទិញពី {0} នៅថ្ងៃទី {1}។ សរុបទឹកប្រាក់ {2}។ ជំពាក់ {3}".format(
-				self.vendor + "-" + self.vendor_name ,
+				self.party + "-" + self.party_name ,
 				frappe.format(self.posting_date,{"fieldtype":"Date"}),
 				frappe.format(sum([d.total_cost for d in self.purchase_products if d.inventory_account == acc]),{"fieldtype":"Currency"}),
 																				frappe.format(self.balance or 0,{"fieldtype":"Currency"})
