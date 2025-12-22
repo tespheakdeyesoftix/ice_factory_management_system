@@ -60,9 +60,9 @@ def get_report_data(filters):
 	select
 	a.name,
 	if(ifnull(a.name,'')='','Not Set',concat(a.name ,'-',coalesce(a.customer_name,'Not Set'))) as row_group,
-	coalesce(sum(current_amount),0) current_amount,
-	coalesce(sum(current_payment),0) current_payment,
-	coalesce(sum(write_off),0) write_off
+	abs(coalesce(sum(current_amount),0)) current_amount,
+	abs(coalesce(sum(current_payment),0)) current_payment,
+	abs(coalesce(sum(write_off),0)) write_off
 	from `tabCustomer` a
 	left join sales b on b.party = a.name
 	where 
@@ -75,7 +75,7 @@ def get_report_data(filters):
 	datas=[]
 	for a in data:
 		a["opening_amount"] = get_opening_balance(a["name"],filters)
-		a["balance"] = a["opening_amount"] + a["current_amount"] + (a["current_payment"] + a["write_off"])
+		a["balance"] = a["opening_amount"] + a["current_amount"] - (a["current_payment"] + a["write_off"])
 		if filters.show_zero_amount:
 			datas.append(a)
 		else:
@@ -88,7 +88,7 @@ def get_opening_balance(party,filters):
 	if filters.outlet:
 		conditions += " AND a.outlet in %(outlet)s"
 	sql = """select
-		sum(if(a.posting_date<'{0}',a.credit_amount-a.debit_amount, 0)) as opening_amount
+		abs(sum(if(a.posting_date<'{0}',a.credit_amount-a.debit_amount, 0))) as opening_amount
 	FROM `tabGL Entry` AS a
 	where
 		coalesce(party,'') = '{1}' {2}
