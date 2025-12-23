@@ -1,0 +1,46 @@
+[
+ {
+  "custom_is_standard": 1,
+  "docstatus": 0,
+  "doctype": "List Filter",
+  "filter_name": "ទឹកកកដើម",
+  "filters": "[[\"Sale\",\"outlet\",\"=\",\"Block Ice\"]]",
+  "for_user": "",
+  "modified": "2025-12-19 11:37:17.132791",
+  "name": "d05nblqkpa",
+  "reference_doctype": "Sale"
+ },
+ {
+  "custom_is_standard": 1,
+  "docstatus": 0,
+  "doctype": "List Filter",
+  "filter_name": "ទឹកកកអនាម័យ",
+  "filters": "[[\"Sale\",\"outlet\",\"=\",\"Tube Ice\"]]",
+  "for_user": "",
+  "modified": "2025-12-19 11:37:07.741711",
+  "name": "dblk3kinhf",
+  "reference_doctype": "Sale"
+ },
+ {
+  "custom_is_standard": 1,
+  "docstatus": 0,
+  "doctype": "List Filter",
+  "filter_name": "Borrow Transaction",
+  "filters": "[[\"Borrow Product\",\"transaction_type\",\"=\",\"Borrow\"]]",
+  "for_user": "",
+  "modified": "2025-12-23 18:26:41.081133",
+  "name": "muhbksv0en",
+  "reference_doctype": "Borrow Product"
+ },
+ {
+  "custom_is_standard": 1,
+  "docstatus": 0,
+  "doctype": "List Filter",
+  "filter_name": "Return Transaction",
+  "filters": "[[\"Borrow Product\",\"transaction_type\",\"=\",\"Return\"]]",
+  "for_user": "",
+  "modified": "2025-12-23 18:28:00.807813",
+  "name": "npa7s9ds4j",
+  "reference_doctype": "Borrow Product"
+ }
+]
