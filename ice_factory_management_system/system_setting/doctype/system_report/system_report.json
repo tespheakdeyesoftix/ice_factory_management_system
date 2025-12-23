@@ -20,7 +20,11 @@
   "is_doctype_report",
   "doctype_name",
   "sort_order",
-  "default_filter_options"
+  "default_filter_options",
+  "role_tab",
+  "roles",
+  "desktop_page_tab",
+  "desktop_pages"
  ],
  "fields": [
   {
@@ -126,12 +130,32 @@
    "fieldtype": "Link",
    "label": "Doctype Name",
    "options": "DocType"
+  },
+  {
+   "fieldname": "role_tab",
+   "fieldtype": "Tab Break",
+   "label": "Role"
+  },
+  {
+   "fieldname": "desktop_page_tab",
+   "fieldtype": "Tab Break",
+   "label": "Desktop Page"
+  },
+  {
+   "fieldname": "roles",
+   "fieldtype": "Table",
+   "options": "Has Role"
+  },
+  {
+   "fieldname": "desktop_pages",
+   "fieldtype": "Table",
+   "options": "Has Desktop Page"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2025-08-26 11:38:06.678852",
+ "modified": "2025-12-22 11:14:55.358497",
  "modified_by": "Administrator",
  "module": "System Setting",
  "name": "System Report",

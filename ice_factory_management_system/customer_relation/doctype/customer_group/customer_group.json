@@ -8,7 +8,8 @@
  "field_order": [
   "customer_group",
   "customer_group_kh",
-  "enabled"
+  "enabled",
+  "test_html"
  ],
  "fields": [
   {
@@ -29,11 +30,16 @@
    "fieldname": "enabled",
    "fieldtype": "Check",
    "label": "Enabled"
+  },
+  {
+   "fieldname": "test_html",
+   "fieldtype": "HTML",
+   "label": "Test Html"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-08-23 15:00:50.218796",
+ "modified": "2025-12-22 18:20:57.156612",
  "modified_by": "Administrator",
  "module": "Customer Relation",
  "name": "Customer Group",

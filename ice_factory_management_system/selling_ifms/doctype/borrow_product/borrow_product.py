@@ -144,3 +144,7 @@ def submit_to_inventory(self):
 		}  
 	]
 	add_inventory_transaction(data)
+
+
+@frappe.whitelist()
+def get_

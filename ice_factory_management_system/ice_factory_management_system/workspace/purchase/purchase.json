@@ -1,9 +1,23 @@
 {
  "app": "ice_factory_management_system",
- "charts": [],
- "content": "[{\"id\":\"U_45818RhZ\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Purchase</span>\",\"col\":12}}]",
+ "charts": [
+  {
+   "chart_name": "Daily PO Statistic",
+   "label": "Daily PO Statistic"
+  }
+ ],
+ "content": "[{\"id\":\"wko3LZ_Kl4\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Today PO Invoice\",\"col\":3}},{\"id\":\"I0mGe8Y4NL\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Today PO Amount\",\"col\":3}},{\"id\":\"X9vIX43_Eu\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"MTD PO Invoice\",\"col\":3}},{\"id\":\"McWoFsYsFJ\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"MTD PO Amount\",\"col\":3}},{\"id\":\"i89W0rB_D3\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Daily PO Statistic\",\"col\":12}},{\"id\":\"Z-fdjzwlp0\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h3\\\">Quick Links</span>\",\"col\":12}},{\"id\":\"V9pWAShHvt\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New Purchase Order\",\"col\":3}},{\"id\":\"Zxguvtdjkz\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Purchase Order\",\"col\":3}},{\"id\":\"zBrggYtLif\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Purchase Order Payment\",\"col\":3}},{\"id\":\"2yIgILp4Z0\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"\u2728 New PO Payment \",\"col\":3}},{\"id\":\"apU2eCy24M\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Vendor\",\"col\":3}},{\"id\":\"nsmqVlJZQP\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Product\",\"col\":3}},{\"id\":\"-Xc6zccX3X\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"9RKSzJrA0w\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h3\\\">Recently</span>\",\"col\":12}},{\"id\":\"sXd8Tfx_8d\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"Recent PO Invoices\",\"col\":6}},{\"id\":\"9Fi4Gi3xNp\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"Recent PO Payments\",\"col\":6}}]",
  "creation": "2025-12-20 10:05:56.303538",
- "custom_blocks": [],
+ "custom_blocks": [
+  {
+   "custom_block_name": "Recent PO Invoices",
+   "label": "Recent PO Invoices"
+  },
+  {
+   "custom_block_name": "Recent PO Payments",
+   "label": "Recent PO Payments"
+  }
+ ],
  "docstatus": 0,
  "doctype": "Workspace",
  "for_user": "",
@@ -15,18 +29,84 @@
  "label": "Purchase",
  "link_type": "DocType",
  "links": [],
- "modified": "2025-12-20 10:06:20.304825",
+ "modified": "2025-12-22 16:11:28.150454",
  "modified_by": "Administrator",
  "module": "Ice Factory Management System",
  "name": "Purchase",
- "number_cards": [],
+ "number_cards": [
+  {
+   "label": "Today PO Invoice",
+   "number_card_name": "Today PO Invoice"
+  },
+  {
+   "label": "Today PO Amount",
+   "number_card_name": "Today PO Amount"
+  },
+  {
+   "label": "MTD PO Invoice",
+   "number_card_name": "MTD PO Invoice"
+  },
+  {
+   "label": "MTD PO Amount",
+   "number_card_name": "MTD PO Amount"
+  }
+ ],
  "owner": "Administrator",
  "parent_page": "",
  "public": 1,
  "quick_lists": [],
  "roles": [],
  "sequence_id": 133.0,
- "shortcuts": [],
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Purchase Order",
+   "link_to": "Purchase Order",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Green",
+   "doc_view": "List",
+   "label": "Product",
+   "link_to": "Product",
+   "stats_filter": "[[\"Product\",\"enabled\",\"=\",1]]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "New",
+   "label": "New Purchase Order",
+   "link_to": "Purchase Order",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "New",
+   "label": "\u2728 New PO Payment ",
+   "link_to": "Purchase Order Payment",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Purchase Order Payment",
+   "link_to": "Purchase Order Payment",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Vendor",
+   "link_to": "Vendor",
+   "stats_filter": "[]",
+   "type": "DocType"
+  }
+ ],
  "title": "Purchase",
  "type": "Workspace"
 }

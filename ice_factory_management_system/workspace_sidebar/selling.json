@@ -147,6 +147,18 @@
    "icon": "right",
    "indent": 0,
    "keep_closed": 0,
+   "label": "Account Receivable Aging",
+   "link_to": "Accounts Receivable Aging",
+   "link_type": "Report",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "icon": "right",
+   "indent": 0,
+   "keep_closed": 0,
    "label": "Customer Product Prices",
    "link_to": "Customer Product Prices",
    "link_type": "Report",
@@ -237,7 +249,7 @@
    "type": "Link"
   }
  ],
- "modified": "2025-12-20 10:58:53.335647",
+ "modified": "2025-12-22 16:23:51.013873",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Selling",

@@ -13,10 +13,15 @@ def execute(filters=None):
 	return columns,report_data,None, chart,summary,
 
 def get_report_columns(filters):
-    columns=[
-		{"fieldname":"name", "label":_("Vendor #"),"fieldtype":"Link","options":"Vendor","align":"center","width":150},
-		{"fieldname":"vendor_name", "label":_("Vendor Name"),"width":200},
-		{"fieldname":"phone_number", "label":_("Phone"),"align":"left","width":150},
+	label = filters.get("party_type")
+	labelNo = "{} #".format(label)
+	labelName = "{} Name".format(label)
+	labelPhone = "{} Phone".format(label)
+
+	columns=[
+		{"fieldname":"name", "label":_(labelNo),"fieldtype":"Link","options":"Vendor","align":"center","width":150},
+		{"fieldname":"vendor_name", "label":_(labelName),"width":200},
+		{"fieldname":"phone_number", "label":_(labelPhone),"align":"left","width":150},
 		{"fieldname":"amount_current_day", "label":_("Current"), "fieldtype":"Currency","align":"right","width":125 },
 		{"fieldname":"amount_30_day", "label":_("30 Days"), "fieldtype":"Currency","align":"right", "width":125 },
 		{"fieldname":"amount_60_day", "label":_("60 Days"), "fieldtype":"Currency","align":"right", "width":125 },
@@ -24,24 +29,37 @@ def get_report_columns(filters):
 		{"fieldname":"amount_120_plus_day", "label":_("120+ Days"), "fieldtype":"Currency","align":"right", "width":125 },
 		{"fieldname":"balance", "label":_("Balance"), "fieldtype":"Currency","align":"right", "width":125 },
 	]
-    return columns
+	return columns
 
 def get_report_data(filters):
-	sql = """
-		select 
-			name ,
-			vendor_name,
-			phone_number_1,
-   			0 as balance
-		from `tabVendor` 
-	"""
-	if filters.vendor:
-		sql = sql + "  where  name = %(vendor)s"
+	sql = ""
+	if filters.party_type in [ "Vendor","Customer"]:
+		sql = """
+			select 
+				name ,
+				{}_name,
+				phone_number_1,
+				0 as balance
+			from `tab{}` 
+		""".format((filters.party_type or "" ).lower(),filters.party_type )
+	else:
+		sql = """
+			select 
+				name ,
+				employee_name,
+				'' as phone_number_1,
+				0 as balance
+			from `tabEmployee` 
+		"""
+	
+	if filters.party:
+		sql = sql + "  where  name = %(party)s"
 	report_data =  frappe.db.sql(sql, filters,as_dict =1)
 	general_ledger_data = get_general_ledger_data(filters)
-	exist_vendors = list(set([d["vendor"] for d in general_ledger_data]))
-	report_data = [d for d in report_data if d["name"] in exist_vendors]
+	exist_partys = list(set([d["party"] for d in general_ledger_data]))
+	report_data = [d for d in report_data if d["name"] in exist_partys]
   
+
 	range_data =[
 		{"fieldname":"amount_current_day", "min":0,"max":1},
 		{"fieldname":"amount_30_day", "min":1,"max":31},
@@ -52,7 +70,7 @@ def get_report_data(filters):
 
 	for c in report_data:
 		for r in range_data:
-			c[r["fieldname"]] = sum([d["amount"] for d in general_ledger_data if d["vendor"] == c["name"] and d["day"] in range(r["min"],r["max"]) ])	
+			c[r["fieldname"]] = sum([d["amount"] for d in general_ledger_data if d["party"] == c["name"] and d["day"] in range(r["min"],r["max"]) ])	
 			c["balance"] = c["balance"] + c[r["fieldname"]] 
 	total_row = {"is_total_row":1,"name":"Total"}
 	for r in range_data:
@@ -75,28 +93,29 @@ def get_report_summary(data):
 		]
 
 def get_general_ledger_data(filters):
-	outlet = ""
-	if filters.outlet:
-		outlet = " a.outlet = %(outlet)s and "
+	outlet = "" 
+	if len( filters.outlet) > 0:
+		outlet = " a.outlet in %(outlet)s and "
 	sql="""
 		select 
-			a.party as vendor,
+			a.party,
 			DATEDIFF(%(date)s,a.posting_date) as day,
 			sum(a.credit_amount-a.debit_amount) as amount
 		from `tabGL Entry` a
 		inner join `tabChart of Account` b on b.name = a.account
 		where 
 			b.account_type = 'Payable' and 
-			a.party_type = 'Vendor' and 
+			a.party_type = %(party_type)s and 
 			{0}
 			a.posting_date <= %(date)s""".format(outlet)
-	if filters.vendor:
-		sql = sql + " and a.party =%(vendor)s"
+	if filters.party:
+		sql = sql + " and a.party =%(party)s"
 	sql = sql + """
 		group by
 			a.party,
 			DATEDIFF(%(date)s,a.posting_date)
 		having sum(a.credit_amount-a.debit_amount)  != 0"""
+
 	data =  frappe.db.sql(sql, filters, as_dict=1)
 	return data
 
@@ -111,11 +130,17 @@ def get_report_chart(data):
 		chart_data.append(data["amount_60_day"])
 		chart_data.append(data["amount_90_day"])
 		chart_data.append(data["amount_120_plus_day"])
-		chart =  {'data':
-					{
-						'labels':[_('Current'),_("30 Days"),_("60 Days"),_("90 Days"),_("120+ Days")],
-						'datasets':[{'values':chart_data}]
-					},
-				 
-				}
+		chart =  {
+			'data':{
+				'labels':[_('Current'),_("30 Days"),_("60 Days"),_("90 Days"),_("120+ Days")],
+				'datasets':[{'values':chart_data}]
+			},
+			"type": "line",
+			"lineOptions": {
+				"regionFill": 1,
+			},
+			"axisOptions": {"xIsSeries": 1}
+		}
 		return chart
+
+

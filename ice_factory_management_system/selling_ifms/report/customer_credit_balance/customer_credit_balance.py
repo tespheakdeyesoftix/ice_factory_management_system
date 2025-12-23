@@ -112,11 +112,11 @@ def get_report_chart(data):
 
 def get_report_summary(data,filters):
 	report_summary = [] 
-	report_summary.append({"label":_("Opening Amount"),"value":frappe.utils.fmt_money(sum(a["opening_amount"] for a in data)),"indicator":"blue"})	
-	report_summary.append({"label":_("Current Amount"),"value":frappe.utils.fmt_money(sum(a["current_amount"] for a in data)),"indicator":"blue"})	
-	report_summary.append({"label":_("Current Payment"),"value":frappe.utils.fmt_money(sum(a["current_payment"] for a in data)),"indicator":"green"})	
-	report_summary.append({"label":_("Write Off"),"value":frappe.utils.fmt_money(sum(a["current_payment"] for a in data)),"indicator":"green"})	
-	report_summary.append({"label":_("Balance"),"value":frappe.utils.fmt_money(sum(a["balance"] for a in data)),"indicator":"orange"})	
+	report_summary.append({"label":_("Opening Amount"),"value":(sum(a["opening_amount"] for a in data)),"indicator":"blue","datatype":"Currency"})	
+	report_summary.append({"label":_("Current Amount"),"value":(sum(a["current_amount"] for a in data)),"indicator":"blue","datatype":"Currency"})	
+	report_summary.append({"label":_("Current Payment"),"value":(sum(a["current_payment"] for a in data)),"indicator":"green","datatype":"Currency"})	
+	report_summary.append({"label":_("Write Off"),"value":(sum(a["current_payment"] for a in data)),"indicator":"green","datatype":"Currency"})	
+	report_summary.append({"label":_("Balance"),"value":(sum(a["balance"] for a in data)),"indicator":"orange","datatype":"Currency"})	
 	return report_summary
 
  

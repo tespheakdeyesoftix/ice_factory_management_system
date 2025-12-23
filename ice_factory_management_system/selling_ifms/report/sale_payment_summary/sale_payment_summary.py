@@ -277,8 +277,7 @@ def get_report_summary(data,filters):
 		columns = get_dynamic_columns(filters)
 		for f in columns:
 			value=sum(d[f["fieldname"]] for d in data if d["indent"]==0)
-			value = frappe.utils.fmt_money(value)
-			report_summary.append({"label":f["label"],"value":value})	
+			report_summary.append({"label":f["label"],"value":value,"datatype":"Currency"})	
 	return report_summary
 
 def get_chart_column(data):

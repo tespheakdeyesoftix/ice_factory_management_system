@@ -80,3 +80,21 @@ def get_customer_product_price(customer="", products=[],product_code="",unit="")
 				return {"price":customer_product_prices[0]["price"],"multiplier":multiplier,"free_quantity":free_quantity}
 			else:
 				return {"price":base_product_price[0]["price"],"multiplier":multiplier,"free_quantity":free_quantity}
+
+
+@frappe.whitelist()
+def get_events(start, end, filters=None):
+    events = frappe.get_all(
+        "Sale",
+        fields=[
+            "name",
+            "name as subject",
+            "posting_date as start",
+            "posting_date as end"
+        ],
+        filters={
+            "posting_date": ["between", [frappe.utils.getdate(start), frappe.utils.getdate(end)]]
+        }
+    )
+    frappe.msgprint(str(events))
+    return events

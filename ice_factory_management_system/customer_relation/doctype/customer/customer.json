@@ -42,7 +42,9 @@
   "recent_payment_tab",
   "html_customer_recent_payment",
   "borrow_product_tab",
-  "html_customer_borrow_return_product"
+  "html_customer_borrow_return_product",
+  "tab_6_tab",
+  "html_calendar"
  ],
  "fields": [
   {
@@ -247,6 +249,16 @@
    "fieldname": "html_customer_borrow_return_product",
    "fieldtype": "HTML",
    "options": "borrow / return product"
+  },
+  {
+   "fieldname": "tab_6_tab",
+   "fieldtype": "Tab Break",
+   "label": "Tab 6"
+  },
+  {
+   "fieldname": "html_calendar",
+   "fieldtype": "HTML",
+   "options": "My Cal"
   }
  ],
  "image_field": "photo",
@@ -263,7 +275,7 @@
    "link_fieldname": "customer"
   }
  ],
- "modified": "2025-12-18 11:53:06.806921",
+ "modified": "2025-12-22 18:48:24.642574",
  "modified_by": "Administrator",
  "module": "Customer Relation",
  "name": "Customer",

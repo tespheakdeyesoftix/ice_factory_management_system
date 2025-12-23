@@ -1,0 +1,46 @@
+{
+ "cards": [
+  {
+   "card": "Today PO Invoice"
+  },
+  {
+   "card": "Today PO Amount"
+  },
+  {
+   "card": "MTD PO Invoice"
+  },
+  {
+   "card": "MTD PO Amount"
+  }
+ ],
+ "charts": [
+  {
+   "chart": "Daily PO Statistic",
+   "width": "Full"
+  },
+  {
+   "chart": "AP Aging by Vendor",
+   "width": "Half"
+  },
+  {
+   "chart": "AP Aging by Employee",
+   "width": "Half"
+  },
+  {
+   "chart": "AP Aging by Customer",
+   "width": "Half"
+  }
+ ],
+ "creation": "2025-12-22 08:18:41.584818",
+ "dashboard_name": "Purchase Order Dashboard",
+ "docstatus": 0,
+ "doctype": "Dashboard",
+ "idx": 0,
+ "is_default": 0,
+ "is_standard": 1,
+ "modified": "2025-12-23 10:13:29.118060",
+ "modified_by": "Administrator",
+ "module": "Purchase Order IFMS",
+ "name": "Purchase Order Dashboard",
+ "owner": "Administrator"
+}

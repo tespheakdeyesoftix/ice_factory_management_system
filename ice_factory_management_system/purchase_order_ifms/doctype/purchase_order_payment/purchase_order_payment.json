@@ -18,14 +18,14 @@
   "currency",
   "exchange_rate",
   "exchange_rate_virtual",
-  "account_paid_to",
+  "account_paid_from",
   "payment_from_section",
   "party_type",
   "party",
   "party_name",
   "party_balance",
   "column_break_ovvp",
-  "account_paid_from",
+  "account_payable",
   "write_off_account",
   "payment_information_section",
   "input_amount",
@@ -49,6 +49,7 @@
   "summary_section",
   "note",
   "column_break_ymkj",
+  "html_summry_purchase_order_payment",
   "total_invoices",
   "total_amount_to_pay_virtual",
   "total_payment_amount_virtual",
@@ -127,13 +128,6 @@
    "label": "Exchange Rate"
   },
   {
-   "fieldname": "account_paid_to",
-   "fieldtype": "Link",
-   "label": "Account Paid To",
-   "link_filters": "[[\"Chart of Account\",\"is_group\",\"=\",0],[\"Chart of Account\",\"root_type\",\"=\",\"Asset\"]]",
-   "options": "Chart of Account"
-  },
-  {
    "fieldname": "payment_from_section",
    "fieldtype": "Section Break",
    "label": "Payment From"
@@ -170,7 +164,7 @@
    "fieldname": "account_paid_from",
    "fieldtype": "Link",
    "label": "Account Paid From",
-   "link_filters": "[[\"Chart of Account\",\"is_group\",\"=\",0],[\"Chart of Account\",\"account_type\",\"=\",\"Payable\"]]",
+   "link_filters": "[[\"Chart of Account\",\"is_group\",\"=\",0],[\"Chart of Account\",\"root_type\",\"=\",\"Asset\"],[\"Chart of Account\",\"account_type\",\"=\",\"Cash\"],[\"Chart of Account\",\"account_type\",\"=\",\"Bank\"]]",
    "options": "Chart of Account"
   },
   {
@@ -181,6 +175,7 @@
    "options": "Chart of Account"
   },
   {
+   "depends_on": "eval:doc.docstatus != 1",
    "fieldname": "payment_information_section",
    "fieldtype": "Section Break",
    "label": "Payment Information"
@@ -379,6 +374,18 @@
    "fieldtype": "Currency",
    "label": "Party Balance",
    "read_only": 1
+  },
+  {
+   "fieldname": "account_payable",
+   "fieldtype": "Link",
+   "label": "Account Payable",
+   "link_filters": "[[\"Chart of Account\",\"is_group\",\"=\",0],[\"Chart of Account\",\"account_type\",\"=\",\"Payable\"]]",
+   "options": "Chart of Account"
+  },
+  {
+   "depends_on": "eval:doc.docstatus == 1",
+   "fieldname": "html_summry_purchase_order_payment",
+   "fieldtype": "HTML"
   }
  ],
  "grid_page_length": 50,
@@ -386,7 +393,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-12-20 15:53:10.226835",
+ "modified": "2025-12-22 17:02:51.644942",
  "modified_by": "Administrator",
  "module": "Purchase Order IFMS",
  "name": "Purchase Order Payment",

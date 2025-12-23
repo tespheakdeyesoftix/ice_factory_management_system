@@ -174,6 +174,9 @@ class Sale(Document):
 				
 
 	def validate_permission(self):
+		if frappe.session.user == "Administrator":
+			return
+
 		employee = frappe.db.exists("Employee",{"user_id":frappe.session.user})
 		employee_doc = {"change_sale_date_after_save":0,"change_customer_after_close_sale":0}
 		if employee:

@@ -1,14 +1,31 @@
 frappe.ui.form.on("*", {
+     onload: function(frm) {
+        if (!frm.is_new()) {
+            $(`[id="page-${frm.doctype}"] .nav-item button`).click(function(){
+                
+                render_html_template(frm,$(this).attr("id"));
+            })
+            
+        }
+    },
     refresh(frm) {
         
         frm.print_doc = function () {
+       
             printDoc(frm)
         };
         cleanFormSidebar();
         hideMenus();
        
+       
+        let tabID = null
+        
+        if($(`[id="page-${frm.doctype}"] .nav-link.active`).length>0){
+            tabID = $(".nav-link.active").attr("id")
+        }
 
-        render_html_template(frm);
+        render_html_template(frm,tabID);
+
         render_custom_sidebar(frm);
         
     }
@@ -45,19 +62,50 @@ function printDoc(frm,report_name="") {
     });
 }
 
-function render_html_template(frm){
-    let html_fields = frm.fields.filter(f => f.df.fieldtype === 'HTML').map(x=>x.df.fieldname);
-    frappe.call("ice_factory_management_system.ice_factory_management_system.doctype.html_template.html_template.get_html_template",{
-        fields:html_fields,
-        doc:frm.doc
-    }).then(r=>{
-        html_fields.forEach(f => {
-            if (r.message.hasOwnProperty(f)){
-                frm.fields_dict[f].$wrapper.html(r.message[f]);
-            }
-        });
-        
-    })
+function render_html_template(frm,tabID){
+                if (frm.doctype==="DocType") return;
+                
+                let html_fields = []
+                if(tabID){
+                     if (frm["_" + frm.doc.name + tabID] ) return;
+                
+                const tabContentID= $("#" + tabID).attr("aria-controls");
+                const tabContentEl= $("#" + tabContentID)
+                frm["_" + frm.doc.name + tabID] = true
+
+                html_fields = tabContentEl.find('.frappe-control[data-fieldtype="HTML"]')
+                    .map(function () {
+                        return $(this).data('fieldname');
+                    })
+                    .get();
+                }else {
+                    html_fields = $(`[id="page-${frm.doctype}"]`).find('.frappe-control[data-fieldtype="HTML"]')
+                    .map(function () {
+                        return $(this).data('fieldname');
+                    })
+                    .get();
+                   
+                }
+                
+                
+                if(html_fields.length==0) return;
+
+                frappe.dom.freeze(__("Loading..."));
+
+                frappe.call("ice_factory_management_system.ice_factory_management_system.doctype.html_template.html_template.get_html_template",{
+                    fields:html_fields,
+                    doc:frm.doc
+                }).then(r=>{
+                    html_fields.forEach(f => {
+                        if (r.message.hasOwnProperty(f)){
+                            frm.fields_dict[f].$wrapper.html(r.message[f]);
+                        }
+                    });
+                    frappe.dom.unfreeze()
+                }).catch(err=>{
+                     frappe.dom.unfreeze()
+                })
+
 }
 
 //render side bar

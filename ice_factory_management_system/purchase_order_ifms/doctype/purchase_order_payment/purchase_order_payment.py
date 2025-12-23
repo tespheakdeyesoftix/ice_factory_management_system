@@ -4,14 +4,14 @@
 from frappe import _
 import frappe
 from frappe.model.document import Document
-from ice_factory_management_system.overrides.base_document import BaseDocument
+
 from ice_factory_management_system.api.utils import get_default_outlet,money_to_word
 from ice_factory_management_system.api.accounting import submit_general_ledger_entry,cancel_general_ledger_entery
 
-class PurchaseOrderPayment(BaseDocument):
+class PurchaseOrderPayment(Document):
 	
 	def validate(self):
-		super().validate()		 
+ 
 		self.payment_amount_in_word = money_to_word(int(self.payment_amount))
 		self.validate_purchase_order_payment_invoices()
 		update_totals(self)
@@ -65,19 +65,19 @@ class PurchaseOrderPayment(BaseDocument):
 			frappe.throw(_("Payment amount cannot greater than amount to pay"))
 
 	def update_account_code(self):		
-		if not self.account_paid_to:
+		if not self.account_payable:
 			# get from outlet
 			pt_doc = frappe.get_cached_doc("Payment Type",self.payment_type)
-			self.account_paid_to = next((r.account for r in pt_doc.payment_type_accounts if r.outlet == self.outlet), "")
-			if not self.account_paid_to:
-				self.account_paid_to = pt_doc.account
+			self.account_payable = next((r.account for r in pt_doc.payment_type_accounts if r.outlet == self.outlet), "")
+			if not self.account_payable:
+				self.account_payable = pt_doc.account
 	
 	def validate_account_code(self):		
-		if not self.account_paid_to:
-			frappe.throw(_("Please select account code for Account Paid To field"))
-
 		if not self.account_paid_from:
 			frappe.throw(_("Please select account code for Account Paid From field"))
+
+		if not self.account_payable:
+			frappe.throw(_("Please select account code for Account Payable field"))
 
 		if (self.write_off_amount or 0)	>0:
 			if not self.write_off_account:
@@ -142,7 +142,7 @@ class PurchaseOrderPayment(BaseDocument):
 	@frappe.whitelist()
 	def get_default_outlet(self):
 		if self.purchase_order:
-			return frappe.db.get_value("Purchase Order",self.sale,"outlet")
+			return frappe.db.get_value("Purchase Order",self.purchase_order,"outlet")
 		return get_default_outlet()
 	
 	@frappe.whitelist()
@@ -155,6 +155,43 @@ class PurchaseOrderPayment(BaseDocument):
 			return party_name
 		return ""
 
+	@frappe.whitelist()
+	def get_payment_default_account(self):
+		from ice_factory_management_system.system_setting.doctype.exchange_rate.exchange_rate import get_exchange_rate
+		payment_type = frappe.get_doc("Payment Type", self.payment_type)
+		accounts = [a.account for a in payment_type.payment_type_accounts if a.outlet == self.outlet]
+		if accounts:
+			return accounts[0]
+		else:
+			acc = frappe.db.get_single_value("Business Information","cash_account")	
+
+			return acc or ""
+
+	@frappe.whitelist()
+	def get_default_account_payable(self):
+		account_code = None
+		if self.outlet:
+			outlet = frappe.get_doc("Outlet", self.outlet)
+			if outlet.payable_account: 
+				account_code =  outlet.payable_account
+			else:
+				account_code = frappe.db.get_single_value("Business Information","payable_account")			
+
+				
+		return account_code or ""
+	
+	@frappe.whitelist()
+	def get_default_account_writeoff(self):
+		account_code = None
+		if self.outlet:
+			outlet = frappe.get_doc("Outlet", self.outlet)
+			if outlet.write_off_account: 
+				account_code =  outlet.write_off_account
+			else:
+				account_code = frappe.db.get_single_value("Business Information","write_off_account")			
+
+				
+		return account_code or ""
 
 #local method in doc
 def update_totals(self):
@@ -173,8 +210,8 @@ def submit_to_general_ledger_entry(self):
 			"reference_docname":s.purchase_order,
 			"outlet":self.outlet,
 			"posting_date":self.posting_date,
-			"account":self.account_paid_from,
-			"credit_amount":(s.payment_amount or 0) ,
+			"account":self.account_payable,
+			"debit_amount":(s.payment_amount or 0) ,
 			"against_voucher_type": "Purchase Order",
 			"against_voucher_no": s.purchase_order,
 			"voucher_type":"Purchase Order Payment",
@@ -199,8 +236,8 @@ def submit_to_general_ledger_entry(self):
 				"reference_docname":s.purchase_order,
 				"outlet":self.outlet,
 				"posting_date":self.posting_date,
-				"account":self.account_paid_to,
-				"debit_amount":(s.payment_amount or 0) , 
+				"account":self.account_paid_from,
+				"credit_amount":(s.payment_amount or 0) , 
 				"against_voucher_type": "Purchase Order",
 				"against_voucher_no": s.purchase_order,
 				"voucher_type":"Purchase Order Payment",
@@ -221,8 +258,8 @@ def submit_to_general_ledger_entry(self):
 				"reference_docname":s.purchase_order,
 				"outlet":self.outlet,
 				"posting_date":self.posting_date,
-				"account":self.account_paid_from,
-				"credit_amount": (s.write_off_amount or  0),
+				"account":self.account_payable,
+				"debit_amount": (s.write_off_amount or  0),
 				"against_voucher_type": "Purchase Order",
 				"against_voucher_no": s.purchase_order,
 				"voucher_type":"Purchase Order Payment",
@@ -245,7 +282,7 @@ def submit_to_general_ledger_entry(self):
 				"outlet":self.outlet,
 				"posting_date":self.posting_date,
 				"account":self.write_off_account,
-				"debit_amount":(s.write_off_amount or  0),
+				"credit_amount":(s.write_off_amount or  0),
 				"against_voucher_type":"Purchase Order",
 				"against_voucher_no": s.purchase_order,
 				"voucher_type":"Purchase Order Payment",
@@ -257,6 +294,8 @@ def submit_to_general_ledger_entry(self):
 			docs.append(doc)
 
 	submit_general_ledger_entry(docs=docs)
+
+
 
 
 @frappe.whitelist()

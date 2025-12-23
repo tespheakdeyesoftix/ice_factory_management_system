@@ -28,11 +28,17 @@ frappe.ui.form.on("Sale", {
                         
                     });
                 } 
+
+
            
         }
 
             // Refresh the fields to apply the changes
             frm.refresh_fields();
+
+
+            
+
 
         }
 

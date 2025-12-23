@@ -129,7 +129,7 @@ after_migrate = [
 
 permission_query_conditions = {
 	"Sale": "ice_factory_management_system.selling_ifms.doctype.sale.sale.query_permission",
-	
+	"System Report": "ice_factory_management_system.system_setting.doctype.system_report.system_report.query_permission",
 }
 #
 # has_permission = {
@@ -275,6 +275,7 @@ fixtures = [
 website_route_rules = [
 	{'from_route': '/embed/<path:app_path>', 'to_route': 'embed'},
 	{'from_route': '/block-ice', 'to_route': '/me'},
+	{'from_route': '/desk', 'to_route': '/home'},
 
 	# {"from_route": "/profile", "to_route": "me"},
 	]

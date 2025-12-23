@@ -20,14 +20,34 @@ frappe.query_reports["Accounts Payable Aging"] = {
 			"on_change": function (query_report) {},
 		},
 		 
-  
-		{
-			"fieldname": "vendor",
-			"label": __("Vendor"),
-			"fieldtype": "Link",
-			"options":"Vendor",
+  		{
+            "fieldname": "party_type",
+            "label": __("Party Type"),
+            "fieldtype": "Select",
+            "default": "Vendor",
+            "options": ["Vendor", "Employee", "Customer"],
+            "on_change": function(query_report) {
+                // clear previous party
+                query_report.set_filter_value("party", "");
+                // refresh the Dynamic Link filter
+                const party_filter = query_report.get_filter("party");
+                if (party_filter) {
+                    party_filter.refresh(); 
+                }
+            }
+        },
+        {
+            "fieldname": "party",
+            "label": __("Party"),
+            "fieldtype": "DynamicLink",
+            "get_options": function() {
+                // return current party_type value
+                return frappe.query_report.get_filter_value("party_type");
+            },
+
 			"on_change": function (query_report) {},
-		},
+        },
+		 
 		 
 		{
 			"fieldname": "show_summary",

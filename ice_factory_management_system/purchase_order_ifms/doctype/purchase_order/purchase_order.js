@@ -3,11 +3,11 @@
 
 frappe.ui.form.on("Purchase Order", {
   onload: function (frm) {
-    
+
   },
   refresh: function (frm) {
     frm.dashboard.clear_headline();
-
+    
     if (!frm.is_new()) {
       frm.dashboard.add_indicator(
         __("Total Quantity: {0}", [format_number(frm.doc.total_quantity)]),
