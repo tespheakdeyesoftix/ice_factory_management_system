@@ -34,18 +34,14 @@ frappe.ui.form.on("Sale Payment", {
         }
     },
 
-    async customer(frm) {
- 
-await getCustomerBalance(frm)
+    async customer(frm) { 
+        await getCustomerBalance(frm)
         await get_unpaid_sales(frm)
         if ((frm.doc.input_amount || 0) > 0) {
             update_allocated_amount(frm)
         } else {
             calculate_totals(frm)
-        }
-         
-        
-
+        }  
     },
     async outlet(frm) {
         await getCustomerBalance(frm)
@@ -63,9 +59,7 @@ await getCustomerBalance(frm)
         }
         if(frm.doc.exchange_rate){
             frm.set_value("exchange_rate_virtual",1/ parseFloat(frm.doc.exchange_rate))
-        }
-        
-
+        }  
     },
     // this is button get Sale Invoice by Date
     async get_sales_invoice(frm) {

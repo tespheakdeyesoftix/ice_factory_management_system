@@ -6,6 +6,7 @@ from frappe.model.document import Document
 from ice_factory_management_system.api.inventory import get_stock_location_prouct,add_inventory_transaction
 from frappe import _
 from frappe.utils import getdate
+import json
 class BorrowProduct(Document):
 	def validate(self):
 		if not self.flags.ignore_validate_cost:#we do not run this when use use return option from doctype form detail
@@ -85,6 +86,8 @@ class BorrowProduct(Document):
 		doc.submit()
 
 		frappe.msgprint(_("Add return successfully"))
+
+
 		
 
 def update_borrow_transaction_quantity(self):
@@ -147,4 +150,53 @@ def submit_to_inventory(self):
 
 
 @frappe.whitelist()
-def get_
+def get_customer_borrow_product_remaining(customer):
+	
+	sql="""select name, product,posting_date,product_name, quantity as borrow_quantity,
+		return_quantity as returned_quantity,
+		balance as remaining_quantity,
+		balance as return_quantity,
+		0 as balance_quantity,
+		cost,
+		reference_doctype,
+		reference_name,
+		outlet,
+		stock_location
+
+		from `tabBorrow Product`
+		where
+			docstatus = 1 and 
+			customer = %(customer)s and 
+			balance>0 and 
+			transaction_type = 'Borrow'
+	"""
+	data = frappe.db.sql(sql,{"customer":customer},as_dict = 1)
+	return data or []
+
+@frappe.whitelist()
+def update_bulk_return_product(data):
+	data = json.loads(data)
+	if not [x for x in data.get("return_products") if x.get("return_quantity",0)>0]:
+		frappe.throw(_("Please enter return quantity"))
+	for d in [x for x in data.get("return_products") if x.get("return_quantity",0)>0]:
+
+		doc = frappe.get_doc({
+				"doctype":"Borrow Product",
+				"posting_date":data.get("posting_date"),
+				"transaction_type":"Return",
+				"borrow_reference_name":d.get("name"),
+				"outlet":d.get("outlet"),
+				"stock_location":d.get("stock_location"),
+				"customer":data.get("customer"),
+				"product": d.get("product"),
+				"quantity":d.get("return_quantity"),
+				"cost":d.get("cost"),
+				"reference_doctype":d.get("reference_doctype"),
+				"reference_name":d.get("reference_name"),
+				"note":d.get("note","")
+			})
+		doc.flags.ignore_validate_cost = True
+		doc.insert()
+		doc.submit()
+
+	frappe.msgprint(_("Add return successfully"))

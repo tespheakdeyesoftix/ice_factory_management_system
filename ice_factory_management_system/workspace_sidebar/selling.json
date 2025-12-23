@@ -93,6 +93,18 @@
    "type": "Link"
   },
   {
+   "child": 1,
+   "collapsible": 1,
+   "icon": "right",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Sale vs Produce Summary",
+   "link_to": "Sale vs Produce",
+   "link_type": "Report",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
    "child": 0,
    "collapsible": 1,
    "icon": "users",
@@ -249,7 +261,7 @@
    "type": "Link"
   }
  ],
- "modified": "2025-12-22 16:23:51.013873",
+ "modified": "2025-12-23 11:07:02.768280",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Selling",

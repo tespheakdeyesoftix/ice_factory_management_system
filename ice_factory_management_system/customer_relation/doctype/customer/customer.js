@@ -22,6 +22,7 @@ frappe.ui.form.on("Customer", {
         
     },
     refresh(frm){
+        alert("referesg")
     frm.dashboard.clear_headline();
        addCustomButton(frm);
        setIndicator(frm)
@@ -31,10 +32,11 @@ frappe.ui.form.on("Customer", {
     
     },
      
-
-    
+ 
     
 });
+
+
 function setIndicator(frm) {
     if (frm.is_new()) return;
     frappe.call({

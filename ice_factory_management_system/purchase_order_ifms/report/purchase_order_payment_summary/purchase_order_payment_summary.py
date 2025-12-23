@@ -184,7 +184,7 @@ def get_report_field_by_payment_type(filters ):
 	if filters.row_group != "Payment Type":
 		payment_types = frappe.db.get_list("Payment Type")
 		for p in payment_types:
-			sqls.append("ifnull(sum(if(a.payment_type='{0}',a.payment_amount*a.exchange_rate,0)),0) as {1}".format(p.name,p.name.replace(" ", "_").replace("-","_").lower()))
+			sqls.append("ifnull(sum(if(a.payment_type='{0}',a.payment_amount*a.exchange_rate,0)),0) as {1}".format(p.name,(p.name or "").replace(" ", "_").replace("-","_").lower()))
 	sqls.append("ifnull(sum(a.payment_amount*a.exchange_rate),0) as total_payment")
 	return  ','.join(sqls)
  
@@ -193,7 +193,7 @@ def get_report_field_by_payment_type_group(filters):
 	if filters.row_group != "Payment Type":
 		payment_types = frappe.db.get_list("Payment Type Group")
 		for p in payment_types:
-			sqls.append("ifnull(sum(if(a.payment_type_group='{0}',a.payment_amount*a.exchange_rate,0)),0) as {1}".format(p.name,p.name.replace(" ", "_").replace("-","_").lower()))
+			sqls.append("ifnull(sum(if(a.payment_type_group='{0}',a.payment_amount*a.exchange_rate,0)),0) as {1}".format(p.name,(p.name or '').replace(" ", "_").replace("-","_").lower()))
 	sqls.append("ifnull(sum(a.payment_amount*a.exchange_rate),0) as total_payment")
 	return  ','.join(sqls)
 
@@ -212,7 +212,7 @@ def get_conditions(filters,group_filter=None):
 	end_date = filters.end_date
 
 	if(group_filter!=None):
-		conditions += " and {} ='{}'".format(group_filter["field"],group_filter["value"].replace("'","''").replace("%","%%"))
+		conditions += " and {} ='{}'".format(group_filter["field"],(group_filter["value"] or "").replace("'","''").replace("%","%%"))
 
 	conditions += " AND a.posting_date between '{}' AND '{}'".format(start_date,end_date)
 	if filters.outlet:

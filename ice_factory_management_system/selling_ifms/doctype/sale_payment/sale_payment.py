@@ -22,8 +22,7 @@ class SalePayment(BaseDocument):
 			frappe.throw(_("Please enter payment amount"))
 		self.update_account_code()
 	
-	def on_submit(self):
-		
+	def on_submit(self):		
 		self.validate_account_code()
 		frappe.db.sql("call sp_update_sale_information('',%(sale_payment_name)s)",{"sale_payment_name":self.name})
 		submit_to_GL_entry(self)

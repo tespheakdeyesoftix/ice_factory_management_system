@@ -11,6 +11,9 @@ frappe.query_reports["Purchase Order Summary"] = {
 		report.page.add_inner_button("Preview Report", function () {
 			frappe.query_report.refresh();
 		});
+
+		let party_type = frappe.query_report.get_filter_value('party_type');
+		frappe.query_report.toggle_filter_display('party', party_type === "");
 	},
 	"filters": [
 		{
@@ -91,16 +94,20 @@ frappe.query_reports["Purchase Order Summary"] = {
             "fieldname": "party_type",
             "label": __("Party Type"),
             "fieldtype": "Select",
-            "default": "Vendor",
-            "options": ["Vendor", "Employee", "Customer"],
+            "default": "",
+            "options": ["","Vendor", "Employee", "Customer"],
             "on_change": function(query_report) {
+
+				let party_type = frappe.query_report.get_filter_value('party_type');
+				frappe.query_report.toggle_filter_display('party', party_type === "");
+
                 // clear previous party
                 query_report.set_filter_value("party", "");
-                // refresh the Dynamic Link filter
-                const party_filter = query_report.get_filter("party");
-                if (party_filter) {
-                    party_filter.refresh(); 
-                }
+                // // refresh the Dynamic Link filter
+                // const party_filter = query_report.get_filter("party");
+                // if (party_filter) {
+                //     party_filter.refresh(); 
+                // }
             }
         },
         {

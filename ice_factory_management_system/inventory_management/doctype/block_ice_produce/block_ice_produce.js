@@ -204,24 +204,33 @@ function generateGrid(frm,produce_row) {
     // --- buttons
     const btnContainer=document.createElement("div");
     btnContainer.style.marginTop="10px";
-    let btnClear=document.createElement("button"); btnClear.textContent=__("Clear Value"); btnClear.onclick=()=>{setCellValue(getSelectedCells(),0);
-       produce_row.total_produce_quantity = getTotalSum()
-        produce_row.produce_data = JSON.stringify(getData())
-        frm.refresh_field("produce_quantity")
+    let btnClear=document.createElement("button"); 
+    btnClear.classList.add("btn", "btn-warning");    
+    btnClear.textContent=__("Clear Value"); 
+    btnClear.onclick=()=>{setCellValue(getSelectedCells(),0);
+    produce_row.total_produce_quantity = getTotalSum()
+    produce_row.produce_data = JSON.stringify(getData())
+    frm.refresh_field("produce_quantity")
         frm.dirty(); 
-        
     };
-    let btnAssign1=document.createElement("button"); btnAssign1.textContent=__("Produce QTY 1"); btnAssign1.style.marginLeft="10px"; btnAssign1.onclick=()=>{
+
+    let btnAssign1=document.createElement("button"); 
+    btnAssign1.textContent=__("Produce QTY 1"); 
+        btnAssign1.style.marginLeft="10px"; 
+        btnAssign1.classList.add("btn", "btn-default");
+        btnAssign1.onclick=()=>{
         setCellValue(getSelectedCells(),1);
-        produce_row.total_produce_quantity = getTotalSum()
-        produce_row.defected_quantity = getTotalDefected()
-        produce_row.produce_data = JSON.stringify(getData())
-        
-        frm.refresh_field("produce_quantity")
-        frm.dirty(); 
-    };
+            produce_row.total_produce_quantity = getTotalSum()
+            produce_row.defected_quantity = getTotalDefected()
+            produce_row.produce_data = JSON.stringify(getData())
+            
+            frm.refresh_field("produce_quantity")
+            frm.dirty(); 
+        };
     
-    let btnAssign2=document.createElement("button"); btnAssign2.textContent=__("Produce QTY 2"); btnAssign2.style.marginLeft="10px"; btnAssign2.onclick=()=>{
+    let btnAssign2=document.createElement("button"); 
+        btnAssign2.classList.add("btn", "btn-default");
+        btnAssign2.textContent=__("Produce QTY 2"); btnAssign2.style.marginLeft="10px"; btnAssign2.onclick=()=>{
         setCellValue(getSelectedCells(),2);
         produce_row.total_produce_quantity = getTotalSum()
         produce_row.defected_quantity = getTotalDefected()
@@ -234,6 +243,7 @@ function generateGrid(frm,produce_row) {
     let btnAssignDefected=document.createElement("button");
          btnAssignDefected.textContent=__("Defected QTY"); 
          btnAssignDefected.style.marginLeft="10px";
+         btnAssignDefected.classList.add("btn", "btn-danger");
         btnAssignDefected.onclick=()=>{
         setCellValue(getSelectedCells(),-1);
         produce_row.total_produce_quantity = getTotalSum()

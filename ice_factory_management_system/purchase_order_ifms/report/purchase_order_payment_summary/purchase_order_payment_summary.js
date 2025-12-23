@@ -1,6 +1,15 @@
 // Copyright (c) 2025, Tes Pheakdey and contributors
 // For license information, please see license.txt
 frappe.query_reports["Purchase Order Payment Summary"] = {
+	onload: function(report) {
+		report.page.add_inner_button("Preview Report", function () {
+			frappe.query_report.refresh();
+		});	
+
+		let party_type = frappe.query_report.get_filter_value('party_type');
+		frappe.query_report.toggle_filter_display('party', party_type === ""); 
+	},
+
 	"filters": [
 		{
 			"fieldname": "outlet",
@@ -55,16 +64,21 @@ frappe.query_reports["Purchase Order Payment Summary"] = {
             "fieldname": "party_type",
             "label": __("Party Type"),
             "fieldtype": "Select",
-            "default": "Vendor",
-            "options": ["Vendor", "Employee", "Customer"],
+            "default": "",
+            "options": ["","Vendor", "Employee", "Customer"],
             "on_change": function(query_report) {
-                // clear previous party
-                query_report.set_filter_value("party", "");
-                // refresh the Dynamic Link filter
-                const party_filter = query_report.get_filter("party");
-                if (party_filter) {
-                    party_filter.refresh(); 
-                }
+				// const party_type = query_report.get_filter_value("party_type");
+
+				
+				let party_type = frappe.query_report.get_filter_value('party_type');
+				frappe.query_report.toggle_filter_display('party', party_type === "");
+				
+				// clear party when party_type changes
+				query_report.set_filter_value("party", "");
+                // // refresh the Dynamic Link filter 
+                // if (party_filter) {
+                //     party_filter.refresh(); 
+                // }
             }
         },
         {
@@ -128,12 +142,7 @@ frappe.query_reports["Purchase Order Payment Summary"] = {
 			value = $value.wrap("<p></p>").parent().html();
 		}
 		return value;
-	},
-	onload: function(report) {
-		report.page.add_inner_button("Preview Report", function () {
-			frappe.query_report.refresh();
-		});	
-	},
+	}, 
 };
 
  

@@ -184,6 +184,7 @@
   {
    "fieldname": "customer",
    "fieldtype": "Link",
+   "in_standard_filter": 1,
    "label": "Customer",
    "options": "Customer",
    "reqd": 1,
@@ -194,6 +195,7 @@
    "fieldname": "customer_name",
    "fieldtype": "Data",
    "hidden": 1,
+   "in_list_view": 1,
    "label": "Customer Name"
   },
   {
@@ -234,7 +236,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-12-20 18:00:12.362899",
+ "modified": "2025-12-23 12:12:17.387877",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Borrow Product",

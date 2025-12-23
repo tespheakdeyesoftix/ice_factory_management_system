@@ -24,7 +24,7 @@ def validate(filters):
  
 def get_columns(filters):
 	return [
-		{"label":_("Customer"), "fieldname":"row_group","fieldtype":"Data","align":"left","width":200},
+		{"label":_(filters.party_type), "fieldname":"row_group","fieldtype":"Data","align":"left","width":200},
 		{"label":_("Opening Amount"), "fieldname":"opening_amount","fieldtype":"Currency","align":"right","width":150},
 		{"label":_("Current Amount"), "fieldname":"current_amount","fieldtype":"Currency","align":"right","width":150},
 		{"label":_("Current Payment"), "fieldname":"current_payment","fieldtype":"Currency","align":"right","width":150},
@@ -107,20 +107,22 @@ def get_report_chart(data):
 	chart_data.append(sum(d["current_amount"] for d in data))
 	chart_data.append(sum(d["current_payment"] for d in data))
 	chart_data.append(sum(d["write_off"] for d in data))
+	chart_data.append(sum(d["balance"] for d in data))
 
-	frappe.msgprint(str(chart_data))
+	
+
 	chart =  {
 		'data':
 			{
-				'labels':[_('Opening Amount'),_('Current Amount'),_("Current Payment"),_("Write Off")],
+				'labels':[_('Opening Amount'),_('Current Amount'),_("Current Payment"),_("Write Off"), _("Balance")],
 				'datasets':[{'values':chart_data}]
 			},
-		"type": "line",
+		"type": "pie",
 		"lineOptions": {
 			"regionFill": 1,
 		},
 		"axisOptions": {"xIsSeries": 1}
-	}
+	} 
 	return chart
 
 def get_report_summary(data,filters):

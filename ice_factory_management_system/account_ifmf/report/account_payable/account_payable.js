@@ -39,13 +39,16 @@ frappe.query_reports["Account Payable"] = {
             "default": "Vendor",
             "options": ["Vendor", "Employee", "Customer"],
             "on_change": function(query_report) {
+				let party_type = frappe.query_report.get_filter_value('party_type');
+				frappe.query_report.toggle_filter_display('party', party_type === "");
+
                 // clear previous party
                 query_report.set_filter_value("party", "");
-                // refresh the Dynamic Link filter
-                const party_filter = query_report.get_filter("party");
-                if (party_filter) {
-                    party_filter.refresh(); 
-                }
+                // // refresh the Dynamic Link filter
+                // const party_filter = query_report.get_filter("party");
+                // if (party_filter) {
+                //     party_filter.refresh(); 
+                // }
             }
         },
         {
