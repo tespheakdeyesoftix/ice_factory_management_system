@@ -6,6 +6,7 @@
  "engine": "InnoDB",
  "field_order": [
   "enabled",
+  "vendor",
   "stock_location_name_en",
   "stock_location_name_kh",
   "default_inventory_account"
@@ -36,11 +37,17 @@
    "label": "Default Inventory Account",
    "link_filters": "[[\"Chart of Account\",\"is_group\",\"=\",0],[\"Chart of Account\",\"account_type\",\"=\",\"Stock Asset\"]]",
    "options": "Chart of Account"
+  },
+  {
+   "fieldname": "vendor",
+   "fieldtype": "Link",
+   "label": "Vendor",
+   "options": "Vendor"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-08-25 14:58:58.144292",
+ "modified": "2025-12-25 14:00:04.854766",
  "modified_by": "Administrator",
  "module": "Inventory Management",
  "name": "Stock Location",

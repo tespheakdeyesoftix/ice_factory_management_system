@@ -19,6 +19,7 @@
   "sub_total",
   "total_cost",
   "product_category",
+  "costing_method",
   "section_break_rnez",
   "note"
  ],
@@ -57,7 +58,7 @@
    "options": "Unit"
   },
   {
-   "fetch_from": "product_code.cost",
+   "fetch_from": "product_code.purchase_price",
    "fetch_if_empty": 1,
    "fieldname": "cost",
    "fieldtype": "Currency",
@@ -126,13 +127,20 @@
    "label": "Product Category",
    "print_hide": 1,
    "report_hide": 1
+  },
+  {
+   "fetch_from": "product_code.costing_method",
+   "fieldname": "costing_method",
+   "fieldtype": "Data",
+   "label": "Costing Method",
+   "read_only": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-12-22 17:07:20.673965",
+ "modified": "2025-12-25 14:58:00.740125",
  "modified_by": "Administrator",
  "module": "Purchase Order IFMS",
  "name": "Purchase Order Products",

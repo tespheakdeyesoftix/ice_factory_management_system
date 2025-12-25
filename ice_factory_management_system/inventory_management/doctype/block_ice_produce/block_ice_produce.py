@@ -2,14 +2,11 @@
 # For license information, please see license.txt
 
 import frappe
-from ice_factory_management_system.overrides.base_document import BaseDocument
+from frappe.model.document import Document
 
-
-class BlockIceProduce(BaseDocument):
+class BlockIceProduce(Document):
 	def validate(self):
 		self.outlet = frappe.get_cached_value("Business Information",None,"block_ice_outlet")
-		super().validate()
-		
 		if  frappe.utils.getdate(self.posting_date) > frappe.utils.getdate(frappe.utils.now()) :
 			frappe.throw("Produce date can not be greater than current date")
 		if self.is_new():

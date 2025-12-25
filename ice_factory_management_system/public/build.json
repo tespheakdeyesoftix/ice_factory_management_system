@@ -1,0 +1,8 @@
+{
+  "js": {
+    "ice.web.bundle.js": [
+      "ice_factory_management_system/public/js/my_desktop.js",
+      "ice_factory_management_system/public/js/templates/my_desktop.js"
+    ]
+  }
+}

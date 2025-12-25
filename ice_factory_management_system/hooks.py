@@ -11,7 +11,7 @@ add_to_apps_screen = [
 		"name": "ice_factory_management_system",
 		"logo": "/assets/frappe/images/frappe-framework-logo.svg",
 		"title": "ICE Factory Management",
-		"route": "/app",
+		"route": "/home",
 		"has_permission": "ice_factory_management_system.api.permission.has_app_permission"
 	}
 ]
@@ -22,10 +22,15 @@ add_to_apps_screen = [
 # ------------------
 
 # include js, css files in header of desk.html
-app_include_css = ["/assets/ice_factory_management_system/css/ice_factory_management_system.css"]
+app_include_css = [
+		"/assets/ice_factory_management_system/css/ice_factory_management_system.css",
+		"/assets/ice_factory_management_system/css/tailwind.min.css"
+]
 app_include_js = [
 	"/assets/ice_factory_management_system/js/ice_factory_management_system.js",
 	"/assets/ice_factory_management_system/js/return_product.js",
+    "assets/ice_factory_management_system/js/my_desktop.js",
+
 ]
 
 # include js, css files in header of web template

@@ -5,6 +5,7 @@ import frappe
 from frappe.model.document import Document
 from frappe import _
 from ice_factory_management_system.api.inventory import add_inventory_transaction
+import json
 class PurchaseOrder(Document):
 	def validate(self):
 		
@@ -99,6 +100,44 @@ class PurchaseOrder(Document):
 			self.phone_number = frappe.get_cached_value(self.party_type, self.party,"phone_number")
 
 		##end update part name value		
+
+
+@frappe.whitelist()
+def get_init_purchase_cost(param):
+	p = json.loads(param)
+
+	#
+	cost = 0.0
+	sql = """
+		select
+			product as product_code,
+			cost
+		from `tabVendor Product Price`
+		where parent = %(vendor)s
+		and product in %(product_codes)s
+	"""
+
+	rows = frappe.db.sql(sql, {
+		"vendor": p["doc"]["party"],
+		"product_codes": tuple(p["product_codes"]),
+	}, as_dict=True)
+
+	# Build lookup map
+	cost_map = {row.product_code: row.cost for row in rows}
+
+	# 🔑 iterate over PRODUCT CODES, not SQL rows
+	result = [
+		{
+			"product_code": code,
+			"cost": float(cost_map.get(code, 0))
+		}
+		for code in p["product_codes"]
+	]
+
+	for r in [d for d in result if d["cost"] == 0] : 
+		doc = frappe.get_doc("Product", r["product_code"])
+		r["cost"] = doc.purchase_price
+	return result
 			
 def update_stock_product(self):
 	data = [
@@ -111,7 +150,7 @@ def update_stock_product(self):
 			"unit":p.unit,
 			"quantity": p.quantity,
 			"multiplier":p.multiplier or 1,
-			"is_calculate_cost":1,
+			"is_calculate_cost": 0 if p.costing_method == "Fixed Cost" else 1,
 			"cost":p.cost,
 			"note": "បញ្ជូលចំនួនបន្ថែមពីបញ្ជារទិញលេខ {}".format(self.name)
 		}

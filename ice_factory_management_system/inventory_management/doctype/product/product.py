@@ -88,7 +88,7 @@ class Product(Document):
 			"quantity": self.opening_quantity,
 			"multiplier":1,
 			"cost":self.cost,
-			"is_calculate_cost":1,
+			"is_calculate_cost": 0 if self.costing_method == "Fixed Cost" else 1,
 			"note": "ចំនួនដើមគ្រា"
 		}
 		])
@@ -161,7 +161,7 @@ class Product(Document):
 				"unit":self.unit,
 				"quantity": 0,
 				"multiplier":1,
-				"is_calculate_cost":1,
+				"is_calculate_cost": 0 if self.costing_method == "Fixed Cost" else 1,
 				"cost":p.get("new_cost") or 0,
 				"note": "កែប្រែថ្លៃដើម"
 			}

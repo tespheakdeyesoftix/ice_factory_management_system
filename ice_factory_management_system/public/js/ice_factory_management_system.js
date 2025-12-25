@@ -1,5 +1,5 @@
 frappe.ui.form.on("*", {
-     onload: function(frm) {
+    onload: function(frm) {
         if (!frm.is_new()) {
             $(`[id="page-${frm.doctype}"] .nav-item button`).click(function(){
                 
@@ -9,7 +9,9 @@ frappe.ui.form.on("*", {
         }
     },
     refresh(frm) {
-        
+        // reset tabLoaded state
+        window.loadTab = {}
+
         frm.print_doc = function () {
        
             printDoc(frm)
@@ -44,7 +46,7 @@ function printDoc(frm,report_name="") {
             }
         ]
     });
-    
+
     d.fields_dict.iframe_html.$wrapper.html(`
                 <iframe src="/embed/doctype-server-report?doctype=${frm.doctype}&docname=${frm.docname}&report_name=${report_name}" 
                         width="100%" 
@@ -67,11 +69,12 @@ function render_html_template(frm,tabID){
                 
                 let html_fields = []
                 if(tabID){
-                     if (frm["_" + frm.doc.name + tabID] ) return;
+                     
+                     if (window.loadTab["_" + frm.doc.name + tabID] ) return;
                 
                 const tabContentID= $("#" + tabID).attr("aria-controls");
                 const tabContentEl= $("#" + tabContentID)
-                frm["_" + frm.doc.name + tabID] = true
+                window.loadTab["_" + frm.doc.name + tabID] = true
 
                 html_fields = tabContentEl.find('.frappe-control[data-fieldtype="HTML"]')
                     .map(function () {

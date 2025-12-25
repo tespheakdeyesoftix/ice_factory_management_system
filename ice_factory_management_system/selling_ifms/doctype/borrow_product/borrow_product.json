@@ -31,9 +31,11 @@
   "photo",
   "last_return_date",
   "sale_product_id",
-  "return_transaction_tab",
   "accounting_tab",
-  "borrow_account"
+  "borrow_account",
+  "return_transaction_tab",
+  "html_summry_return_transaction",
+  "html_tamplate_return_transaction"
  ],
  "fields": [
   {
@@ -226,9 +228,18 @@
    "read_only": 1
   },
   {
+   "depends_on": "eval:doc.transaction_type != \"Return\"",
    "fieldname": "return_transaction_tab",
    "fieldtype": "Tab Break",
    "label": "Return Transaction"
+  },
+  {
+   "fieldname": "html_summry_return_transaction",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "html_tamplate_return_transaction",
+   "fieldtype": "HTML"
   }
  ],
  "grid_page_length": 50,
@@ -236,7 +247,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-12-23 12:12:17.387877",
+ "modified": "2025-12-24 16:35:29.022412",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Borrow Product",

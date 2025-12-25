@@ -42,5 +42,27 @@
   "modified": "2025-12-23 18:28:00.807813",
   "name": "npa7s9ds4j",
   "reference_doctype": "Borrow Product"
+ },
+ {
+  "custom_is_standard": 1,
+  "docstatus": 0,
+  "doctype": "List Filter",
+  "filter_name": "Driver List",
+  "filters": "[[\"Customer\",\"is_driver\",\"=\",1],[\"Customer\",\"enabled\",\"=\",1]]",
+  "for_user": "",
+  "modified": "2025-12-24 10:25:36.038358",
+  "name": "8jghk41ga2",
+  "reference_doctype": "Customer"
+ },
+ {
+  "custom_is_standard": 1,
+  "docstatus": 0,
+  "doctype": "List Filter",
+  "filter_name": "Customer List",
+  "filters": "[[\"Customer\",\"is_customer\",\"=\",1]]",
+  "for_user": "Administrator",
+  "modified": "2025-12-24 10:25:32.539354",
+  "name": "8r2keak81u",
+  "reference_doctype": "Customer"
  }
 ]

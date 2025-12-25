@@ -24,11 +24,12 @@ def add_inventory_transaction(data):
         doc = frappe.get_doc({"doctype":"Inventory Transactions",**doc})
         doc.base_unit  = frappe.get_cached_value("Product",doc.product_code,"unit")
         stock_location_product = get_stock_location_prouct(doc.product_code, doc.stock_location)
+   
+
         doc.opening_quantity = 0
         if stock_location_product:
             doc.opening_quantity = stock_location_product.get("quantity")
             doc.current_cost = stock_location_product.get("cost") or 0
- 
         if doc.unit ==doc.base_unit:
             doc.in_quantity = abs(doc.quantity) if doc.quantity > 0 else 0 
             doc.out_quantity = abs(doc.quantity) if doc.quantity < 0 else 0 
@@ -39,18 +40,16 @@ def add_inventory_transaction(data):
         
         product_cost = stock_location_product.get("cost") if stock_location_product else (doc.cost or 0)
         if doc.is_calculate_cost==1 and stock_location_product:
-            old_cost = (stock_location_product.get("quantity") or 0 ) * (stock_location_product.get("cost") or 0)
-           
+            old_cost = (stock_location_product.get("quantity") or 0 ) * (stock_location_product.get("cost") or 0)           
             if doc.quantity==0:
                 product_cost = doc.cost
             elif doc.quantity>0:
                 new_cost = (abs(doc.in_quantity) or 0) * (doc.cost or 0)
                 product_cost = (old_cost + new_cost) /  ((stock_location_product.get("quantity") or 0 ) + (doc.in_quantity or 0))
             else:
-                product_cost = 10#To do
-            
-
-        
+                product_cost = 0#To do
+        else:
+            product_cost = doc.cost        
         doc.insert(ignore_permissions=True)
         if not stock_location_product:
             frappe.get_doc({

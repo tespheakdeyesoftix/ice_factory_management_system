@@ -22,13 +22,17 @@ frappe.ui.form.on("Customer", {
         
     },
     refresh(frm){
-        alert("referesg")
-    frm.dashboard.clear_headline();
-       addCustomButton(frm);
-       setIndicator(frm)
-       renderCalender(frm)
-       renderCalender(frm)
-     
+        window.loadCustomerCalenar = false;
+        frm.dashboard.clear_headline();
+        addCustomButton(frm);
+        setIndicator(frm)
+      
+        if(window.location.hash == "#tab_customer_calendar")  {
+            renderCalender(frm)
+        } 
+        $("#customer-tab_customer_calendar-tab").click(function(){
+            renderCalender(frm)
+        })
     
     },
      
@@ -89,84 +93,90 @@ function addCustomButton(frm){
     }, __('View')); 
 
 
-    frm.add_custom_button('My Custom Action', function() {
-            frappe.msgprint('Button clicked!');
-        }, 'Actions'); 
+    frm.add_custom_button(__('Return Product'), async function() {
+            const result = await frappe.borrow_product.onBulkReturnProduct({customer:frm.doc.name});
+            if(result){
+                frm.refresh();
+            }
+    }, 'Actions'); 
 }
+
+
 
  
 function renderCalender(frm) {
-    return
-    if (frm._calendar_loaded) return;
-    frm._calendar_loaded = true;
-    frappe.require("fullcalendar.bundle.min.js", () => {
-        const wrapper = frm.fields_dict.html_calendar.$wrapper;
-        wrapper.empty();
+    if (!window.loadCustomerCalenar){
+ frappe.require("calendar.bundle.js", () => {
+            render_calendar(frm);
+            window.loadCustomerCalenar = true;
+        });
+    }
+  
+   
 
-        wrapper.append(`
-            <div id="customer-calendar" style="min-height:600px;"></div>
-        `);
+        
+}
 
-        const calendarEl = document.getElementById("customer-calendar");
-       const calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: "dayGridMonth",
-                height: "auto",
 
-                headerToolbar: {
-                    left: "prev,next today",
-                    center: "title",
-                    right: "dayGridMonth,timeGridWeek,timeGridDay"
-                },
+function render_calendar(frm) {
+    alert("load me")
+    const wrapper = frm.fields_dict.html_calendar.$wrapper;
+    wrapper.empty();
 
-                 
+    const calEl = document.createElement('div');
+    calEl.style.minHeight = '500px';
+    wrapper.append(calEl);
 
-                eventClick(info) {
-                    frappe.set_route("Form", info.event.extendedProps.doctype, info.event.id);
-                }
+    const today = frappe.datetime.get_today();
+
+    const events = [
+        { title: "Event 1", start: `${today}T09:00:00` },
+        { title: "Event 2", start: `${today}T10:00:00` },
+        { title: "Event 3", start: `${today}T11:00:00` },
+        { title: "Event 4", start: `${today}T14:00:00` },
+        { title: "Event 5", start: `${today}T16:00:00` }
+    ];
+
+    const calendar = new frappe.FullCalendar(calEl, {
+        plugins: frappe.FullCalendar.Plugins,
+
+        initialView: 'dayGridMonth',
+        initialDate: today,
+
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+
+        dayMaxEvents: 5,
+        nowIndicator: true,
+        editable: false,
+        selectable: false,
+
+        events: events,
+        // events: {
+        //     url: '/api/method/your_app.api.get_calendar_events',
+        //     method: 'GET',
+        //     failure() {
+        //         frappe.msgprint(__('Failed to load calendar events'));
+        //     }
+        // },
+
+         eventClick(info) {
+            info.jsEvent.preventDefault();
+
+            frappe.msgprint({
+                title: __('Event Clicked'),
+                message: `
+                    <b>${info.event.title}</b><br>
+                    Start: ${info.event.start}
+                `,
+                indicator: 'blue'
             });
-
-            calendar.render();
+ 
+        }
     });
 
-    // frappe.require("fullcalendar").then(() => {
-
-    //     // Safety check
-    //     if (!window.FullCalendar) {
-    //         frappe.throw("FullCalendar failed to load");
-    //     }
-
-    //     const wrapper = frm.fields_dict.html_calendar.$wrapper;
-    //     wrapper.empty();
-
-    //     wrapper.append(`
-    //         <div id="customer-calendar" style="min-height:600px;"></div>
-    //     `);
-
-    //     const calendarEl = document.getElementById("customer-calendar");
-
-    //     frm.calendar = new FullCalendar.Calendar(calendarEl, {
-    //         initialView: "dayGridMonth",
-    //         height: 600,
-    //         headerToolbar: {
-    //             left: "prev,next today",
-    //             center: "title",
-    //             right: "dayGridMonth,timeGridWeek,timeGridDay"
-    //         },
-    //         events(info, success) {
-    //             frappe.call({
-    //                 method: "ice_factory_management_system.customer_relation.doctype.customer.customer.get_events",
-    //                 args: {
-    //                     start: info.startStr,
-    //                     end: info.endStr,
-    //                     customer: frm.doc.name
-    //                 },
-    //                 callback(r) {
-    //                     success(r.message || []);
-    //                 }
-    //             });
-    //         }
-    //     });
-
-    //     frm.calendar.render();
-    // });
+    calendar.render();
 }

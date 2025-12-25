@@ -6,7 +6,7 @@
    "label": "Daily Sale Statistic"
   }
  ],
- "content": "[{\"id\":\"8KO1LQAHa7\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Today Sale Invoice\",\"col\":3}},{\"id\":\"zW-AB1P9Qh\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Today Sale Amount\",\"col\":3}},{\"id\":\"tuUuyngck7\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"MTD Sale Invoice\",\"col\":3}},{\"id\":\"5G0XKzlvwk\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"MTD Sale Amount\",\"col\":3}},{\"id\":\"7qlFZLlXoM\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"cVlwgj4ZZ4\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Daily Sale Statistic\",\"col\":12}},{\"id\":\"rFXZUUnDlh\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h3\\\">Quick Links</span>\",\"col\":12}},{\"id\":\"hcrTFnYt02\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Tube Ice Invoice\",\"col\":3}},{\"id\":\"OejHsOnNLA\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Block Ice Invoice\",\"col\":3}},{\"id\":\"0uAg67nwOZ\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"\u2728New Sale Invoice\",\"col\":3}},{\"id\":\"uZFMudixpM\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sale Payment\",\"col\":3}},{\"id\":\"jnxGekatNk\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"\ud83d\udcb5New Payment\",\"col\":3}},{\"id\":\"CUul5gonxv\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Customer\",\"col\":3}},{\"id\":\"ilvyGpmXLD\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"zafOr5T3LE\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"Recent Sale Invoice\",\"col\":6}},{\"id\":\"7piYXcHzAt\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"Recent Payments\",\"col\":6}}]",
+ "content": "[{\"id\":\"8KO1LQAHa7\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Today Sale Invoice\",\"col\":3}},{\"id\":\"zW-AB1P9Qh\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Today Sale Amount\",\"col\":3}},{\"id\":\"tuUuyngck7\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"MTD Sale Invoice\",\"col\":3}},{\"id\":\"5G0XKzlvwk\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"MTD Sale Amount\",\"col\":3}},{\"id\":\"7qlFZLlXoM\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"cVlwgj4ZZ4\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Daily Sale Statistic\",\"col\":12}},{\"id\":\"rFXZUUnDlh\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h3\\\">Quick Links</span>\",\"col\":12}},{\"id\":\"hcrTFnYt02\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Tube Ice Invoice\",\"col\":3}},{\"id\":\"OejHsOnNLA\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Block Ice Invoice\",\"col\":3}},{\"id\":\"0uAg67nwOZ\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"\u2728New Sale Invoice\",\"col\":3}},{\"id\":\"uZFMudixpM\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sale Payment\",\"col\":3}},{\"id\":\"jnxGekatNk\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"\ud83d\udcb5New Payment\",\"col\":3}},{\"id\":\"CUul5gonxv\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Customer\",\"col\":3}},{\"id\":\"B3aGI76Ocj\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Drivers\",\"col\":3}},{\"id\":\"ilvyGpmXLD\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"zafOr5T3LE\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"Recent Sale Invoice\",\"col\":6}},{\"id\":\"7piYXcHzAt\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"Recent Payments\",\"col\":6}}]",
  "creation": "2025-12-16 14:14:05.519363",
  "custom_blocks": [
   {
@@ -29,7 +29,7 @@
  "label": "Selling",
  "link_type": "DocType",
  "links": [],
- "modified": "2025-12-22 16:26:06.847562",
+ "modified": "2025-12-24 10:24:31.450029",
  "modified_by": "Administrator",
  "module": "Selling IFMS",
  "name": "Selling",
@@ -70,6 +70,14 @@
  "shortcuts": [
   {
    "color": "Grey",
+   "doc_view": "List",
+   "label": "Customer",
+   "link_to": "Customer",
+   "stats_filter": "[[\"Customer\",\"is_customer\",\"=\",1]]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
    "doc_view": "New",
    "label": "\u2728New Sale Invoice",
    "link_to": "Sale",
@@ -79,9 +87,9 @@
   {
    "color": "Grey",
    "doc_view": "List",
-   "label": "Customer",
+   "label": "Drivers",
    "link_to": "Customer",
-   "stats_filter": "[[\"Customer\",\"enabled\",\"=\",1,false]]",
+   "stats_filter": "[[\"Customer\",\"is_driver\",\"=\",1],[\"Customer\",\"enabled\",\"=\",1]]",
    "type": "DocType"
   },
   {

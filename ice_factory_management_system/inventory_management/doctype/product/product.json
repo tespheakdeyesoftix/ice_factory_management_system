@@ -29,15 +29,19 @@
   "outlets_section",
   "product_outlet",
   "product_outlets",
+  "product_unit_tab",
+  "product_units",
+  "purchase_tab",
   "purchasing_section",
   "allow_purchase",
   "purchase_price",
-  "product_unit_tab",
-  "product_units",
+  "column_break_vywg",
+  "allow_purchase_in_purchase_ice_feature",
   "inventory_tab",
   "is_inventory_product",
   "stock_location",
   "opening_quantity",
+  "costing_method",
   "cost",
   "column_break_wnox",
   "default_sale_stock_location",
@@ -224,11 +228,10 @@
    "label": "Allow Purchase"
   },
   {
-   "depends_on": "eval:doc.is_inventory_product == 1",
    "fieldname": "cost",
    "fieldtype": "Currency",
    "label": "Cost",
-   "set_only_once": 1
+   "read_only_depends_on": "eval:doc.costing_method != \"Fixed Cost\""
   },
   {
    "fieldname": "sort_order",
@@ -351,12 +354,35 @@
    "fieldname": "allow_borrow",
    "fieldtype": "Check",
    "label": "Allow Borrow"
+  },
+  {
+   "fieldname": "costing_method",
+   "fieldtype": "Select",
+   "label": "Costing Method",
+   "options": "Average Cost\nFixed Cost",
+   "translatable": 1
+  },
+  {
+   "fieldname": "purchase_tab",
+   "fieldtype": "Tab Break",
+   "label": "Purchase"
+  },
+  {
+   "fieldname": "column_break_vywg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "description": "This is option to allow ICE product to Purchase Ice for other Ice Factory.",
+   "fieldname": "allow_purchase_in_purchase_ice_feature",
+   "fieldtype": "Check",
+   "label": "Allow Purchase in Purchase Ice Feature"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-12-19 15:58:42.173445",
+ "modified": "2025-12-25 11:55:03.546501",
  "modified_by": "Administrator",
  "module": "Inventory Management",
  "name": "Product",

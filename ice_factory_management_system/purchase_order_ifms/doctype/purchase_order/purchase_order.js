@@ -3,35 +3,64 @@
 
 frappe.ui.form.on("Purchase Order", {
   onload: function (frm) {
-
+      clear_dashboard_stats(frm); 
   },
-  refresh: function (frm) {
-    frm.dashboard.clear_headline();
-    
-    if (!frm.is_new()) {
-      frm.dashboard.add_indicator(
-        __("Total Quantity: {0}", [format_number(frm.doc.total_quantity)]),
-        "blue"
-      );
+  refresh: function (frm) { 
+     clear_dashboard_stats(frm);
+     
+    if (frm.is_new()) return;
 
-      frm.dashboard.add_indicator(
-        __("Total Cost: {0}", [fmt_money(frm.doc.total_cost)]),
-        "blue"
-      );
-      frm.dashboard.add_indicator(
-        __("Total Payment: {0}", [fmt_money(frm.doc.total_payment)]),
-        "green"
-      );
+    frm.dashboard.add_indicator(
+      __("Total Quantity: {0}", [format_number(frm.doc.total_quantity)]),
+      "blue"
+    );
 
-      frm.dashboard.add_indicator(
-        __("Balance: {0}", [fmt_money(frm.doc.balance)]),
-        "red"
-      );
+    frm.dashboard.add_indicator(
+      __("Total Cost: {0}", [fmt_money(frm.doc.total_cost)]),
+      "blue"
+    );
+    frm.dashboard.add_indicator(
+      __("Total Payment: {0}", [fmt_money(frm.doc.total_payment)]),
+      "green"
+    );
+
+    frm.dashboard.add_indicator(
+      __("Balance: {0}", [fmt_money(frm.doc.balance)]),
+      "red"
+    ); 
+  },
+
+  
+  party_type:function (frm) {
+      frm.set_value("party", "");
+      frm.refresh_field("party")
+  },
+
+   party:async  function (frm) {
+    const product_codes = (frm.doc.purchase_products || []).filter(d => (d.product_code||"")!="" ).map(d => d.product_code); 
+    if(product_codes.length > 0){
+      await get_init_purchase_cost(frm, product_codes)
     }
   },
 });
 
+// 🔧 Works everywhere
+function clear_dashboard_stats(frm) {
+  // Clear headline if any
+  frm.dashboard.clear_headline?.();
+
+  // 🔑 THIS is the real fix
+  if (frm.dashboard.stats_area_row) {
+    frm.dashboard.stats_area_row.empty();
+  }
+}
+
 frappe.ui.form.on("Purchase Order Products", {
+
+  product_code:function (frm, cdt, cdn){    
+     let row = locals[cdt][cdn]; // get current child row
+    get_init_purchase_cost(frm,[row["product_code"]] )
+  } ,
   quantity: function (frm, cdt, cdn) {
     calculate_total_cost(frm, cdt, cdn);
   },
@@ -48,6 +77,45 @@ frappe.ui.form.on("Purchase Order Payment Child", {
     calculate_payment_amount(frm, cdt, cdn);
   },
 });
+
+async function get_init_purchase_cost(frm, product_codes){
+  if(frm.doc.party_type == "Vendor" && (frm.doc.party||"") != ""){
+
+    let resp =  await frappe.call({
+      method: 'ice_factory_management_system.purchase_order_ifms.doctype.purchase_order.purchase_order.get_init_purchase_cost',
+      type: 'POST',  
+      args: {
+        param:{
+            "doc":frm.doc,
+            "product_codes":product_codes,
+        }
+      },
+    });
+
+    if (!resp.message) return;
+
+    const costMap = {};
+    resp.message.forEach(d => {
+      costMap[d.product_code] = d.cost;
+    });
+ 
+    // 🔑 Update ONLY rows whose product_code is in product_codes
+    frm.doc.purchase_products.forEach(row => {
+      if (product_codes.includes(row.product_code)) {
+        const cost = costMap[row.product_code] ?? 0;
+        frappe.model.set_value(
+          row.doctype,
+          row.name,
+          "cost",
+          cost
+        );
+      }
+    });
+
+    frm.refresh_field("purchase_products");
+  }
+  
+}
 
 function calculate_total_cost(frm, cdt, cdn) {
   let row = locals[cdt][cdn]; // get current child row

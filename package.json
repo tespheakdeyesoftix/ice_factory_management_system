@@ -7,14 +7,21 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "cd embed && yarn install",
     "dev": "cd embed && yarn dev",
-    "build": "cd embed && yarn build"
+    "build": "npx tailwindcss   -i ./ice_factory_management_system/public/css/tailwind.css   -o ./ice_factory_management_system/public/css/tailwind.min.css   --minify && cd embed && yarn build"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@primeuix/themes": "^1.1.1",
+    "@tailwindcss/cli": "^4.1.18",
     "primeicons": "^7.0.0",
     "primevue": "^4.3.4"
-  }
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.23",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.18"
+  },
+  "type": "commonjs"
 }
